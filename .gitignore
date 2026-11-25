@@ -1,0 +1,11 @@
+.DS_Store
+build/
+dist/
+output/
+coverage/
+node_modules/
+framework/ui-kit/node_modules/
+framework/ui-kit/dist/
+*.tgz
+*.test
+*.out

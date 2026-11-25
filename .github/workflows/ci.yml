@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  go:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 1.26.x
+          cache-dependency-path: go.sum
+      - run: go test -p=2 ./...
+      - run: go build ./...
+      - run: go run ./tools/mzguiframeworkcheck
+      - run: go run ./tools/mzguiappgen --check --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+
+  ui-kit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: framework/ui-kit/package-lock.json
+      - run: npm ci
+        working-directory: framework/ui-kit
+      - run: npm run typecheck
+        working-directory: framework/ui-kit
+      - run: npm test
+        working-directory: framework/ui-kit
+      - run: npm run build
+        working-directory: framework/ui-kit
+      - run: npm pack --dry-run
+        working-directory: framework/ui-kit

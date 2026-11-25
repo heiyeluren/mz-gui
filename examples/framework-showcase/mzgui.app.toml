@@ -1,0 +1,49 @@
+schema_version = 1
+
+[app]
+id = "com.mzgui.framework.showcase"
+display_name = "黑夜路人的 APP"
+description = "基于 MZ-GUI 独立框架的跨平台桌面应用起点"
+protocol_scheme = "mzgui-showcase"
+data_namespace = "mzgui_showcase"
+single_instance_id = "com.mzgui.framework.showcase.desktop"
+
+[processes]
+desktop = "mzgui-showcase-desktop"
+agentd = "mzgui-showcase-agentd"
+
+[storage]
+config_basename = "showcase.toml"
+database_basename = "showcase.db"
+artifact_namespace = "mzgui_showcase"
+
+[framework]
+capability_catalog_version = 1
+capabilities = [
+  "lifecycle",
+  "window.main",
+  "runtime.resilience",
+  "platform.credential",
+  "platform.filetrash",
+  "transport.local",
+  "security.capability",
+  "observability.trace",
+  "observability.metrics",
+  "interaction.eventbus",
+  "interaction.inputmodel",
+  "interaction.commandbus",
+  "interaction.querybus",
+  "interaction.undoredo",
+  "interaction.shortcut",
+  "ui.tokens",
+  "adapter.contract",
+]
+adapters = []
+
+[security]
+credential_service = "com.mzgui.framework.showcase"
+
+[build]
+macos_bundle_id = "com.mzgui.framework.showcase"
+windows_app_id = "MZGUI.Framework.Showcase"
+channels = ["dev"]

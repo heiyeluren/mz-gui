@@ -1,0 +1,49 @@
+version: '3'
+
+tasks:
+  default:
+    deps: [test]
+
+  test:
+    deps: [test:go, test:ui]
+
+  test:go:
+    cmds:
+      - go test -p=2 ./...
+
+  test:ui:
+    dir: framework/ui-kit
+    cmds:
+      - npm test
+
+  build:
+    deps: [build:ui]
+    cmds:
+      - go build ./...
+
+  build:ui:
+    dir: framework/ui-kit
+    cmds:
+      - npm run build
+
+  run:
+    cmds:
+      - go run ./examples/framework-showcase
+
+  package:darwin:
+    cmds:
+      - bash scripts/package-showcase-darwin.sh
+
+  check:
+    cmds:
+      - go run ./tools/mzguiframeworkcheck
+      - go run ./tools/mzguiappgen --check --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+      - go test ./tests/architecture
+
+  generate:app:
+    cmds:
+      - go run ./tools/mzguiappgen --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+
+  generate:proto:
+    cmds:
+      - protoc -I framework/proto --go_out=. --go_opt=module=github.com/heiyeluren/mz-gui --go-grpc_out=. --go-grpc_opt=module=github.com/heiyeluren/mz-gui framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>黑夜路人的 APP</title>
+    <link rel="stylesheet" href="/framework/tokens.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/wails/runtime.js" type="module"></script>
+    <script src="/main.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="框架导航">
+        <div class="brand">
+          <span class="product-mark" aria-hidden="true">MZ</span>
+          <div><strong>黑夜路人的 APP</strong><span>MZ-GUI Framework</span></div>
+        </div>
+        <nav>
+          <button class="nav-item active" data-panel="overview" type="button"><span aria-hidden="true">⌂</span>框架概览</button>
+          <button class="nav-item" data-panel="capabilities" type="button"><span aria-hidden="true">◇</span>公共能力</button>
+          <button class="nav-item" data-panel="quickstart" type="button"><span aria-hidden="true">→</span>快速开始</button>
+        </nav>
+        <div class="sidebar-footer"><span class="status-dot"></span>独立框架 · 可复用 · 可测试</div>
+      </aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div><p class="eyebrow">CROSS-PLATFORM DESKTOP FOUNDATION</p><h1 id="page-title">框架概览</h1><p class="subtitle">从一个已经跑通的桌面壳，开始你的下一个 GUI 项目。</p></div>
+          <button id="refresh" class="secondary-button" type="button">刷新状态</button>
+        </header>
+
+        <section id="panel-overview" class="panel" aria-label="框架概览">
+          <div class="hero-card">
+            <div><span class="hero-label">READY TO BUILD</span><h2>公共能力已经就位，业务交给你。</h2><p>生命周期、健康检查、事件总线、凭据抽象与设计变量由 Framework 提供，当前页面通过真实 Wails Binding 读取 Go 服务状态。</p></div>
+            <div class="hero-badge"><strong id="framework-version">v1.0.0</strong><span>Framework API</span></div>
+          </div>
+          <div class="status-grid" aria-label="框架状态">
+            <article><span class="card-icon">L</span><div><span>生命周期</span><strong id="lifecycle">检查中</strong></div></article>
+            <article><span class="card-icon">H</span><div><span>健康状态</span><strong id="health">检查中</strong></div></article>
+            <article><span class="card-icon">C</span><div><span>凭据适配</span><strong id="credential">检查中</strong></div></article>
+            <article><span class="card-icon">E</span><div><span>语义事件</span><strong id="events">0</strong></div></article>
+          </div>
+          <section class="interaction-card">
+            <div><h2>验证一次真实交互</h2><p>点击按钮后，Web 调用 Go 服务，经有界 EventBus 投递事件并更新计数。</p></div>
+            <button id="emit" class="primary-button" type="button">发送框架事件</button>
+          </section>
+          <output id="feedback" role="status" aria-live="polite"></output>
+        </section>
+
+        <section id="panel-capabilities" class="panel" hidden aria-label="公共能力">
+          <div class="section-heading"><h2>一套框架，覆盖桌面应用基础设施</h2><p>按需引入公共包，不复制实现，不绑定任何产品业务。</p></div>
+          <div class="capability-grid">
+            <article><strong>Lifecycle</strong><p>组件 DAG、健康状态、窗口关闭策略、托盘与崩溃恢复。</p><code>framework/go/lifecycle</code></article>
+            <article><strong>UI Kit</strong><p>主题、表单、导航、表格、终端、Markdown 与无障碍组件。</p><code>framework/ui-kit</code></article>
+            <article><strong>Runtime</strong><p>任务、调度、重试、取消、并发资源与跨平台终端。</p><code>framework/go/runtime</code></article>
+            <article><strong>Transport</strong><p>Wails、gRPC、流式通信、本机传输与远程协议。</p><code>framework/go/transport</code></article>
+            <article><strong>Storage & Security</strong><p>配置、SQLite、Blob、凭据、授权、文件授权与审计。</p><code>framework/go/storage</code></article>
+            <article><strong>Adapters</strong><p>插件、浏览器、媒体、消息总线、对象存储与驱动接口。</p><code>framework/go/adapters</code></article>
+          </div>
+        </section>
+
+        <section id="panel-quickstart" class="panel" hidden aria-label="快速开始">
+          <div class="section-heading"><h2>把示例换成你的产品</h2><p>保留 Framework，只修改应用身份、页面与业务服务。</p></div>
+          <ol class="steps">
+            <li><span>01</span><div><h3>运行独立 APP</h3><code>go run ./examples/framework-showcase</code><p>确认桌面窗口、状态读取与事件交互正常。</p></div></li>
+            <li><span>02</span><div><h3>修改应用身份</h3><code>examples/framework-showcase/mzgui.app.toml</code><p>设置产品名、bundle ID、进程名、存储命名空间和能力集合。</p></div></li>
+            <li><span>03</span><div><h3>接入自己的业务</h3><code>framework/go/... · framework/ui-kit</code><p>通过公共接口组合服务，在 Showcase 中替换页面和用例。</p></div></li>
+          </ol>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
