@@ -1,0 +1,2566 @@
+{
+  "$schema": "./public-v1.schema.json",
+  "schema_version": 1,
+  "catalog_revision": 84,
+  "framework_api_version": "1.0.0",
+  "governance": {
+    "coverage": {
+      "required_packages": [
+        "framework/go/adapters/contract",
+        "framework/go/adapters/plugin",
+        "framework/go/adapters/plugin/sdk",
+        "framework/go/adapters/plugin/sdk/contracttest",
+        "framework/go/adapters/driver",
+        "framework/go/adapters/media",
+        "framework/go/adapters/messagebus",
+        "framework/go/core/apicatalog",
+        "framework/go/core/capability",
+        "framework/go/core/fault",
+        "framework/go/core/health",
+        "framework/go/core/model",
+        "framework/go/core/panicguard",
+        "framework/go/lifecycle/wailsapp",
+        "framework/go/platform/clipboard",
+        "framework/go/platform/runtimepaths",
+        "framework/go/platform/startup",
+        "framework/go/platform/webviewruntime",
+        "framework/go/security/allowlist",
+        "framework/go/security/session",
+        "framework/go/observability/diagnostics",
+        "framework/go/observability/logging",
+        "framework/go/runtime/resilience",
+        "framework/go/runtime/updater",
+        "framework/go/interaction/inputmodel",
+        "framework/go/storage/blobquota",
+        "framework/go/storage/configfile",
+        "framework/go/storage/sqlite",
+        "framework/go/transport/grpcfault",
+        "framework/go/transport/remoteservice",
+        "framework/go/testing/testkit",
+        "tools/mzguiapidiff",
+        "framework/go/platform/directorylink",
+        "framework/go/platform/diskspace",
+        "framework/go/platform/filetrash"
+      ],
+      "minimum_package_coverage_percent": 100,
+      "strict_callsite": true
+    },
+    "deprecation": {
+      "minimum_window_minor": 2,
+      "require_migration_guide": true
+    },
+    "dual_caller_gate": {
+      "required_callers": [
+        "framework-plugin-echo",
+        "framework-showcase"
+      ]
+    }
+  },
+  "apis": [
+    {
+      "api_id": "adapter.contract.interfaces",
+      "module": "adapter",
+      "package": "framework/go/adapters/contract",
+      "symbol": "AdapterInfo.Validate",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "9a1d197736f1f2a759bea740b0f8fe08b5ae8e45b450d46fc8e57706bc235f08",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "扩展层 BrowserBridge、MediaProvider、MessageBus、DriverAdapter 和 RemoteService 的基础契约"
+      ]
+    },
+    {
+      "api_id": "adapter.driver.memory",
+      "module": "adapter",
+      "package": "framework/go/adapters/driver",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f2d0da0d7c08b6e5c74512a9652a6841a3f1446c607294b2d4234949e5824851",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "内存 DriverAdapter 构造入口，覆盖探测、授权、调用和事件观察"
+      ]
+    },
+    {
+      "api_id": "adapter.media.localfile",
+      "module": "adapter",
+      "package": "framework/go/adapters/media",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "2f0afd7c53c22a1eedf07399c103af350e566f65756f64129b99b16ab2045caa",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "受控本地文件 MediaProvider 构造入口，拒绝符号链接、越权和远程 URI"
+      ]
+    },
+    {
+      "api_id": "adapter.messagebus.memory",
+      "module": "adapter",
+      "package": "framework/go/adapters/messagebus",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "925185abd6da488c6e601858d6c38f9823c524fbd50e187c0e35fdeeda521af3",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "进程内 MessageBus 构造入口，支持幂等发布、游标恢复和 Ack/Nack 重投"
+      ]
+    },
+    {
+      "api_id": "adapter.plugin.contracttest",
+      "module": "adapter",
+      "package": "framework/go/adapters/plugin/sdk/contracttest",
+      "symbol": "RunBasic",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "88c6a8602bfa61d348fb38db87e91d16bcd1f15aec975f4d8f870432b2a941c6",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "跨进程插件基础契约测试入口，覆盖身份、capability 授权、未知 capability 拒绝和 shutdown"
+      ]
+    },
+    {
+      "api_id": "adapter.plugin.degrade",
+      "module": "adapter",
+      "package": "framework/go/adapters/plugin/sdk",
+      "symbol": "NewDegradeGuard",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "3fc14e72f28b4b218ee153252a0636c675a0e0cb1fe1e8cd2a30051bf42719f9",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "插件连续失败降级门，达到阈值后隔离调用并在成功后恢复"
+      ]
+    },
+    {
+      "api_id": "adapter.plugin.manifest",
+      "module": "adapter",
+      "package": "framework/go/adapters/plugin",
+      "symbol": "DecodeManifest",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "4b07584edad0eaeb060473b0d7273d08c9535060b82f7e900b13fe73234e4bb5",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "插件 SDK manifest、签名哈希、平台能力与隔离启动契约校验入口"
+      ]
+    },
+    {
+      "api_id": "adapter.plugin.sdk",
+      "module": "adapter",
+      "package": "framework/go/adapters/plugin/sdk",
+      "symbol": "ServeJSONLines",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "e4419f206500f01fcaa586d8be11b21b8e5fe0e1d33ed512fcdc42432f98954b",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "插件独立进程 JSON Lines 协议服务端入口，提供握手、capability 检查和 shutdown"
+      ]
+    },
+    {
+      "api_id": "adapter.plugin.signature",
+      "module": "adapter",
+      "package": "framework/go/adapters/plugin",
+      "symbol": "Manifest.VerifyArtifactSignature",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "35517f7ed94964e980da372e1fd4e5af2732fe52929ba965d639e8f658062331",
+      "capabilities": [
+        "adapter.contract"
+      ],
+      "notes": [
+        "插件 artifact SHA-256 与 Ed25519 信任根真实性验证入口"
+      ]
+    },
+    {
+      "api_id": "core.api-catalog.callsite",
+      "module": "core",
+      "package": "framework/go/core/apicatalog",
+      "symbol": "ProveCallsiteCoverage",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "41ebb65cacb78840fb36c57f5116a6e0f7a5197ac77f22d14de7512f9cb23f64",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "扫描生产调用方源码，证明 caller-usage 声明的 API 是否真实出现在调用点"
+      ]
+    },
+    {
+      "api_id": "core.api-catalog.service-methods",
+      "module": "core",
+      "package": "framework/go/core/apicatalog",
+      "symbol": "ExtractServiceMethods",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "67c8be42b83d12c9f28ae0a5bbe5f4daf1fd75df8a6f0193217469ddcd33183b",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "扫描 *Service 接收者的导出方法，作为 Wails 绑定抽取入口"
+      ]
+    },
+    {
+      "api_id": "core.api-catalog.ts-export",
+      "module": "core",
+      "package": "framework/go/core/apicatalog",
+      "symbol": "ExtractTypeScriptDir",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "67c8be42b83d12c9f28ae0a5bbe5f4daf1fd75df8a6f0193217469ddcd33183b",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "扫描 TypeScript/TSX 命名导出，作为 UI Kit 公共绑定抽取入口"
+      ]
+    },
+    {
+      "api_id": "core.api-catalog.wails-bindings",
+      "module": "core",
+      "package": "framework/go/core/apicatalog",
+      "symbol": "ExtractWailsBindings",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "573c5b85caf8ca34cfbc60dc94c3e93fb4b4c7eba4e4b847a81a9c9eaf8bb2ef",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "扫描 application.NewService 绑定，作为 Wails 绑定自动登记入口"
+      ]
+    },
+    {
+      "api_id": "core.api-catalog.wails-coverage",
+      "module": "core",
+      "package": "framework/go/core/apicatalog",
+      "symbol": "ProveWailsBindingCoverage",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "beae6248c9a38c2d957844c23a3ca7b9908519fde738788b3977b5d0a565936f",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "把 Wails NewService 绑定对齐到 *Service 导出方法并证明覆盖"
+      ]
+    },
+    {
+      "api_id": "core.capability.catalog",
+      "module": "core",
+      "package": "framework/go/core/capability",
+      "symbol": "Catalog.Resolve",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "3f2e4b13f80b5c3e2eecb5b7f4f21e47751d9bbf5a97925fa4e5223b42ac725c",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "应用 Manifest 通过该接口计算 capability 闭包"
+      ]
+    },
+    {
+      "api_id": "core.fault.bind-reason",
+      "module": "core",
+      "package": "framework/go/core/fault",
+      "symbol": "Mapper.BindReason",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "c1a00af3befbd1d189d94395f8b85aa423e597ea1691f2204827c23e8d0a4753",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "按错误 registry 的 reason_code 绑定 sentinel"
+      ]
+    },
+    {
+      "api_id": "core.fault.default-mapper",
+      "module": "core",
+      "package": "framework/go/core/fault",
+      "symbol": "NewDefaultMapper",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "817b9d566907a54dbdfca1048cda00a9e0e4248a61ec115d6029fe78defacab2",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "绑定取消、超时与非法 RequestMeta sentinel，供 Service Guard 默认使用"
+      ]
+    },
+    {
+      "api_id": "core.fault.mapper",
+      "module": "core",
+      "package": "framework/go/core/fault",
+      "symbol": "NewMapper",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "5ed915d12ded2635c2445a2945e0ec145c3aec0c65aac1eab9d529820d2f2983",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "将领域 sentinel 错误映射为 Framework fault.Error，供 RPC/Wails 方法体生产公开错误"
+      ]
+    },
+    {
+      "api_id": "core.health.builtin-registry",
+      "module": "core",
+      "package": "framework/go/core/health",
+      "symbol": "NewBuiltinRegistry",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "28b40fe3a6dd963e5b6dc9e1f0ffd6adb9d477541f234f8a2c4bb61f5ad9f7f3",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "从内置 health v1 catalog 创建 Registry"
+      ]
+    },
+    {
+      "api_id": "core.health.service-panic-marker",
+      "module": "core",
+      "package": "framework/go/core/health",
+      "symbol": "NewServicePanicMarker",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "dda7e4f01b4c9d234c0dc8131c94bb2659ba4472dbd57675cea77c24685dd517",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "绑定 core.service.readiness 的 panic 健康降级标记"
+      ]
+    },
+    {
+      "api_id": "core.model.context-bind-request",
+      "module": "core",
+      "package": "framework/go/core/model",
+      "symbol": "BindRequest",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "d6034b50dea5e953ddb1c1d54733b36439f5dbbd8ae7a229978e235bd5c126eb",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "校验 RequestMeta、写入 Context，并把 Deadline 接到 context.WithDeadline"
+      ]
+    },
+    {
+      "api_id": "core.model.context-caller",
+      "module": "core",
+      "package": "framework/go/core/model",
+      "symbol": "WithCaller",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "1a9109b4ce355c3a081f164a24ce66aa3e1233f7da58fd763c35da6a3266b5a4",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "把 Caller 写入 Context，供 Produce panic 的 SafeDetails.caller 回填"
+      ]
+    },
+    {
+      "api_id": "core.model.context-request-id",
+      "module": "core",
+      "package": "framework/go/core/model",
+      "symbol": "WithRequestID",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6110e52ec08c1ba4cf159ec6795c08c0221b610b9943a1a11c4241448d4eddc7",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "把 RequestID 注入 Context，供 Produce 方法边界回填公开错误身份"
+      ]
+    },
+    {
+      "api_id": "core.model.context-request-meta",
+      "module": "core",
+      "package": "framework/go/core/model",
+      "symbol": "WithRequestMeta",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "48fd49a988bcea635116cb0f19b169a851102c3f0df9545a85ec6eb7848b047b",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "把完整 RequestMeta 写入 Context，并回填 RequestID/TraceID"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.attach-health",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "AttachPanicHealth",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ebcf56104efdcbbee1838f7bbd4fa545502c584e2a3a423732feeb361223b1de",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "把 health.PanicMarker 接到 Service.Guard，panic 写入健康 registry"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.context-health",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "WithHealthMarker",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f85023cb8c087b0da6600e068117059b7185ed2423e363e745e80ef93d62568e",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "把 HealthMarker 放入 Context，供 Produce 在 Options 为空时回填"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.produce",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "Produce",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6199ef7819e015dd95d9b3d966af1095043110d038d7b2bb698470e9ff79b7ff",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "方法边界入口：先收口 panic，再经 fault.Mapper 生产公开错误"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.produce-coverage",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "ProveServiceProduceCoverage",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "43ea2cf8412f0e8b9a69111c1acaf03a308122c66dc4373ce0fc32b5ea8bcf8a",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "扫描 *Service 导出方法是否改走 Produce/GuardedProduce"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.produce-gate",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "ProduceInventory.Enforce",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "8d7a9ff4a63d115eb2e529d837854cfbd4f9ccaa87b5b62664a07fdb022e527a",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "对照 inventory 执行漂移检测与覆盖率门禁"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.produce-inventory",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "DecodeProduceInventory",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "17610e586cfcd320111d204fc8b1a632c094670ecc93236678d27dd10ce366d1",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "解码 Produce 覆盖 inventory，必须声明 gate，供 mzguiapidiff 做漂移与覆盖率门禁"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.produce-result",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "ProduceResult",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "2acb388cd263ad5b75d902e23db0405fef2afa2711717bee0b49c868bd522574",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "返回 (T, error) 的方法边界入口，避免 Mapper 成功路径 typed-nil"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.service-guard",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "Service.Guard",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7e9b168db32df4b26ac1123079401432b1e6fb37a6c6a3508ade80131926deb7",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "Wails Service 方法一句话入口：默认 Mapper + Produce"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.service-guard-request",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "Service.GuardRequest",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "41eaa3260ec530354f55af12cdb67b01aacda6ce928838a85a9934959b59269d",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "先 BindRequest 再 Guard；非法 RequestMeta 经默认 Mapper 产出公开错误"
+      ]
+    },
+    {
+      "api_id": "core.panicguard.service-health",
+      "module": "core",
+      "package": "framework/go/core/panicguard",
+      "symbol": "Service.WithHealth",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "78e772d3aa77304bb3be11f0b40250d3301bc098ee394ec5ce24dd755277de64",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "把健康降级标记接到 Service.Guard，panic 时写入 health registry"
+      ]
+    },
+    {
+      "api_id": "interaction.commandundo.adapter",
+      "module": "interaction",
+      "package": "framework/go/interaction/commandundo",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "31ef4c6a4f6e94ef39e01def528403d64cfcfba616ecacc4101671c5ba9afd18",
+      "capabilities": [
+        "interaction.commandbus",
+        "interaction.undoredo"
+      ],
+      "notes": [
+        "Command Bus 可逆命令 adapter 构造入口，连接命令分发与 Undo/Redo 栈"
+      ]
+    },
+    {
+      "api_id": "interaction.commandundo.dispatch",
+      "module": "interaction",
+      "package": "framework/go/interaction/commandundo",
+      "symbol": "Adapter.Dispatch",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "58e8c4cb40363eaeecc1d62dd2dcf4e94e422178790e0c93928c589e87e96966",
+      "capabilities": [
+        "interaction.commandbus",
+        "interaction.undoredo"
+      ],
+      "notes": [
+        "可逆命令分发入口，成功后把补偿动作记录到 Undo/Redo 栈"
+      ]
+    },
+    {
+      "api_id": "interaction.commandundo.redo",
+      "module": "interaction",
+      "package": "framework/go/interaction/commandundo",
+      "symbol": "Adapter.Redo",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "cac3c24a15d1607df8a53bc3c6b5b339dc4d73447edf9462098e6cf24ba78521",
+      "capabilities": [
+        "interaction.undoredo"
+      ],
+      "notes": [
+        "可逆命令重做入口，复用 Undo/Redo 栈"
+      ]
+    },
+    {
+      "api_id": "interaction.commandundo.register",
+      "module": "interaction",
+      "package": "framework/go/interaction/commandundo",
+      "symbol": "Adapter.Register",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "617d631226281a700e9ef73ff1ee4228e5dde73f7713f4a48b476fc9cc8c9453",
+      "capabilities": [
+        "interaction.commandbus",
+        "interaction.undoredo"
+      ],
+      "notes": [
+        "可逆命令注册入口，handler 返回补偿动作；无 Undo 的命令不入栈"
+      ]
+    },
+    {
+      "api_id": "interaction.commandundo.undo",
+      "module": "interaction",
+      "package": "framework/go/interaction/commandundo",
+      "symbol": "Adapter.Undo",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "0578900bcc0a7fae082b3712ddd904741aa1e1df76d1cb4c5b3d51af5d36928c",
+      "capabilities": [
+        "interaction.undoredo"
+      ],
+      "notes": [
+        "可逆命令撤销入口，复用 Undo/Redo 栈"
+      ]
+    },
+    {
+      "api_id": "interaction.inputmodel.clipboard",
+      "module": "interaction",
+      "package": "framework/go/interaction/inputmodel",
+      "symbol": "SanitizeClipboard",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "e5a895ab1ff41b4f5431b98634e526df563ee32986888a4dffb2121ef234883e",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "剪贴板消毒入口，拒绝控制字符、超长内容和敏感字段"
+      ]
+    },
+    {
+      "api_id": "interaction.inputmodel.dragdrop",
+      "module": "interaction",
+      "package": "framework/go/interaction/inputmodel",
+      "symbol": "SanitizeDragDrop",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "05a100c79d2873c450eff45066927adc9bdec8bb5381287e051d472bc2f062fc",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "拖放消毒入口，校验来源、类型、大小，并拒绝危险 URI 与可执行文件"
+      ]
+    },
+    {
+      "api_id": "interaction.inputmodel.gate",
+      "module": "interaction",
+      "package": "framework/go/interaction/inputmodel",
+      "symbol": "NewGate",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "1dfeccdd9ff7c06b4519b79ff817b237e55430f0173a5c49edf2b808fa313f9f",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "按 key 的输入节流门，用于防抖/节流重复动作"
+      ]
+    },
+    {
+      "api_id": "interaction.undoredo.record",
+      "module": "interaction",
+      "package": "framework/go/interaction/undoredo",
+      "symbol": "Stack.Record",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "5cb8164a9bf032ae768ab94440861b736d16ce58134103d9f090c32cc66bd5ea",
+      "capabilities": [
+        "interaction.undoredo"
+      ],
+      "notes": [
+        "Undo/Redo 栈记录入口，用于已经执行成功的动作，不再次调用 Do"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.binder",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "NewBinder",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "9f059814e3504e0adfd29593bbae01d7b6b4b14fec7b50b72e8b1910cd78b000",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "页面恢复绑定器构造入口，按 route 注册 Save/Restore 并批量落盘"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.delete",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "MemoryStore.Delete",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "83a3cb13213b743c250f1c937b5aad297eac4546fabee148d7855d077f491b43",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态删除入口，窗口销毁后清理快照"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.load",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "MemoryStore.Load",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "1de587f60a134662399c41c69d3e0381e2f2950e0cf0168279bb9dde1555dd3f",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态读取入口，按 WindowID 恢复最近一次有效快照"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.save",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "MemoryStore.Save",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "177b2e0b1b4f0623742cd65e3615a077483e211eff47e210f875639bdeb422d3",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态保存入口，高 revision 覆盖，低 revision 拒绝"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.sqlite",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "OpenSQLiteStore",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "bce62291226069c4f3f746b6ea6e4dba947322fc403aea4432de06550f248157",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态 SQLite store 打开入口，进程重启后按 WindowID 恢复"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.sqlite-delete",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "SQLiteStore.Delete",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ab7e8691ba958bd9161b09a2c73909eb5964b2d13d01f5488e129f391e55032f",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态 SQLite 删除入口"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.sqlite-load",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "SQLiteStore.Load",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b1de1adebdb3c08b7b2de1d55c238760b8a1c39afdc0e4343aba42c17aa43e21",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态 SQLite 读取入口"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.sqlite-save",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "SQLiteStore.Save",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6100822aafb8b6b2b071930a046c811ac1819c83a6ad12e523925e90cf66706f",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态 SQLite 保存入口，高 revision 覆盖，低 revision 拒绝"
+      ]
+    },
+    {
+      "api_id": "interaction.windowstate.store",
+      "module": "interaction",
+      "package": "framework/go/interaction/windowstate",
+      "symbol": "NewMemoryStore",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "bae71a944629ccb86bd72bd134e5357710986476738c41934ad8e807fa50f68b",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨窗口状态内存 store 构造入口，供窗口重建后恢复，不保存 Secret"
+      ]
+    },
+    {
+      "api_id": "lifecycle.wails.method-boundary",
+      "module": "lifecycle",
+      "package": "framework/go/lifecycle/wailsapp",
+      "symbol": "GuardedCall",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "4ee425e4a5dd345f5b3bfb040362300fbcd5691247e14e98b16f6463514574f3",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "Wails 方法错误生产边界，统一输出 PublicError 并隔离 panic"
+      ]
+    },
+    {
+      "api_id": "lifecycle.wails.produce",
+      "module": "lifecycle",
+      "package": "framework/go/lifecycle/wailsapp",
+      "symbol": "GuardedProduce",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "5d68c097f78ab72f2cdcb82d03701e9f874795919d330f78d85899d1b30ab4a2",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "Wails 方法生产边界，经 panicguard 后用 fault.Mapper 输出公开错误"
+      ]
+    },
+    {
+      "api_id": "observability.diagnostics.crash-platform",
+      "module": "observability",
+      "package": "framework/go/observability/diagnostics",
+      "symbol": "NormalizeCrashPlatform",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "183601692ccd0804c920751d9a701d0fb755fc70443ba98055773efeb767f9e9",
+      "capabilities": [
+        "observability.diagnostics"
+      ],
+      "notes": [
+        "把 GOOS/GOARCH 映射为 catalog 平台，供崩溃矩阵本机分行"
+      ]
+    },
+    {
+      "api_id": "observability.diagnostics.fingerprint",
+      "module": "observability",
+      "package": "framework/go/observability/diagnostics",
+      "symbol": "FingerprintCrash",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "bd255eabffc31365e5ad7e510d7a1548da05cf5787923584e3efbf525ad6fee1",
+      "capabilities": [
+        "observability.diagnostics"
+      ],
+      "notes": [
+        "崩溃指纹工厂，按错误类、组件和堆栈摘要生成稳定短指纹"
+      ]
+    },
+    {
+      "api_id": "observability.diagnostics.redact-fields",
+      "module": "observability",
+      "package": "framework/go/observability/diagnostics",
+      "symbol": "RedactFields",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "9a0ed9173764ab4aac3471d9da8f65a2d09ad2efd762f150b63324ed41c20b2d",
+      "capabilities": [
+        "observability.diagnostics"
+      ],
+      "notes": [
+        "结构化字段脱敏，屏蔽敏感 key 与内联 URL/路径"
+      ]
+    },
+    {
+      "api_id": "observability.logging.apply-settings",
+      "module": "observability",
+      "package": "framework/go/observability/logging",
+      "symbol": "ApplySettings",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b832795aa14e34af08b39cbc069dd360e378402236e511feb90f87e20af65a43",
+      "capabilities": [
+        "observability.logging"
+      ],
+      "notes": [
+        "把 [framework.logging] 配置应用到日志 Options，目录为空时回落默认绝对路径"
+      ]
+    },
+    {
+      "api_id": "observability.logging.new",
+      "module": "observability",
+      "package": "framework/go/observability/logging",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "da2741abddd6067a5af6cfba8b29927469c0c0767571b88b04cbf7d203b7ac7e",
+      "capabilities": [
+        "observability.logging"
+      ],
+      "notes": [
+        "创建每进程独占 JSONL 日志器，按日与大小轮转并脱敏敏感字段"
+      ]
+    },
+    {
+      "api_id": "observability.logging.parse-settings",
+      "module": "observability",
+      "package": "framework/go/observability/logging",
+      "symbol": "ParseSettings",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "4ad51e2854c1f4baa62e47addbb405a2cae473d2d424714c3302f461454e43f9",
+      "capabilities": [
+        "observability.logging"
+      ],
+      "notes": [
+        "解析配置文档中的 [framework.logging] 表，空文档返回零值 Settings"
+      ]
+    },
+    {
+      "api_id": "platform.clipboard.normalize-files",
+      "module": "platform",
+      "package": "framework/go/platform/clipboard",
+      "symbol": "NormalizeFilePaths",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ef1442ec84d8ba3d0f517a7eec3fd21606e7956695eecc18e11cd449d34aa962",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "跨平台剪贴板文件路径校验、规范化、顺序去重和数量限制入口"
+      ]
+    },
+    {
+      "api_id": "platform.clipboard.read-files",
+      "module": "platform",
+      "package": "framework/go/platform/clipboard",
+      "symbol": "ReadFilePaths",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "bb51f1cf16f933eff5f012006e6bbc00ddafecc227edbb2b407222040c8d340d",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "读取 macOS 或 Windows 系统剪贴板文件对象并返回规范化绝对路径"
+      ]
+    },
+    {
+      "api_id": "platform.clipboard.read-image",
+      "module": "platform",
+      "package": "framework/go/platform/clipboard",
+      "symbol": "ReadImage",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "4a9ed36cc918089f786a0d0bccdf79238a143b279712340b11fb9f2a42e1f666",
+      "capabilities": [
+        "interaction.inputmodel"
+      ],
+      "notes": [
+        "读取 macOS PNG/TIFF 或 Windows DIB/DIBV5 剪贴板位图，并缩放为受限 PNG"
+      ]
+    },
+    {
+      "api_id": "platform.directorylink.create",
+      "module": "platform",
+      "package": "framework/go/platform/directorylink",
+      "symbol": "Create",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ed344267a3f893ea16e7bcd89290e76c950aa039e2d6ae3b2cc6d179692e43bf",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "受控目录入口；Windows 普通用户使用 junction，保持根内创建及来源校验"
+      ]
+    },
+    {
+      "api_id": "platform.directorylink.create-in-root",
+      "module": "platform",
+      "package": "framework/go/platform/directorylink",
+      "symbol": "CreateInRoot",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "c5da8e6ed775410e8d793c465300ce64c8af82443d56ddf91dc0196cd8470a27",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "受控目录入口；Windows 普通用户使用 junction，保持根内创建及来源校验"
+      ]
+    },
+    {
+      "api_id": "platform.directorylink.is-link",
+      "module": "platform",
+      "package": "framework/go/platform/directorylink",
+      "symbol": "IsLink",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f9df1f382c197fdab8d8f518cc816834266b4facde71ed6008616f39c1aa1f7f",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "受控目录入口；Windows 普通用户使用 junction，保持根内创建及来源校验"
+      ]
+    },
+    {
+      "api_id": "platform.directorylink.resolve",
+      "module": "platform",
+      "package": "framework/go/platform/directorylink",
+      "symbol": "Resolve",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "d2f55dfee393cc43ef3fd3aa2a24359b16b469fffb955b7bc326696dfe434d84",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "解析符号链接与 Windows junction 后的真实路径；调用方继续验证信任边界"
+      ]
+    },
+    {
+      "api_id": "platform.diskspace.available-bytes",
+      "module": "platform",
+      "package": "framework/go/platform/diskspace",
+      "symbol": "AvailableBytes",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "2e0a7a29c82c35451f2457ce505192e01285a2d79e5d2773afc7329012aa8668",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "只读查询目标目录所在卷对当前用户可用的字节数；目录尚未创建时查询最近的已存在父目录。"
+      ]
+    },
+    {
+      "api_id": "platform.filetrash.directory",
+      "module": "platform",
+      "package": "framework/go/platform/filetrash",
+      "symbol": "Directory",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b1d6935737dfe2dfaf88dc2107355d65f3b7819b1e2b8e55d503241811aff3fa",
+      "capabilities": [
+        "platform.filetrash"
+      ],
+      "notes": [
+        "用户确认后将普通目录移入系统回收站；失败不回退永久删除。"
+      ]
+    },
+    {
+      "api_id": "platform.runtimepaths.diagnose",
+      "module": "platform",
+      "package": "framework/go/platform/runtimepaths",
+      "symbol": "Diagnose",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f1e14644f9bfa87105b1bc5169bcb28348c4e17de218c5ec6fe8912160e0bf32",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "运行目录安全诊断，识别缺失、符号链接和文件占用且不改写磁盘"
+      ]
+    },
+    {
+      "api_id": "platform.startup.diagnose-sidecar",
+      "module": "platform",
+      "package": "framework/go/platform/startup",
+      "symbol": "DiagnoseSidecar",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "53f3a2f72d40f1832b0a336c906874c48578fe13782c41a76e8b7d937577e0df",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "Sidecar 路径只读诊断，识别空路径、缺失、符号链接、非普通文件与不可执行"
+      ]
+    },
+    {
+      "api_id": "platform.webview.download",
+      "module": "platform",
+      "package": "framework/go/platform/webviewruntime",
+      "symbol": "EvaluateDownload",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "c386557f305a22e5cae6493e14d9fb094ec6ff4cd14548dc810f77125e19092a",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "WebView 下载策略，拒绝可执行扩展、路径穿越文件名和未授权资源 URL"
+      ]
+    },
+    {
+      "api_id": "platform.webview.navigation",
+      "module": "platform",
+      "package": "framework/go/platform/webviewruntime",
+      "symbol": "EvaluateNavigation",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "33bccb1661a2abb947882cfcae7dc7059ecbfe182c56d980bae4d3f81a0e04e0",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "WebView 导航守卫，拦截 javascript/data/file 后再交给 webpolicy"
+      ]
+    },
+    {
+      "api_id": "platform.webview.new-window",
+      "module": "platform",
+      "package": "framework/go/platform/webviewruntime",
+      "symbol": "EvaluateNewWindow",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "33bccb1661a2abb947882cfcae7dc7059ecbfe182c56d980bae4d3f81a0e04e0",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "WebView 新窗口守卫，拒绝 javascript/data/file/about 后再复用导航策略"
+      ]
+    },
+    {
+      "api_id": "platform.webview.version",
+      "module": "platform",
+      "package": "framework/go/platform/webviewruntime",
+      "symbol": "ClassifyVersion",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7b6dfc0ad5d3c090f9715567ec9884298cf5c7062785cb12e1910566886f865e",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "WebView 运行时版本分级，比较当前版本与最低版本并返回 ok/outdated"
+      ]
+    },
+    {
+      "api_id": "runtime.resilience.breaker",
+      "module": "runtime",
+      "package": "framework/go/runtime/resilience",
+      "symbol": "Breaker.Execute",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ed89bf656a3f5ab5e8ff96f1f6727f6f8b59d49d1d3229a6d800490678246304",
+      "capabilities": [
+        "runtime.resilience"
+      ],
+      "notes": [
+        "跨模块熔断保护入口"
+      ]
+    },
+    {
+      "api_id": "runtime.resilience.retry",
+      "module": "runtime",
+      "package": "framework/go/runtime/resilience",
+      "symbol": "RetryBudget.Allow",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "34f883454e7bcb2e8491dab627610a7776e29241d6e1e9a6121da904560afb23",
+      "capabilities": [
+        "runtime.resilience"
+      ],
+      "notes": [
+        "重试预算判定，限制次数和累计耗时"
+      ]
+    },
+    {
+      "api_id": "runtime.update.process-set",
+      "module": "runtime",
+      "package": "framework/go/runtime/updater",
+      "symbol": "CheckProcessSet",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "a0034e8b38a86227a734dc216d2ec9790d7245dedca0b8ed1c876e17ce6f65c7",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "启动时校验 desktop 与 sidecar 版本及 BuildID 一致性"
+      ]
+    },
+    {
+      "api_id": "runtime.update.receipt",
+      "module": "runtime",
+      "package": "framework/go/runtime/updater",
+      "symbol": "VerifyReceipt",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ad4b9880f8aed9ee4881900ad31bcc91ec9f59aec078d7046420503954a214e7",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "安装回执校验，按相对路径核对大小与 SHA-256，拒绝越权和符号链接"
+      ]
+    },
+    {
+      "api_id": "security.allowlist.command",
+      "module": "security",
+      "package": "framework/go/security/allowlist",
+      "symbol": "CheckCommand",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "a9d7431c84e5bcc445a876bc75787a88038d2bc6da4395eebd60e0683768181e",
+      "capabilities": [
+        "security.capability"
+      ],
+      "notes": [
+        "命令名白名单，拒绝路径分隔符和 shell 元字符"
+      ]
+    },
+    {
+      "api_id": "security.allowlist.deeplink",
+      "module": "security",
+      "package": "framework/go/security/allowlist",
+      "symbol": "CheckDeepLink",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "5d5f5e2fdbdb19a9c9e52cd661b1d264b7b5c1e7b6983b9c3a7d293607bee0ca",
+      "capabilities": [
+        "security.capability"
+      ],
+      "notes": [
+        "Deep Link 白名单，仅允许登记的自定义 scheme"
+      ]
+    },
+    {
+      "api_id": "security.session.unlock",
+      "module": "security",
+      "package": "framework/go/security/session",
+      "symbol": "SessionStore.Unlock",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "85711d44d868b2f6ccd14e211fc4d710eb15800e8e34093a226dab96286e8947",
+      "capabilities": [
+        "security.capability"
+      ],
+      "notes": [
+        "空闲锁定会话凭据解锁入口，校验 token 后恢复 LastSeenAt"
+      ]
+    },
+    {
+      "api_id": "storage.blobquota.prune",
+      "module": "storage",
+      "package": "framework/go/storage/blobquota",
+      "symbol": "Prune",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "a7a7ed97d1c5d5f132235efe7ffcfed09965cba42ff2342df37c295a97b4a059",
+      "capabilities": [
+        "storage.sqlite"
+      ],
+      "notes": [
+        "缓存/Blob 目录配额清理，按过期时间和最旧文件淘汰，跳过符号链接"
+      ]
+    },
+    {
+      "api_id": "storage.config.watch",
+      "module": "storage",
+      "package": "framework/go/storage/configfile",
+      "symbol": "NewWatcher",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "4c063b01fab49b9dbe8e505d71ac61c6477fee15db686b7b091674c18ac51a16",
+      "capabilities": [
+        "storage.config"
+      ],
+      "notes": [
+        "配置文档热更新 Watcher 构造入口，校验 schema 与锁定字段后再发布"
+      ]
+    },
+    {
+      "api_id": "storage.sqlite.backup",
+      "module": "storage",
+      "package": "framework/go/storage/sqlite",
+      "symbol": "Backup",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "061fc4605fd2ecff0f4fb84b40d6f8fd333023021751283160136245b8a9d9f4",
+      "capabilities": [
+        "storage.sqlite"
+      ],
+      "notes": [
+        "SQLite 在线备份入口"
+      ]
+    },
+    {
+      "api_id": "testing.sdk.fault-kind",
+      "module": "testing",
+      "package": "framework/go/testing/testkit",
+      "symbol": "FaultError",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "eb129d2ac8c0b1ff2dde1e77eb589ccb97f5787cc5dd4fdd831cf9c743e26c07",
+      "capabilities": [
+        "testing.sdk"
+      ],
+      "notes": [
+        "命名故障工厂，将 disk.full / permission.denied / network.timeout / context.canceled 映射为可断言错误"
+      ]
+    },
+    {
+      "api_id": "testing.sdk.night-matrix",
+      "module": "testing",
+      "package": "framework/go/testing/testkit",
+      "symbol": "RunNightMatrix",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "85798b65268a1d3d73ba9593741894fc37376b4bc8ee547259d2a4a12c08e2e0",
+      "capabilities": [
+        "testing.sdk"
+      ],
+      "notes": [
+        "夜间矩阵入口，为每个用例注入独立 FaultInjector 并汇总失败"
+      ]
+    },
+    {
+      "api_id": "tool.api-diff",
+      "module": "core",
+      "package": "tools/mzguiapidiff",
+      "symbol": "mzguiapidiff",
+      "kind": "cli",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b0cb69563cb2ec6e4bb1e5be13865a24815b9cb7dbbb8c474e1174c2999a6675",
+      "capabilities": [
+        "core.api-catalog"
+      ],
+      "notes": [
+        "公共 API catalog 兼容性 diff 门禁"
+      ]
+    },
+    {
+      "api_id": "transport.grpc.stream-boundary",
+      "module": "transport",
+      "package": "framework/go/transport/grpcfault",
+      "symbol": "StreamServerBoundary",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b0fbefda54c099b81e4116936f34e8339128dd4e692973ca901ab9f7c2364378",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "gRPC stream 错误生产边界，统一映射 Framework fault 并隔离 panic"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.downloader",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "Downloader.Download",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "d0789a1af51c80fe0f957cd2598349333f8bf6c5cae1201a5136aba9686a1117",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 下载恢复基线，支持临时文件、Range 续传、SHA-256 校验和原子提交"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.http",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "Client.Do",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "9f55c97b678427db1198d358136f8083f2344f4bad7e5b6be7645976964b4629",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "HTTP 调用统一入口，支持策略、重试、限流和熔断"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-authorization-url",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthAuthorizationCodeFlow.BuildAuthorizationURL",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b2cfc37a64e18cb9e5bbb6b3b98654936bad3394adcaeffc5cb783b5af421d32",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth Authorization Code + PKCE 授权 URL 构造入口，只写入 code_challenge，不暴露 code_verifier"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-code-exchange",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthAuthorizationCodeFlow.ExchangeCode",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "e5d3f98b36d3a4739118b4ee7d4596a145c5a446ae7282bac36beb92daed2dd7",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth Authorization Code + PKCE token 交换入口，提交 code_verifier 并解析 token 响应"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-device",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthDeviceFlow.StartDeviceAuthorization",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6f52638b55492fd3e193c903f1e05ee4d0a11f67a2e7884746ce380b9ffd27de",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth Device Authorization 入口，构造设备授权 form 请求并解析用户授权提示"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-pkce-generate",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "GenerateOAuthPKCE",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b78764134045846a15e80e49f93855526f057957f658c2e2ad9841f2f2cf10b2",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth PKCE verifier 生成入口，默认使用 crypto/rand 并输出 S256 challenge"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-pkce-new",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewOAuthPKCE",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "af6ed740cfd5ad0c0ab5e875fb0d8b5bdaaa3fea11ed6a47413fc055ac762026",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth PKCE S256 challenge 构造入口，校验 RFC 7636 verifier 字符和长度"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-poll",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthDeviceFlow.PollDeviceToken",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "063f0c3efe4e34215d4e5a943be02720f06ddc7f8dad1ef060ae436c001de623",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth Device Token 轮询入口，分类 authorization_pending、slow_down 和终态错误"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-refresh",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthDeviceFlow.RefreshToken",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "332cc0310812c33b3159cc373a08568917943bee73b1e79c74954cf444a20e46",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth refresh_token 刷新入口，只负责协议请求与响应解析，不保存凭据"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-revocation-client",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewOAuthRevocationClient",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "89febfec88b180f70af7318e80d78b713d43f14c84ddff056dcb31f9df01a183",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token revocation 客户端构造入口，只接收通用 RemoteService Client，不绑定业务 provider"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-token-delete",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthTokenVault.Delete",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "3b78d8e985fc1538f6d2f1fedcf18469569243ece1bdd55346d9bec688b54e02",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token 凭据删除入口，只删除凭据引用对应的系统凭据库条目"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-token-load",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthTokenVault.Load",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "e04c5af1e83fa1caaa9da2dc853e51ccd0e1b481c8a95edb54f9bf625d23ab53",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token 凭据读取入口，从凭据 store 读取明文 token，不从 TOML 或 SQLite 读取"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-token-revoke",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthRevocationClient.RevokeToken",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "eaff59c2a075599db9f23f980b6ab90c4f8c046f53345e60492fe0c1860e03a0",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token revocation 执行入口，提交 token、token_type_hint 和 client_id，不负责业务凭据删除"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-token-rotate",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthTokenRotator.Rotate",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "05152a3c78655859181a0c40b89ba05409560a8adf0c0c8bd5fa7c39005875c4",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token 轮换入口，从凭据引用读取 refresh token，刷新并保存回同一 credential ref，只返回非敏感元数据"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-token-rotator",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewOAuthTokenRotator",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "e836bb6dac9bdae396cef9191ab344ef5ca7708bfe92507d799d4e46e9efb187",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token 轮换协调器构造入口，组合 OAuthTokenVault 与 OAuth refresh 协议，不绑定业务 provider"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.oauth-token-save",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OAuthTokenVault.Save",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "de4c72495feee0a3c42b655ad81d254dcb5c008d768b4909a86fc14eaad80fbe",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService OAuth token 凭据保存入口，只返回 credential ref，不返回 access token 或 refresh token"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.outbox",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewMemoryOutbox",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "a615624d2b85bf4b5ab494c432dcc9302bc55cde0aa121d662d33f8661f95d78",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 离线 outbox 内存基线，保存可重放请求元数据和 payload reference，不保存业务 DTO"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.outbox-replayer",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "OutboxReplayer.ReplayReady",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "36dd47384144a6620fcb5f1f49cdd5752297aaa86ff22fb761760da172de8c7e",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService outbox 重放入口，解析 payload reference 并按成功、重试、终态分类更新条目"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.pac-decision",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ParsePACDecision",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7cbb5e7a672ef089d05932ac37a3ab26238136c66b5ce3887523b597e0300e3d",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService PAC 决策解析入口，解析 DIRECT/PROXY/SOCKS/SOCKS5/HTTPS 指令，不执行 JavaScript"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.pac-fetch",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "PACFetcher.Fetch",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "58cc61282847288d364b352ac8c235b1bf4ca7b58226fbad9ec66e95002952f2",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService PAC 文档获取入口，只允许 http/https，限制体积并拒绝凭据 URL"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.pac-fetcher",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewPACFetcher",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7f8d30789af9db309258945e8d334a6e5f143ea05a3c3bd25996a9c3e4202e0c",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService PAC 获取器构造入口，设置超时、体积上限和重定向安全检查"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.pac-finder",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewPACFinderFunc",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "22301323275dea6bca06695f03df7286e589555b1e1f6a73716cf783f7780590",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService PAC FindProxyForURL 注入入口，供测试和后续 JS 引擎 adapter 使用"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.pac-resolver",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewPACResolver",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "a29d0091cc8e93fb5fbfcdbf74cf6972263bfd7e961a080744dd90bc9df92c85",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService PAC 解析器构造入口，按决策顺序选择 DIRECT 或第一个合法代理"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.pac-script-constant",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ParseConstantPACScript",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f9a574cb7f4de38371b1b2b7bedd2a3657befefd5eacee3f3002133db7c38890",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 常量 PAC 脚本解析入口，只接受无分支的 FindProxyForURL return，不内置完整 JS 引擎"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.proxy-credential-delete",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ProxyCredentialVault.Delete",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "1435aacec381d7c1205f2ea09f98f5893c9be827b7a7631a012505ce6b2d836e",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 代理凭据删除入口，只删除凭据引用对应的系统凭据库条目"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.proxy-credential-load",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ProxyCredentialVault.Load",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "230724e4488c424dd405affbaaa447a19c014db844d4d4636918a40e69db99a5",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 代理凭据读取入口，从凭据 store 读取明文密码，不从 TOML 或 SQLite 读取"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.proxy-credential-proxy-url",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ProxyCredentialVault.ProxyURL",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "58e8db8dc505a86ed618041f7df8f8c75d9e0fecda27489a3531665d2612bba9",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 代理 URL 凭据应用入口，仅在内存 URL 上设置 userinfo，不把密码写入 ref"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.proxy-credential-save",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ProxyCredentialVault.Save",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "87a40585117f551c3fcbf242896feb01ac940ea352338eb26907b7ee8b20575e",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 代理凭据保存入口，只返回 credential ref，不返回密码"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.proxy-credential-vault",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewProxyCredentialVault",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6e314e59892bae66b91706c3c05a3a718bc3da92494e2e09ffcd09e3c213afd1",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 代理凭据库构造入口，通过最小 store 接口接入系统凭据库，不绑定 Keychain 实现"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.proxy-diagnostics",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ProxyDiagnosticProbe.Check",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "3b3fbe7dbd7903ba410e06a82c7a0af2cb0e1c2da08b39daad71cb59bd04f348",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 代理诊断入口，分类代理可用、代理认证需求和代理不可用"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.reachability-probe",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "HTTPReachabilityProbe.Check",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "3e31fb18a239e7969e001428fcc5f9489d3d2a8fde34c490111095586df321c7",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService HTTP 可达性探测入口，支持超时、禁止重定向、可选绕过代理和状态分类"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.reachability-state",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ReachabilityState.Record",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "212459046fff3edd914714a239bfa37d1f1a2a138e3cbf457b5ac736f5c702bb",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 网络恢复状态机入口，按连续成功/失败阈值切换 online、offline 和 recovered 状态"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.resume",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "TransferCheckpoint.ApplyResumeHeaders",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "205e5632d67e60edab5e92b6bb40a75837bc2d319d6f165a04a04c70ae001436",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 下载续传 checkpoint 入口，生成 Range 与 If-Range 请求头"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.sqlite-outbox",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewSQLiteOutbox",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6d7bf8b5d6fac1d3be274d083da3de56cb34d72b56f4bcc6ee2f36a520ef1092",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService SQLite outbox 持久化基线，跨进程重启保留 pending、retrying 和终态元数据"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.tls-pin-document-parse",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "ParseTLSPinDocument",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f7463fa284bcec9403b09c3fc27061d1731ce5cdb528ee99ebe0a779d5ca7dcd",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService TLS pin 策略文档解析入口，只解码通用 JSON，不绑定业务分发通道"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.tls-pin-policy",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewTLSPinPolicy",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "b32dd4ea3ab78df8cd4293e1326f087b5b5985f662c08f9aceba19880777251b",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService TLS pin 轮换策略构造入口，要求非空 current pins 和有效时间窗口"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.tls-pin-policy-pinset",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "TLSPinPolicy.PinSetAt",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "2fdee18b0a803f9351593316b8ec2b2630ab2ac9d3d977e22a381556712b88a4",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService TLS pin 时间窗口选择入口，按 not_before/next_active_at/not_after 合并 current/next/previous"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.tls-pin-policy-rotate",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "TLSPinPolicy.Rotate",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ace2ceb42f2837f051ebbc3b556eb3c4f82660aff060f21f11c57209f51eac2e",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService TLS pin 轮换入口，在 next_active_at 之后把 next 提升为 current，旧 current 进入 previous"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.tls-pin-policy-verify",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "TLSPinPolicy.VerifyPeerCertificates",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "17a97588a1abaaa080697c089671e9b7e31ac789b0857a04bf8608f9a5bfbd23",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService TLS pin 策略校验入口，使用当前时间窗口的 pin 集合验证对端证书"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.tls-pinning",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "TLSPinSet.VerifyPeerCertificates",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "34b8c41b3a78734471b00d0038b5b4184fd027736522c0ea5e16f8defc869311",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService TLS 证书固定入口，支持 sha256/SPKI pin 集合和证书轮换"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-chunks",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "PlanUploadChunks",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "23bc7cb48e2bb519b8527cfa2b9e33b7e2c33000c118c84bf62fff9b4e73af54",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 分片上传计划入口，生成稳定 chunk 和 Content-Range"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-lifecycle",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "UploadSessionLifecycle",
+      "kind": "type",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "57f9a95a61a31fadce935066fbba03429608d82080b48d9e422f80f58ce8ce09",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 上传会话 complete/abort lifecycle adapter 接口，Framework 只传递 session 状态和请求元数据，不绑定业务服务端协议"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-memory-store",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewMemoryUploadSessionStore",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "d0ac147ba06a8787e3d8c24d1938413c326c79ecdf88aefd894fdec75be368f5",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 上传会话内存存储基线，用于测试、示例和最小运行时恢复协调"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-new",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewUploadSessionState",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ed0bb473bfb6d8c81aba5da78d6130879ba77d4dc2dc0d8329690c22d42686fc",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 上传会话状态构造入口，记录 session id、文件大小、chunk size 和总分片数"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-sqlite-load",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "SQLiteUploadSessionStore.LoadUploadSession",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6c65ac3a3c8052b371b32b72499e05331d34962a7b39058222ec298ad1e6a5f8",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService SQLite 上传会话读取入口，跨进程重启恢复已完成分片状态"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-sqlite-save",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "SQLiteUploadSessionStore.SaveUploadSession",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7428453fe54d9abd5dcbb61add4eb7f73ecc8b8caeb3e87f4168220aed9b91cf",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService SQLite 上传会话保存入口，以 session id 覆盖写入最新完成分片集合"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-sqlite-store",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "NewSQLiteUploadSessionStore",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "aa0fb45d7fd15617bc23f3bf42154829149f64e96a638e9914645774022d30fb",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService SQLite 上传会话持久化 store 构造入口，创建 Framework-owned mzfw_remote_upload_sessions 表"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.upload-session-store",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "UploadSessionStore",
+      "kind": "type",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "d257fa1f4ae01ebf875427d85f4266542333b5c02f21505bf62cc6a2ffae420b",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 上传会话状态存储接口，支持恢复时加载和保存已完成分片"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.uploader",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "Uploader.UploadFile",
+      "kind": "method",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "a326ec8dfb595c51e982e3fbd2559b01544e7a8ed577b3a89f28810e4262ee6b",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService 分片上传执行入口，支持每片 Content-Range、幂等键、限速 gate、会话恢复和 complete/abort lifecycle adapter"
+      ]
+    },
+    {
+      "api_id": "transport.remote-service.wpad-candidates",
+      "module": "transport",
+      "package": "framework/go/transport/remoteservice",
+      "symbol": "WPADCandidates",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "59a9b92a6ba8a63d225f34402f6eb3b048b2841eae95357e50629ced78b75547",
+      "capabilities": [
+        "transport.remote-service"
+      ],
+      "notes": [
+        "RemoteService WPAD 候选 URL 生成入口，由 DNS suffix 构造 http://wpad.<suffix>/wpad.dat，不查询 DHCP"
+      ]
+    }
+  ]
+}

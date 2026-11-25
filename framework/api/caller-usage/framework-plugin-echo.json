@@ -1,0 +1,6 @@
+{
+  "caller_id": "framework-plugin-echo",
+  "api_ids": [
+    "adapter.plugin.sdk"
+  ]
+}

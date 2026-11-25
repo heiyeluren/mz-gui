@@ -1,0 +1,657 @@
+.mzgui-skip-to-content {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  z-index: 1000;
+  padding: 0.5rem 0.75rem;
+  background: #000;
+  color: #fff;
+}
+
+.mzgui-skip-to-content:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.mzgui-focus-ring:focus-visible {
+  outline: 2px solid var(--mzgui-color-accent, #5b5bd6);
+  outline-offset: 2px;
+}
+
+.mzgui-module-rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 8px 6px 7px;
+  border-right: 1px solid #e1dde4;
+  background: #fbf5f8;
+  overflow: visible;
+}
+
+.mzgui-module-rail-group {
+  display: grid;
+  gap: 2px;
+}
+
+.mzgui-module-rail-item {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  width: 100%;
+  min-height: 47px;
+  padding: 4px 2px;
+  border: 0;
+  border-radius: 6px;
+  color: #6e6872;
+  font-size: 9px;
+  line-height: 1.2;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mzgui-module-rail-entry {
+  position: relative;
+  min-width: 0;
+}
+
+.mzgui-module-rail-menu {
+  position: absolute;
+  z-index: 50;
+  top: 50%;
+  left: calc(100% + 8px);
+  display: grid;
+  width: 250px;
+  padding: 6px;
+  border: 1px solid #ded8df;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgb(49 40 47 / 18%);
+  transform: translateY(-50%);
+}
+
+.mzgui-module-rail-menu::before {
+  position: absolute;
+  top: calc(50% - 6px);
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 1px solid #ded8df;
+  border-left: 1px solid #ded8df;
+  background: #fff;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.mzgui-module-rail-menu > button {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 50px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 5px;
+  color: #524d54;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mzgui-module-rail-menu > button:hover:not(:disabled),
+.mzgui-module-rail-menu > button.active {
+  background: #f3edf1;
+}
+
+.mzgui-module-rail-menu > button:disabled {
+  opacity: 0.46;
+  cursor: default;
+}
+
+.mzgui-module-rail-menu > button > span {
+  display: grid;
+  gap: 3px;
+}
+
+.mzgui-module-rail-menu strong {
+  font-size: 11px;
+}
+
+.mzgui-module-rail-menu small {
+  color: #918a93;
+  font-size: 9px;
+}
+
+.mzgui-module-rail-item:hover:not(:disabled) {
+  color: #413c45;
+  background: #f1e9ee;
+}
+
+.mzgui-module-rail-item.active {
+  color: #725261;
+  background: #eadde4;
+}
+
+.mzgui-module-rail-item:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.mzgui-module-rail-icon {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+}
+
+.mzgui-module-rail-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.7;
+}
+
+.mzgui-module-rail-label {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mzgui-module-rail-badge {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 8px;
+  line-height: 14px;
+  background: #b45e70;
+}
+
+.mzgui-module-rail-divider {
+  width: 34px;
+  height: 1px;
+  margin: 5px auto;
+  background: #e1d7dd;
+}
+
+.mzgui-module-rail-spacer {
+  flex: 1;
+  min-height: 8px;
+}
+
+.mzgui-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border: 1px solid #ded9df;
+  border-radius: 6px;
+  background: #f3eff2;
+}
+
+.mzgui-segmented-control button {
+  min-width: 25px;
+  min-height: 23px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 4px;
+  color: #7a737c;
+  font-size: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mzgui-segmented-control button:hover {
+  color: #443f46;
+}
+
+.mzgui-icon-button {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-control, 6px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+  cursor: pointer;
+}
+
+.mzgui-icon-button:hover:not(:disabled) {
+  background: var(--mzgui-color-surface-muted, #eef1f5);
+}
+
+.mzgui-icon-button:focus-visible {
+  outline: 2px solid var(--mzgui-color-accent, #5b5bd6);
+  outline-offset: 2px;
+}
+
+.mzgui-icon-button:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.mzgui-text-field {
+  display: grid;
+  gap: var(--mzgui-space-1, 4px);
+}
+
+.mzgui-text-field-label {
+  color: var(--mzgui-color-text, #1f2933);
+  font-size: 12px;
+}
+
+.mzgui-text-field-input {
+  min-height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-control, 6px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-text-field-input:disabled {
+  opacity: 0.5;
+}
+
+.mzgui-text-field-input[aria-invalid='true'] {
+  border-color: var(--mzgui-color-danger, #b42318);
+}
+
+.mzgui-text-field-error {
+  margin: 0;
+  color: var(--mzgui-color-danger, #b42318);
+  font-size: 11px;
+}
+
+.mzgui-feedback-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-panel, 8px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-feedback-toast-success {
+  border-color: var(--mzgui-color-success, #14804a);
+}
+
+.mzgui-feedback-toast-error,
+.mzgui-feedback-toast-warning {
+  border-color: var(--mzgui-color-danger, #b42318);
+}
+
+.mzgui-feedback-toast-dismiss {
+  border: 0;
+  color: var(--mzgui-color-text-muted, #667085);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mzgui-dialog-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(15 18 22 / 46%);
+}
+
+.mzgui-dialog {
+  min-width: 280px;
+  max-width: 480px;
+  padding: 12px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-panel, 8px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.mzgui-dialog-title {
+  margin: 0;
+  font-size: 14px;
+}
+
+.mzgui-dialog-dismiss {
+  border: 0;
+  color: var(--mzgui-color-text-muted, #667085);
+  background: transparent;
+  cursor: pointer;
+}
+
+.mzgui-dialog-body {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.mzgui-tabs {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.mzgui-tabs [role='tab'] {
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-control, 6px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+  cursor: pointer;
+}
+
+.mzgui-tabs [role='tab'][aria-selected='true'] {
+  border-color: var(--mzgui-color-accent, #5b5bd6);
+}
+
+.mzgui-segmented-control button.active {
+  color: #55424c;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(62 48 55 / 12%);
+}
+
+.mzgui-select {
+  display: grid;
+  gap: 4px;
+}
+
+.mzgui-select-label {
+  font-size: 12px;
+  color: var(--mzgui-color-text, #1f2933);
+}
+
+.mzgui-select select {
+  min-height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-control, 6px);
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-live-region {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mzgui-terminal-surface {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.mzgui-terminal-surface-host {
+  /* 画布尺寸只能由宿主决定，不能让终端行数反过来撑高测量容器。 */
+  position: absolute;
+  inset: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mzgui-terminal-surface-host > .xterm {
+  height: 100%;
+}
+
+.mzgui-checkbox,
+.mzgui-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--mzgui-color-text, #1f2933);
+}
+
+.mzgui-switch button {
+  width: 36px;
+  height: 20px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: 999px;
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.mzgui-data-table th,
+.mzgui-data-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--mzgui-color-border, #d9dee7);
+  text-align: left;
+}
+
+.mzgui-tree,
+.mzgui-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mzgui-tree-label {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.mzgui-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mzgui-breadcrumb button {
+  border: 0;
+  background: transparent;
+  color: var(--mzgui-color-text, #1f2933);
+}
+
+.mzgui-context-menu {
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.mzgui-context-menu button {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.mzgui-progress {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--mzgui-color-border, #d9dee7);
+}
+
+.mzgui-progress-value {
+  height: 100%;
+  background: var(--mzgui-color-accent, #2563eb);
+}
+
+.mzgui-virtual-list {
+  overflow: auto;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+}
+
+.mzgui-virtual-list [role="option"] {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.mzgui-virtual-list [aria-selected="true"] {
+  background: var(--mzgui-color-accent-subtle, #dbeafe);
+}
+
+.mzgui-markdown {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mzgui-markdown ul,
+.mzgui-markdown ol {
+  margin: 0 0 8px;
+  padding-left: 1.4em;
+}
+
+.mzgui-markdown li > ul,
+.mzgui-markdown li > ol {
+  margin: 4px 0 0;
+}
+
+.mzgui-markdown h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.mzgui-markdown blockquote {
+  margin: 0 0 8px;
+  padding: 0 0 0 12px;
+  border-left: 3px solid var(--mzgui-color-border, #d4d4d8);
+  color: var(--mzgui-color-muted, #52525b);
+}
+
+.mzgui-markdown blockquote p {
+  margin: 0 0 4px;
+}
+
+.mzgui-markdown blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.mzgui-markdown table {
+  border-collapse: collapse;
+  margin: 0 0 8px;
+  max-width: 100%;
+}
+
+.mzgui-markdown th,
+.mzgui-markdown td {
+  border: 1px solid var(--mzgui-color-border, #d4d4d8);
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.mzgui-markdown li label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mzgui-markdown li input[type='checkbox'] {
+  margin: 0;
+  vertical-align: middle;
+}
+
+.mzgui-markdown img {
+  max-width: 100%;
+  height: auto;
+}
+
+.mzgui-markdown pre {
+  overflow: auto;
+  padding: 8px;
+  background: var(--mzgui-color-surface-muted, #f3f4f6);
+}
+
+.mzgui-image-viewer {
+  margin: 0;
+}
+
+.mzgui-image-viewer img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.mzgui-code-viewer pre {
+  overflow: auto;
+  margin: 0;
+  padding: 8px;
+  background: var(--mzgui-color-surface-muted, #f3f4f6);
+}
+
+.mzgui-media-surface {
+  display: block;
+  max-width: 100%;
+}
+
+.mzgui-command-palette {
+  min-width: 280px;
+  max-width: 480px;
+  padding: 12px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-panel, 8px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-command-palette-query {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--mzgui-color-border, #d9dee7);
+  border-radius: var(--mzgui-radius-control, 6px);
+  color: var(--mzgui-color-text, #1f2933);
+  background: var(--mzgui-color-surface, #ffffff);
+}
+
+.mzgui-terminal-output-notice {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 26px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  color: var(--mzgui-color-text-muted, #667085);
+  background: var(--mzgui-color-surface-muted, #eef1f5);
+}
+.mzgui-terminal-surface.has-truncated-output > .mzgui-terminal-surface-host {
+  top: 26px;
+}

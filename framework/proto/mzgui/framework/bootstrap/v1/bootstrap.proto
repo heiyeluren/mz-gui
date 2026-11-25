@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package mzgui.framework.bootstrap.v1;
+
+option go_package = "github.com/heiyeluren/mz-gui/gen/go/mzgui/framework/bootstrap/v1;bootstrapv1";
+
+service BootstrapService {
+  rpc Handshake(BootstrapHandshakeRequest) returns (BootstrapHandshakeResponse);
+  rpc RenewSession(SessionRenewRequest) returns (SessionRenewResponse);
+  rpc RevokeSession(SessionRevokeRequest) returns (SessionRevokeResponse);
+}
+
+message SessionRenewRequest {
+  string session_id = 1;
+  bytes session_token = 2;
+}
+
+message SessionRenewResponse {
+  bool accepted = 1;
+  bytes session_token = 2;
+  int64 expires_at_unix_ms = 3;
+  string rejection_code = 4;
+}
+
+message SessionRevokeRequest {
+  string session_id = 1;
+  bytes session_token = 2;
+  string reason = 3;
+}
+
+message SessionRevokeResponse {
+  bool accepted = 1;
+  string rejection_code = 2;
+}
+
+message ProtocolVersion {
+  uint32 major = 1;
+  uint32 minor = 2;
+}
+
+message CompatibilityRange {
+  uint32 major = 1;
+  uint32 minimum_minor = 2;
+  uint32 maximum_minor = 3;
+}
+
+message ApplicationIdentity {
+  string app_id = 1;
+  string framework_api_version = 2;
+  uint64 framework_catalog_revision = 3;
+  string framework_catalog_sha256 = 4;
+  string app_manifest_sha256 = 5;
+  string framework_selection_sha256 = 6;
+}
+
+message ProcessIdentity {
+  string process_role = 1;
+  string process_name = 2;
+  string process_version = 3;
+  string build_id = 4;
+  string instance_id = 5;
+  string os = 6;
+  string arch = 7;
+  string release_channel = 8;
+  string endpoint_id = 9;
+  ApplicationIdentity application = 10;
+}
+
+message BootstrapHandshakeRequest {
+  ProtocolVersion protocol = 1;
+  ProcessIdentity client = 2;
+  bytes client_nonce = 3;
+  int64 client_started_at_unix_ms = 4;
+  int64 requested_at_unix_ms = 5;
+  repeated string requested_capabilities = 6;
+}
+
+message BootstrapHandshakeResponse {
+  bool accepted = 1;
+  ProtocolVersion negotiated_protocol = 2;
+  bytes server_nonce = 3;
+  string handshake_sha256 = 4;
+  string session_id = 5;
+  bytes session_token = 6;
+  int64 expires_at_unix_ms = 7;
+  ProcessIdentity server = 8;
+  CompatibilityRange compatibility = 9;
+  repeated string granted_capabilities = 10;
+  string health_status = 11;
+  repeated string degraded_reasons = 12;
+  string rejection_code = 13;
+}

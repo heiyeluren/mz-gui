@@ -1,0 +1,85 @@
+:root {
+  color-scheme: light dark;
+  --mzgui-color-canvas: #f5f6f8;
+  --mzgui-color-surface: #ffffff;
+  --mzgui-color-surface-muted: #eef1f5;
+  --mzgui-color-text: #1f2933;
+  --mzgui-color-text-muted: #667085;
+  --mzgui-color-border: #d9dee7;
+  --mzgui-color-accent: #5b5bd6;
+  --mzgui-color-success: #14804a;
+  --mzgui-color-warning: #b54708;
+  --mzgui-color-danger: #b42318;
+  --mzgui-radius-control: 6px;
+  --mzgui-radius-panel: 8px;
+  --mzgui-space-1: 0.25rem;
+  --mzgui-space-2: 0.5rem;
+  --mzgui-space-3: 0.75rem;
+  --mzgui-space-4: 1rem;
+  --mzgui-space-6: 1.5rem;
+  --mzgui-font-size-body: 1rem;
+  --mzgui-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mzgui-motion-fast: 120ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mzgui-motion-fast: 0ms;
+  }
+}
+
+:root[data-mzgui-motion='reduced'] {
+  --mzgui-motion-fast: 0ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mzgui-color-canvas: #17191d;
+    --mzgui-color-surface: #22252a;
+    --mzgui-color-surface-muted: #2b2f36;
+    --mzgui-color-text: #f2f4f7;
+    --mzgui-color-text-muted: #aab2c0;
+    --mzgui-color-border: #3b414b;
+    --mzgui-color-accent: #8b8bf4;
+  }
+}
+
+:root[data-mzgui-theme='high-contrast'] {
+  --mzgui-color-canvas: #000000;
+  --mzgui-color-surface: #000000;
+  --mzgui-color-surface-muted: #111111;
+  --mzgui-color-text: #ffffff;
+  --mzgui-color-text-muted: #ffffff;
+  --mzgui-color-border: #ffffff;
+  --mzgui-color-accent: #ffff00;
+  --mzgui-color-success: #00ff00;
+  --mzgui-color-warning: #ffff00;
+  --mzgui-color-danger: #ff0000;
+}
+
+@media (prefers-contrast: more) {
+  :root:not([data-mzgui-theme]) {
+    --mzgui-color-canvas: #000000;
+    --mzgui-color-surface: #000000;
+    --mzgui-color-surface-muted: #111111;
+    --mzgui-color-text: #ffffff;
+    --mzgui-color-text-muted: #ffffff;
+    --mzgui-color-border: #ffffff;
+    --mzgui-color-accent: #ffff00;
+    --mzgui-color-success: #00ff00;
+    --mzgui-color-warning: #ffff00;
+    --mzgui-color-danger: #ff0000;
+  }
+}
+
+:root[data-mzgui-theme='high-contrast'] :focus-visible {
+  outline: 3px solid var(--mzgui-color-accent, #ffff00);
+  outline-offset: 2px;
+}
+
+@media (prefers-contrast: more) {
+  :root:not([data-mzgui-theme]) :focus-visible {
+    outline: 3px solid var(--mzgui-color-accent, #ffff00);
+    outline-offset: 2px;
+  }
+}

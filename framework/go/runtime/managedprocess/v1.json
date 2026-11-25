@@ -1,0 +1,40 @@
+{
+  "$schema": "./v1.schema.json",
+  "schema_version": 1,
+  "release": "1.0.0",
+  "states": ["stopped", "starting", "running", "degraded", "backoff", "crash_loop", "incompatible", "stopping", "disabled"],
+  "restart_policies": ["never", "on-failure", "always"],
+  "probe_phases": ["readiness", "heartbeat"],
+  "probe_statuses": ["ready", "degraded", "not_ready", "incompatible"],
+  "event_kinds": [
+    "process.starting",
+    "process.ready",
+    "process.exited",
+    "process.degraded",
+    "process.crash_loop",
+    "process.incompatible",
+    "process.recovered",
+    "process.stopped",
+    "process.disabled"
+  ],
+  "reasons": [
+    {"reason_code": "process.starting", "event_kinds": ["process.starting"], "target_states": ["starting"]},
+    {"reason_code": "process.ready", "event_kinds": ["process.ready"], "target_states": ["running"]},
+    {"reason_code": "process.exited_clean", "event_kinds": ["process.exited"], "target_states": ["stopped"]},
+    {"reason_code": "process.exited_failure", "event_kinds": ["process.exited"], "target_states": ["stopped"]},
+    {"reason_code": "process.restart_scheduled", "event_kinds": ["process.degraded"], "target_states": ["backoff"]},
+    {"reason_code": "process.launch_failed", "event_kinds": ["process.exited"], "target_states": ["stopped"]},
+    {"reason_code": "process.crash_loop", "event_kinds": ["process.crash_loop"], "target_states": ["crash_loop"]},
+    {"reason_code": "process.manual_retry", "event_kinds": ["process.recovered"], "target_states": ["stopped"]},
+    {"reason_code": "process.stop_requested", "event_kinds": ["process.degraded"], "target_states": ["stopping"]},
+    {"reason_code": "process.stopped", "event_kinds": ["process.stopped"], "target_states": ["stopped"]},
+    {"reason_code": "process.disabled", "event_kinds": ["process.disabled"], "target_states": ["disabled"]},
+    {"reason_code": "process.readiness_timeout", "event_kinds": ["process.exited"], "target_states": ["stopped"]},
+    {"reason_code": "process.readiness_failed", "event_kinds": ["process.exited"], "target_states": ["stopped"]},
+    {"reason_code": "process.health_degraded", "event_kinds": ["process.degraded"], "target_states": ["degraded"]},
+    {"reason_code": "process.heartbeat_failed", "event_kinds": ["process.degraded"], "target_states": ["degraded"]},
+    {"reason_code": "process.heartbeat_terminated", "event_kinds": ["process.exited"], "target_states": ["stopped"]},
+    {"reason_code": "process.heartbeat_recovered", "event_kinds": ["process.recovered"], "target_states": ["running"]},
+    {"reason_code": "process.incompatible", "event_kinds": ["process.incompatible"], "target_states": ["incompatible"]}
+  ]
+}

@@ -1,0 +1,1150 @@
+{
+  "$schema": "./v1.0.schema.json",
+  "schema_version": 1,
+  "release": "1.0.0",
+  "requirements": [
+    {
+      "requirement_id": "FW-ARCH-001",
+      "phase": "F0",
+      "domain": "architecture",
+      "title": "Framework 与应用依赖边界",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "2",
+        "7",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go",
+        "framework/ui-kit",
+        "framework/web"
+      ],
+      "contract_refs": [
+        "framework/capabilities/catalog.json",
+        "framework/appmanifest/mzgui.app.schema.json"
+      ],
+      "test_refs": [
+        "tests/architecture/framework_boundary_test.go",
+        "tests/architecture/layout_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-ARCH-002",
+      "phase": "F1",
+      "domain": "lifecycle",
+      "title": "应用、组件、进程与窗口生命周期",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "3",
+        "5.1",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/lifecycle",
+        "framework/go/lifecycle/apphost",
+        "framework/go/lifecycle/sidecargroup",
+        "framework/go/runtime/managedprocess",
+        "framework/go/transport/bootstrap"
+      ],
+      "contract_refs": [
+        "framework/go/lifecycle/model.go",
+        "framework/go/lifecycle/supervisor.go",
+        "framework/go/lifecycle/v1.json",
+        "framework/go/lifecycle/v1.schema.json",
+        "framework/go/lifecycle/apphost/model.go",
+        "framework/go/lifecycle/apphost/host.go",
+        "framework/go/lifecycle/apphost/sidecars.go",
+        "framework/go/lifecycle/apphost/windowgroup.go",
+        "framework/go/lifecycle/sidecargroup/model.go",
+        "framework/go/lifecycle/sidecargroup/group.go",
+        "framework/go/lifecycle/wailsapp/controller.go",
+        "framework/go/runtime/managedprocess/model.go",
+        "framework/go/runtime/managedprocess/probe.go",
+        "framework/go/runtime/managedprocess/v1.json",
+        "framework/go/runtime/managedprocess/v1.schema.json",
+        "framework/go/transport/bootstrap/client_probe.go"
+      ],
+      "test_refs": [
+        "framework/go/lifecycle/graph_test.go",
+        "framework/go/lifecycle/supervisor_test.go",
+        "framework/go/lifecycle/apphost/host_test.go",
+        "framework/go/lifecycle/sidecargroup/group_test.go",
+        "framework/go/runtime/managedprocess/manager_test.go",
+        "framework/go/runtime/managedprocess/supervision_test.go",
+        "framework/go/runtime/managedprocess/probe_supervision_test.go",
+        "framework/go/transport/bootstrap/client_probe_test.go",
+        "examples/framework-showcase/app_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-XPLAT-001",
+      "phase": "F4",
+      "domain": "platform",
+      "title": "macOS 与 Windows 平台适配层",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.4",
+        "8.2",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/platform",
+        "framework/go/platform/credentials",
+        "framework/go/platform/systemstatus",
+        "framework/go/platform/deviceprobe",
+        "framework/go/platform/winremote",
+        "framework/go/platform/remotedebug",
+        "tools/mzguiwinremote",
+        "tools/mzguiremotedebug",
+        "framework/go/platform/startup",
+        "framework/go/platform/filetrash"
+      ],
+      "contract_refs": [
+        "framework/go/platform/runtimepaths/paths.go",
+        "framework/go/platform/permissions/permissions.go",
+        "framework/go/platform/credentials/store.go",
+        "framework/go/platform/systemstatus/model.go",
+        "framework/go/platform/deviceprobe/probe.go",
+        "framework/go/platform/winremote/evidence.go",
+        "framework/go/platform/remotedebug/protocol.go",
+        "framework/go/platform/runtimepaths/diagnose.go",
+        "framework/go/platform/startup/diagnose.go",
+        "framework/go/platform/filetrash/trash.go"
+      ],
+      "test_refs": [
+        "framework/go/platform/runtimepaths/paths_test.go",
+        "framework/go/platform/runtimepaths/diagnose_test.go",
+        "framework/go/platform/startup/diagnose_test.go",
+        "framework/go/platform/permissions/permissions_test.go",
+        "framework/go/platform/credentials/store_test.go",
+        "framework/go/platform/systemstatus/collector_test.go",
+        "framework/go/platform/deviceprobe/probe_test.go",
+        "framework/go/platform/deviceprobe/probe_darwin_arm64_test.go",
+        "framework/go/platform/deviceprobe/probe_windows_amd64_test.go",
+        "framework/go/platform/winremote/evidence_test.go",
+        "framework/go/platform/winremote/collect_test.go",
+        "tools/mzguiwinremote/main_test.go",
+        "framework/go/platform/remotedebug/remotedebug_test.go",
+        "tools/mzguiremotedebug/main_test.go",
+        "framework/go/platform/filetrash/trash_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows WebView2 真机权限矩阵仍待扩（macOS Intel 仍待扩）",
+        "filetrash 已实测 macOS Apple Silicon；Windows 与 Linux 回收站仅交叉编译，尚未真机验收。"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-IPC-001",
+      "phase": "F2",
+      "domain": "transport",
+      "title": "本机 IPC、握手、流与恢复协议",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.3",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/transport/local",
+        "framework/go/transport/bootstrap",
+        "framework/go/transport/healthcheck",
+        "framework/go/transport/streamresume",
+        "framework/go/transport/grpcfault/trace.go"
+      ],
+      "contract_refs": [
+        "framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto",
+        "framework/go/transport/local/peer_identity.go",
+        "framework/go/transport/streamresume/model.go",
+        "framework/go/transport/grpcfault/trace.go"
+      ],
+      "test_refs": [
+        "framework/go/transport/local/server_test.go",
+        "framework/go/transport/local/peer_identity_test.go",
+        "framework/go/transport/bootstrap/service_test.go",
+        "framework/go/transport/bootstrap/client_probe_test.go",
+        "framework/go/transport/streamresume/store_test.go",
+        "framework/go/transport/grpcfault/trace_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-RUNTIME-001",
+      "phase": "F3",
+      "domain": "runtime",
+      "title": "任务、调度、终端与并发运行时",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.2",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/runtime/resourcepool",
+        "framework/go/runtime/resilience",
+        "framework/go/runtime/taskengine",
+        "framework/go/runtime/scheduler",
+        "framework/go/runtime/terminal",
+        "framework/go/runtime/managedprocess",
+        "framework/go/runtime/taskengine/trace.go"
+      ],
+      "contract_refs": [
+        "framework/go/runtime/resourcepool/model.go",
+        "framework/go/runtime/resourcepool/pool.go",
+        "framework/go/runtime/resilience/model.go",
+        "framework/go/runtime/resilience/retry.go",
+        "framework/go/runtime/taskengine/engine.go",
+        "framework/go/runtime/taskengine/repository.go",
+        "framework/go/runtime/scheduler/engine.go",
+        "framework/go/runtime/terminal/manager.go",
+        "framework/go/runtime/taskengine/trace.go"
+      ],
+      "test_refs": [
+        "framework/go/runtime/resourcepool/pool_test.go",
+        "framework/go/runtime/resilience/breaker_test.go",
+        "framework/go/runtime/resilience/limiter_test.go",
+        "framework/go/runtime/resilience/retry_test.go",
+        "framework/go/runtime/taskengine/engine_test.go",
+        "framework/go/runtime/taskengine/checkpoint_test.go",
+        "framework/go/runtime/scheduler/engine_test.go",
+        "framework/go/runtime/terminal/manager_test.go",
+        "framework/go/runtime/taskengine/trace_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows 真机长期恢复矩阵仍待扩（macOS Intel 暂缓）"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-SEC-001",
+      "phase": "F2",
+      "domain": "security",
+      "title": "Capability、会话、授权与审计",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.6",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/security/authorization",
+        "framework/go/security/session",
+        "framework/go/security/filegrant",
+        "framework/go/security/trustroot",
+        "framework/go/security/audit",
+        "framework/go/security/webpolicy",
+        "framework/go/security/allowlist",
+        "framework/go/transport/bootstrap"
+      ],
+      "contract_refs": [
+        "framework/go/security/authorization/authorization.go",
+        "framework/go/security/session/store.go",
+        "framework/go/security/session/idle.go",
+        "framework/go/security/audit/event.go",
+        "framework/go/security/audit/store.go",
+        "framework/go/security/webpolicy/policy.go",
+        "framework/go/security/allowlist/allowlist.go",
+        "framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto"
+      ],
+      "test_refs": [
+        "framework/go/security/authorization/authorization_test.go",
+        "framework/go/security/session/store_test.go",
+        "framework/go/security/session/idle_test.go",
+        "framework/go/security/filegrant/policy_test.go",
+        "framework/go/security/audit/event_test.go",
+        "framework/go/security/audit/store_test.go",
+        "framework/go/security/webpolicy/policy_test.go",
+        "framework/go/security/allowlist/allowlist_test.go",
+        "framework/go/security/allowlist/deeplink_test.go",
+        "framework/go/transport/bootstrap/service_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "独立渗透测试"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-UI-001",
+      "phase": "F4",
+      "domain": "ui",
+      "title": "无产品语义 UI Kit、主题与无障碍",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.8",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/ui-kit",
+        "framework/web",
+        "framework/ui-kit/src/theme.ts",
+        "framework/ui-kit/src/ThemeProvider.tsx",
+        "framework/ui-kit/src/IconButton.tsx",
+        "framework/ui-kit/src/TextField.tsx",
+        "framework/ui-kit/src/FeedbackToast.tsx",
+        "framework/ui-kit/src/Dialog.tsx",
+        "framework/ui-kit/src/Tabs.tsx",
+        "framework/ui-kit/src/i18n.ts",
+        "framework/ui-kit/src/Select.tsx",
+        "framework/ui-kit/src/LiveRegion.tsx",
+        "framework/ui-kit/src/Checkbox.tsx",
+        "framework/ui-kit/src/Switch.tsx",
+        "framework/ui-kit/src/DataTable.tsx",
+        "framework/ui-kit/src/Tree.tsx",
+        "framework/ui-kit/src/Breadcrumb.tsx",
+        "framework/ui-kit/src/ContextMenu.tsx",
+        "framework/ui-kit/src/ProgressBar.tsx",
+        "framework/ui-kit/src/VirtualList.tsx",
+        "framework/ui-kit/src/MarkdownViewer.tsx",
+        "framework/ui-kit/src/ImageViewer.tsx",
+        "framework/ui-kit/src/CodeViewer.tsx",
+        "framework/ui-kit/src/MediaSurface.tsx",
+        "framework/ui-kit/src/motion.ts",
+        "framework/ui-kit/src/TerminalSurface.tsx",
+        "framework/ui-kit/src/a11y.ts",
+        "framework/ui-kit/src/focus.ts",
+        "framework/ui-kit/src/voiceover.ts",
+        "framework/ui-kit/src/SegmentedControl.tsx",
+        "framework/ui-kit/src/zoom.ts",
+        "framework/ui-kit/src/SkipToContent.tsx",
+        "framework/ui-kit/src/dir.ts"
+      ],
+      "contract_refs": [
+        "framework/ui-kit/src/index.ts",
+        "framework/web/tokens.css",
+        "framework/ui-kit/src/theme.ts",
+        "framework/ui-kit/src/IconButton.tsx",
+        "framework/ui-kit/src/TextField.tsx",
+        "framework/ui-kit/src/FeedbackToast.tsx",
+        "framework/ui-kit/src/Dialog.tsx",
+        "framework/ui-kit/src/Tabs.tsx",
+        "framework/ui-kit/src/i18n.ts",
+        "framework/ui-kit/src/Select.tsx",
+        "framework/ui-kit/src/LiveRegion.tsx",
+        "framework/ui-kit/src/Checkbox.tsx",
+        "framework/ui-kit/src/Switch.tsx",
+        "framework/ui-kit/src/DataTable.tsx",
+        "framework/ui-kit/src/Tree.tsx",
+        "framework/ui-kit/src/Breadcrumb.tsx",
+        "framework/ui-kit/src/ContextMenu.tsx",
+        "framework/ui-kit/src/ProgressBar.tsx",
+        "framework/ui-kit/src/VirtualList.tsx",
+        "framework/ui-kit/src/MarkdownViewer.tsx",
+        "framework/ui-kit/src/ImageViewer.tsx",
+        "framework/ui-kit/src/CodeViewer.tsx",
+        "framework/ui-kit/src/MediaSurface.tsx",
+        "framework/ui-kit/src/motion.ts",
+        "framework/ui-kit/src/TerminalSurface.tsx",
+        "framework/ui-kit/src/a11y.ts",
+        "framework/ui-kit/src/focus.ts",
+        "framework/ui-kit/src/voiceover.ts"
+      ],
+      "test_refs": [
+        "tests/architecture/framework_boundary_test.go",
+        "framework/web/assets_test.go",
+        "framework/web/theme_source_test.go",
+        "framework/web/icon_button_source_test.go",
+        "framework/web/form_feedback_source_test.go",
+        "framework/web/dialog_source_test.go",
+        "framework/web/tabs_i18n_source_test.go",
+        "framework/web/page_select_a11y_source_test.go",
+        "framework/web/toggle_a11y_source_test.go",
+        "framework/web/datatable_a11y_source_test.go",
+        "framework/web/tree_a11y_source_test.go",
+        "framework/web/breadcrumb_a11y_source_test.go",
+        "framework/web/contextmenu_a11y_source_test.go",
+        "framework/web/progress_a11y_source_test.go",
+        "framework/web/virtuallist_a11y_source_test.go",
+        "framework/web/markdown_a11y_source_test.go",
+        "framework/web/imageviewer_a11y_source_test.go",
+        "framework/web/codeviewer_a11y_source_test.go",
+        "framework/web/mediasurface_a11y_source_test.go",
+        "framework/web/motion_source_test.go",
+        "framework/web/a11y_matrix_source_test.go",
+        "framework/web/voiceover_source_test.go",
+        "framework/go/interaction/windowstate/binder_test.go",
+        "framework/go/interaction/shortcut/registry_test.go",
+        "framework/go/interaction/undoredo/stack_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "macos-arm64 本机契约与自动化已过（读名/键盘/空态）",
+        "真机系统 VoiceOver 矩阵需用户允许打开系统开关后再跑，不阻塞本需求",
+        "Windows 视觉回归后补"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-STATE-001",
+      "phase": "F2",
+      "domain": "interaction",
+      "title": "状态分层、CQE、撤销、快捷键与输入模型",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.9",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/interaction/eventbus",
+        "framework/go/interaction/inputmodel",
+        "framework/go/interaction/inputmodel/clipboard.go",
+        "framework/go/interaction/inputmodel/dragdrop.go",
+        "framework/go/interaction/inputmodel/debounce.go",
+        "framework/go/interaction/commandbus",
+        "framework/go/interaction/commandundo",
+        "framework/go/interaction/querybus",
+        "framework/go/interaction/undoredo",
+        "framework/go/interaction/shortcut",
+        "framework/go/interaction/windowstate",
+        "framework/go/interaction/windowstate/sqlite.go",
+        "framework/go/interaction/windowstate/migrations",
+        "framework/ui-kit/src/shortcut.ts",
+        "framework/ui-kit/src/ShortcutListener.tsx",
+        "framework/ui-kit/src/windowState.ts",
+        "framework/ui-kit/src/pageState.ts",
+        "framework/go/lifecycle/wailsapp/windowstate.go",
+        "framework/go/lifecycle/wailsapp/pagestate.go",
+        "framework/go/interaction/windowstate/binder.go",
+        "framework/go/interaction/windowstate/buffer.go"
+      ],
+      "contract_refs": [
+        "framework/go/interaction/eventbus/bus.go",
+        "framework/go/interaction/inputmodel/model.go",
+        "framework/go/interaction/inputmodel/clipboard.go",
+        "framework/go/interaction/inputmodel/dragdrop.go",
+        "framework/go/interaction/inputmodel/debounce.go",
+        "framework/go/interaction/commandbus/bus.go",
+        "framework/go/interaction/commandundo/adapter.go",
+        "framework/go/interaction/querybus/bus.go",
+        "framework/go/interaction/undoredo/stack.go",
+        "framework/go/interaction/shortcut/registry.go",
+        "framework/go/interaction/windowstate/store.go",
+        "framework/go/interaction/windowstate/sqlite.go",
+        "framework/go/interaction/windowstate/migrations/bundle.go",
+        "framework/ui-kit/src/shortcut.ts",
+        "framework/ui-kit/src/windowState.ts",
+        "framework/ui-kit/src/pageState.ts",
+        "framework/go/lifecycle/wailsapp/windowstate.go",
+        "framework/go/lifecycle/wailsapp/pagestate.go",
+        "framework/go/interaction/windowstate/binder.go",
+        "framework/go/interaction/windowstate/buffer.go"
+      ],
+      "test_refs": [
+        "framework/go/interaction/eventbus/bus_test.go",
+        "framework/go/interaction/inputmodel/model_test.go",
+        "framework/go/interaction/inputmodel/clipboard_test.go",
+        "framework/go/interaction/inputmodel/dragdrop_test.go",
+        "framework/go/interaction/inputmodel/debounce_test.go",
+        "framework/go/interaction/commandbus/bus_test.go",
+        "framework/go/interaction/commandundo/adapter_test.go",
+        "framework/go/interaction/querybus/bus_test.go",
+        "framework/go/interaction/undoredo/stack_test.go",
+        "framework/go/interaction/shortcut/registry_test.go",
+        "framework/go/interaction/windowstate/store_test.go",
+        "framework/go/interaction/windowstate/sqlite_test.go",
+        "framework/go/interaction/windowstate/migrations/bundle_test.go",
+        "framework/web/shortcut_source_test.go",
+        "framework/web/window_state_hook_source_test.go",
+        "framework/go/lifecycle/wailsapp/windowstate_test.go",
+        "framework/go/interaction/windowstate/page_test.go",
+        "framework/go/lifecycle/wailsapp/pagestate_test.go",
+        "framework/web/page_select_a11y_source_test.go",
+        "framework/go/interaction/windowstate/binder_test.go",
+        "framework/go/interaction/windowstate/buffer_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows 视觉回归仍待扩"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-NET-001",
+      "phase": "F5",
+      "domain": "network",
+      "title": "RemoteService、OAuth、代理、TLS 与离线恢复",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.10",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/transport/remoteservice",
+        "framework/go/transport/remoteservice/download.go",
+        "framework/go/transport/remoteservice/oauth.go",
+        "framework/go/transport/remoteservice/oauth_pkce.go",
+        "framework/go/transport/remoteservice/oauth_revocation.go",
+        "framework/go/transport/remoteservice/oauth_rotation.go",
+        "framework/go/transport/remoteservice/oauth_vault.go",
+        "framework/go/transport/remoteservice/outbox.go",
+        "framework/go/transport/remoteservice/pac.go",
+        "framework/go/transport/remoteservice/proxy.go",
+        "framework/go/transport/remoteservice/proxy_vault.go",
+        "framework/go/transport/remoteservice/reachability.go",
+        "framework/go/transport/remoteservice/sqlite_outbox.go",
+        "framework/go/transport/remoteservice/sqlite_upload_session.go",
+        "framework/go/transport/remoteservice/tls.go",
+        "framework/go/transport/remoteservice/tls_pin_policy.go",
+        "framework/go/transport/remoteservice/trace.go",
+        "framework/go/transport/remoteservice/upload.go",
+        "framework/go/transport/remoteservice/upload_lifecycle.go",
+        "framework/go/transport/remoteservice/upload_session.go",
+        "framework/go/transport/remoteservice/tls_pin_sign.go"
+      ],
+      "contract_refs": [
+        "framework/go/transport/remoteservice/download.go",
+        "framework/go/transport/remoteservice/model.go",
+        "framework/go/transport/remoteservice/oauth.go",
+        "framework/go/transport/remoteservice/oauth_pkce.go",
+        "framework/go/transport/remoteservice/oauth_revocation.go",
+        "framework/go/transport/remoteservice/oauth_rotation.go",
+        "framework/go/transport/remoteservice/oauth_vault.go",
+        "framework/go/transport/remoteservice/outbox.go",
+        "framework/go/transport/remoteservice/pac.go",
+        "framework/go/transport/remoteservice/proxy.go",
+        "framework/go/transport/remoteservice/proxy_vault.go",
+        "framework/go/transport/remoteservice/reachability.go",
+        "framework/go/transport/remoteservice/sqlite_outbox.go",
+        "framework/go/transport/remoteservice/sqlite_upload_session.go",
+        "framework/go/transport/remoteservice/tls.go",
+        "framework/go/transport/remoteservice/tls_pin_policy.go",
+        "framework/go/transport/remoteservice/trace.go",
+        "framework/go/transport/remoteservice/upload.go",
+        "framework/go/transport/remoteservice/upload_lifecycle.go",
+        "framework/go/transport/remoteservice/upload_session.go",
+        "framework/go/transport/remoteservice/tls_pin_sign.go"
+      ],
+      "test_refs": [
+        "framework/go/transport/remoteservice/download_test.go",
+        "framework/go/transport/remoteservice/oauth_pkce_test.go",
+        "framework/go/transport/remoteservice/oauth_revocation_test.go",
+        "framework/go/transport/remoteservice/oauth_rotation_test.go",
+        "framework/go/transport/remoteservice/oauth_test.go",
+        "framework/go/transport/remoteservice/oauth_vault_test.go",
+        "framework/go/transport/remoteservice/outbox_test.go",
+        "framework/go/transport/remoteservice/pac_test.go",
+        "framework/go/transport/remoteservice/proxy_test.go",
+        "framework/go/transport/remoteservice/proxy_vault_test.go",
+        "framework/go/transport/remoteservice/reachability_test.go",
+        "framework/go/transport/remoteservice/remoteservice_test.go",
+        "framework/go/transport/remoteservice/sqlite_outbox_test.go",
+        "framework/go/transport/remoteservice/sqlite_upload_session_test.go",
+        "framework/go/transport/remoteservice/tls_pin_policy_test.go",
+        "framework/go/transport/remoteservice/tls_test.go",
+        "framework/go/transport/remoteservice/trace_test.go",
+        "framework/go/transport/remoteservice/upload_lifecycle_test.go",
+        "framework/go/transport/remoteservice/upload_session_test.go",
+        "framework/go/transport/remoteservice/upload_test.go",
+        "framework/go/transport/remoteservice/tls_pin_sign_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows 真机网络故障矩阵仍待扩（macOS Intel 暂缓）"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-CONFIG-001",
+      "phase": "F1",
+      "domain": "storage",
+      "title": "TOML 配置、schema、覆盖、迁移与热更新",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.5",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/storage/configfile",
+        "framework/go/storage/configmigration"
+      ],
+      "contract_refs": [
+        "framework/go/storage/configfile/store.go",
+        "framework/go/storage/configfile/registry.go",
+        "framework/go/storage/configfile/policy.go",
+        "framework/go/storage/configfile/hub.go",
+        "framework/go/storage/configfile/watch.go",
+        "framework/go/storage/configmigration/runner.go"
+      ],
+      "test_refs": [
+        "framework/go/storage/configfile/store_test.go",
+        "framework/go/storage/configfile/registry_test.go",
+        "framework/go/storage/configfile/watch_test.go",
+        "framework/go/storage/configmigration/runner_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows 真机热更新矩阵仍待扩（macOS Intel 暂缓）"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-DATA-001",
+      "phase": "F1",
+      "domain": "data",
+      "title": "SQLite、迁移所有权、Blob、备份与恢复",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.5",
+        "7.2",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/storage/sqlite",
+        "framework/go/runtime/taskengine/migrations",
+        "framework/go/runtime/scheduler/migrations",
+        "framework/go/security/capabilitygrant/migrations",
+        "framework/go/security/audit/migrations",
+        "framework/go/storage/directorytxn",
+        "framework/go/storage/media",
+        "framework/go/storage/blobquota",
+        "framework/go/storage/overlaytxn",
+        "framework/go/storage/sqlite/trace.go",
+        "framework/go/storage/sqlite/recover.go"
+      ],
+      "contract_refs": [
+        "framework/go/storage/sqlite/database.go",
+        "framework/go/storage/sqlite/bundle.go",
+        "framework/go/storage/sqlite/legacy.go",
+        "framework/go/storage/sqlite/backup.go",
+        "framework/go/storage/sqlite/recover.go",
+        "framework/go/storage/sqlite/filemode.go",
+        "framework/go/runtime/taskengine/migrations/bundle.go",
+        "framework/go/runtime/scheduler/migrations/bundle.go",
+        "framework/go/security/capabilitygrant/migrations/bundle.go",
+        "framework/go/security/audit/migrations/bundle.go",
+        "framework/go/storage/directorytxn/manager.go",
+        "framework/go/storage/sqlite/trace.go",
+        "framework/go/storage/blobquota/prune.go"
+      ],
+      "test_refs": [
+        "framework/go/storage/sqlite/database_test.go",
+        "framework/go/storage/sqlite/bundle_test.go",
+        "framework/go/storage/sqlite/legacy_test.go",
+        "framework/go/storage/sqlite/backup_test.go",
+        "framework/go/storage/sqlite/filemode_test.go",
+        "framework/go/runtime/taskengine/migrations/migrations_test.go",
+        "framework/go/runtime/scheduler/migrations/migrations_test.go",
+        "framework/go/security/capabilitygrant/migrations/migrations_test.go",
+        "framework/go/security/audit/migrations/migrations_test.go",
+        "framework/go/storage/directorytxn/manager_test.go",
+        "framework/go/storage/overlaytxn/manager_test.go",
+        "framework/go/storage/sqlite/trace_test.go",
+        "framework/go/storage/sqlite/recover_test.go",
+        "framework/go/storage/blobquota/prune_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows 真机损坏矩阵仍待扩（macOS Intel 暂缓）"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-CAP-001",
+      "phase": "F0",
+      "domain": "capability",
+      "title": "Capability Catalog 与应用能力闭包",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "1.6",
+        "7.2",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/core/capability",
+        "framework/go/core/appmanifest",
+        "framework/go/core/appgenerator",
+        "tools/mzguicapabilityproposal",
+        "tools/mzguicapabilityevidence"
+      ],
+      "contract_refs": [
+        "framework/capabilities/catalog.json",
+        "framework/capabilities/catalog.schema.json",
+        "framework/go/core/capability/proposal.go",
+        "framework/go/core/capability/evidence.go",
+        "tools/mzguicapabilityproposal/main.go",
+        "tools/mzguicapabilityevidence/main.go"
+      ],
+      "test_refs": [
+        "framework/go/core/capability/catalog_test.go",
+        "framework/go/core/capability/proposal_test.go",
+        "framework/go/core/capability/evidence_test.go",
+        "framework/go/core/appmanifest/manifest_test.go",
+        "framework/go/core/appgenerator/generator_test.go",
+        "tools/mzguicapabilityproposal/main_test.go",
+        "tools/mzguicapabilityevidence/main_test.go",
+        "tests/architecture/framework_boundary_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-CORE-001",
+      "phase": "F1",
+      "domain": "core",
+      "title": "公共类型、错误 registry、Context 与健康契约",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.1",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/core/capability",
+        "framework/go/core/appmanifest",
+        "framework/go/core/appgenerator",
+        "framework/go/core/model",
+        "framework/go/core/model/context.go",
+        "framework/go/core/clock",
+        "framework/go/core/health",
+        "framework/go/core/fault",
+        "framework/go/core/panicguard",
+        "framework/go/core/panicguard/produce.go",
+        "framework/go/core/panicguard/produce_scan.go",
+        "framework/go/core/panicguard/service.go",
+        "framework/go/core/panicguard/context.go",
+        "tools/mzguiapidiff",
+        "framework/go/core/fault/defaults.go",
+        "framework/go/transport/grpcfault",
+        "framework/go/lifecycle/wailsapp/fault.go",
+        "framework/go/runtime/taskengine/engine.go"
+      ],
+      "contract_refs": [
+        "framework/go/core/capability/catalog.go",
+        "framework/go/core/appmanifest/manifest.go",
+        "framework/go/core/model/version.go",
+        "framework/go/core/model/request.go",
+        "framework/go/core/model/context.go",
+        "framework/go/core/clock/clock.go",
+        "framework/go/core/health/v1.json",
+        "framework/go/core/health/v1.schema.json",
+        "framework/errors/v1.json",
+        "framework/errors/v1.schema.json",
+        "framework/go/runtime/taskengine/engine.go",
+        "framework/go/lifecycle/wailsapp/fault.go",
+        "framework/go/transport/grpcfault/interceptor.go",
+        "framework/go/core/fault/mapper.go",
+        "framework/go/core/fault/defaults.go",
+        "framework/go/core/panicguard/produce.go",
+        "framework/go/core/panicguard/produce_scan.go",
+        "framework/go/core/panicguard/service.go",
+        "framework/go/core/panicguard/context.go"
+      ],
+      "test_refs": [
+        "framework/go/core/capability/catalog_test.go",
+        "framework/go/core/appmanifest/manifest_test.go",
+        "framework/go/core/model/model_test.go",
+        "framework/go/core/clock/clock_test.go",
+        "framework/go/core/health/health_test.go",
+        "framework/go/core/fault/fault_test.go",
+        "framework/go/core/fault/mapper_test.go",
+        "framework/go/core/fault/defaults_test.go",
+        "framework/go/core/panicguard/guard_test.go",
+        "framework/go/core/panicguard/service_test.go",
+        "framework/go/transport/grpcfault/mapper_test.go",
+        "framework/go/lifecycle/wailsapp/fault_test.go",
+        "examples/framework-showcase/app_test.go",
+        "framework/go/runtime/taskengine/clock_test.go",
+        "framework/go/transport/local/server_test.go",
+        "tools/mzguiapidiff/main_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Framework 内核、Guard API、wailsapp/gRPC 边界与扫描门禁已在 macos-arm64 落地",
+        "Windows 真机错误边界矩阵后补"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-API-001",
+      "phase": "F6",
+      "domain": "api",
+      "title": "公共 API catalog、schema diff 与弃用自动化",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "6.4",
+        "11.1",
+        "附录 A"
+      ],
+      "implementation_refs": [
+        "framework/go/core/apicatalog",
+        "tools/mzguiapidiff",
+        "framework/go/core/apicatalog/extract.go",
+        "framework/go/core/apicatalog/callsite.go",
+        "framework/go/core/apicatalog/tsextract.go",
+        "framework/go/core/apicatalog/serviceextract.go",
+        "framework/go/core/apicatalog/wailsextract.go"
+      ],
+      "contract_refs": [
+        "framework/api/public-v1.json",
+        "framework/api/public-v1.schema.json",
+        "framework/api/caller-usage/framework-showcase.json",
+        "framework/go/core/apicatalog/extract.go",
+        "framework/go/core/apicatalog/callsite.go",
+        "framework/go/core/apicatalog/tsextract.go",
+        "framework/go/core/apicatalog/serviceextract.go",
+        "framework/go/core/apicatalog/wailsextract.go"
+      ],
+      "test_refs": [
+        "framework/go/core/apicatalog/catalog_test.go",
+        "tools/mzguiapidiff/main_test.go",
+        "framework/go/core/apicatalog/extract_test.go",
+        "framework/go/core/apicatalog/tsextract_test.go",
+        "framework/go/core/apicatalog/serviceextract_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "Windows 绑定矩阵未跑"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-WEBVIEW-001",
+      "phase": "F4",
+      "domain": "webview",
+      "title": "WebView 安全、版本、导航与崩溃恢复",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.6",
+        "8.2",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/lifecycle/wailsapp",
+        "framework/go/platform/webviewruntime",
+        "framework/go/security/webpolicy",
+        "framework/web"
+      ],
+      "contract_refs": [
+        "framework/go/platform/webviewruntime/runtime.go",
+        "framework/go/platform/webviewruntime/navigation.go",
+        "framework/go/platform/webviewruntime/download.go",
+        "framework/go/platform/webviewruntime/newwindow.go",
+        "framework/go/platform/webviewruntime/versionclass.go",
+        "framework/go/platform/webviewruntime/nativehost.go",
+        "framework/go/security/webpolicy/policy.go",
+        "framework/go/lifecycle/wailsapp/controller.go"
+      ],
+      "test_refs": [
+        "framework/go/platform/webviewruntime/runtime_test.go",
+        "framework/go/platform/webviewruntime/navigation_test.go",
+        "framework/go/platform/webviewruntime/download_test.go",
+        "framework/go/platform/webviewruntime/newwindow_test.go",
+        "framework/go/platform/webviewruntime/version_test.go",
+        "framework/go/platform/webviewruntime/nativehost_test.go",
+        "framework/go/security/webpolicy/policy_test.go",
+        "framework/go/lifecycle/wailsapp/controller_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "WKWebView 原生窗口本机契约已覆盖；仍缺 Windows WebView2 真机回归"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-EXT-001",
+      "phase": "F5",
+      "domain": "adapters",
+      "title": "Adapter 接口、插件 SDK、隔离与降级",
+      "priority": "P1",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "6",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/adapters",
+        "framework/go/adapters/messagebus",
+        "framework/go/adapters/media",
+        "framework/go/adapters/driver",
+        "framework/go/security/leakscan"
+      ],
+      "contract_refs": [
+        "framework/go/adapters/contract",
+        "framework/go/adapters/plugin",
+        "framework/go/adapters/plugin/sdk",
+        "framework/go/adapters/plugin/sdk/degrade.go",
+        "framework/go/adapters/plugin/sdk/isolate.go",
+        "framework/go/adapters/plugin/sdk/contracttest",
+        "framework/go/adapters/browser/nativemessaging",
+        "framework/go/adapters/artifact",
+        "framework/go/adapters/messagebus",
+        "framework/go/adapters/media",
+        "framework/go/adapters/driver",
+        "framework/go/security/leakscan"
+      ],
+      "test_refs": [
+        "framework/go/adapters/contract/contract_test.go",
+        "framework/go/adapters/plugin/manifest_test.go",
+        "framework/go/adapters/plugin/sdk/protocol_test.go",
+        "framework/go/adapters/plugin/sdk/degrade_test.go",
+        "framework/go/adapters/plugin/sdk/isolate_test.go",
+        "framework/go/adapters/plugin/sdk/contracttest/suite_test.go",
+        "examples/framework-plugin-echo/main_test.go",
+        "framework/go/adapters/browser/nativemessaging",
+        "framework/go/adapters/artifact/artifact_test.go",
+        "framework/go/adapters/messagebus/bus_test.go",
+        "framework/go/adapters/media/provider_test.go",
+        "framework/go/adapters/driver/adapter_test.go",
+        "framework/go/security/leakscan/scan_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "本机插件资源上限、乱序流与崩溃隔离已覆盖；仍缺 Windows 真机故障矩阵"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-OBS-001",
+      "phase": "F1",
+      "domain": "observability",
+      "title": "结构化日志、指标、Trace、崩溃与诊断包",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.7",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/observability/logging",
+        "framework/go/observability/telemetry",
+        "framework/go/observability/diagnostics",
+        "framework/go/observability/tracecontext",
+        "framework/go/observability/metrics",
+        "framework/go/transport/remoteservice/trace.go",
+        "framework/go/storage/sqlite/trace.go",
+        "framework/go/runtime/taskengine/trace.go",
+        "framework/go/transport/grpcfault/trace.go",
+        "framework/go/lifecycle/wailsapp/trace.go",
+        "framework/go/observability/sampleauth",
+        "framework/go/observability/diagnostics/upload.go"
+      ],
+      "contract_refs": [
+        "framework/go/observability/logging/logger.go",
+        "framework/go/observability/telemetry/event.go",
+        "framework/go/observability/diagnostics/bundle.go",
+        "framework/go/observability/diagnostics/crash_spool.go",
+        "framework/go/observability/diagnostics/fingerprint.go",
+        "framework/go/observability/diagnostics/matrix.go",
+        "framework/go/observability/diagnostics/manifest.go",
+        "framework/go/observability/diagnostics/upload.go",
+        "framework/go/observability/tracecontext/context.go",
+        "framework/go/observability/tracecontext/middleware.go",
+        "framework/go/observability/metrics/registry.go",
+        "framework/go/transport/remoteservice/trace.go",
+        "framework/go/storage/sqlite/trace.go",
+        "framework/go/runtime/taskengine/trace.go",
+        "framework/go/transport/grpcfault/trace.go",
+        "framework/go/lifecycle/wailsapp/trace.go",
+        "framework/go/observability/sampleauth/policy.go"
+      ],
+      "test_refs": [
+        "framework/go/observability/logging/logger_test.go",
+        "framework/go/observability/telemetry/event_test.go",
+        "framework/go/observability/diagnostics/bundle_test.go",
+        "framework/go/observability/diagnostics/crash_spool_test.go",
+        "framework/go/observability/diagnostics/matrix_test.go",
+        "framework/go/observability/tracecontext/context_test.go",
+        "framework/go/observability/tracecontext/middleware_test.go",
+        "framework/go/observability/metrics/registry_test.go",
+        "framework/go/transport/remoteservice/trace_test.go",
+        "framework/go/storage/sqlite/trace_test.go",
+        "framework/go/runtime/taskengine/trace_test.go",
+        "framework/go/transport/grpcfault/trace_test.go",
+        "framework/go/lifecycle/wailsapp/trace_test.go",
+        "framework/go/observability/sampleauth/policy_test.go",
+        "framework/go/observability/diagnostics/upload_test.go",
+        "framework/go/observability/diagnostics/fields_test.go",
+        "framework/go/observability/diagnostics/fingerprint_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "缺少真实远端汇聚",
+        "缺少 Windows 崩溃矩阵"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-TEST-001",
+      "phase": "F4",
+      "domain": "testing",
+      "title": "Testing SDK、Fake、故障注入与平台矩阵",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "5.11",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/testing/testkit",
+        "framework/go/testing/testkit/soak.go",
+        "framework/go/testing/testkit/matrix.go",
+        "framework/go/platform/winremote"
+      ],
+      "contract_refs": [
+        "framework/go/testing/testkit/clock.go",
+        "framework/go/testing/testkit/fault.go",
+        "framework/go/testing/testkit/faultkind.go",
+        "framework/go/testing/testkit/soak.go",
+        "framework/go/testing/testkit/matrix.go",
+        "framework/go/platform/winremote/evidence.go"
+      ],
+      "test_refs": [
+        "framework/go/testing/testkit/testkit_test.go",
+        "framework/go/testing/testkit/soak_test.go",
+        "framework/go/testing/testkit/matrix_test.go",
+        "framework/go/testing/testkit/faultkind_test.go",
+        "framework/go/platform/winremote/evidence_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "本机命名故障已覆盖 WebView 崩溃、插件挂起与资源上限；仍缺 Windows 真机故障注入扩容"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    },
+    {
+      "requirement_id": "FW-REL-001",
+      "phase": "F6",
+      "domain": "release",
+      "title": "构建、签名、安装、升级、回滚与供应链",
+      "priority": "P0",
+      "implementation_status": "implemented",
+      "design_refs": [
+        "8",
+        "11.1"
+      ],
+      "implementation_refs": [
+        "framework/go/runtime/updater",
+        "framework/go/runtime/updater/delta.go",
+        "framework/go/runtime/updater/session.go",
+        "framework/go/runtime/updater/processset.go",
+        "framework/go/adapters/artifact/sbom.go",
+        "tools/mzguisbom",
+        "framework/go/runtime/updater/receipt.go",
+        "framework/go/runtime/updater/matrix.go"
+      ],
+      "contract_refs": [
+        "framework/go/runtime/updater/manifest.go",
+        "framework/go/runtime/updater/delta.go",
+        "framework/go/runtime/updater/session.go",
+        "framework/go/runtime/updater/receipt.go",
+        "framework/go/runtime/updater/processset.go",
+        "framework/go/adapters/artifact/sbom.go",
+        "framework/go/runtime/updater/matrix.go"
+      ],
+      "test_refs": [
+        "framework/go/runtime/updater/manifest_test.go",
+        "framework/go/runtime/updater/delta_test.go",
+        "framework/go/runtime/updater/session_test.go",
+        "framework/go/runtime/updater/receipt_test.go",
+        "framework/go/runtime/updater/processset_test.go",
+        "framework/go/adapters/artifact/sbom_test.go",
+        "tools/mzguisbom/main_test.go",
+        "framework/go/runtime/updater/matrix_test.go"
+      ],
+      "evidence_refs": [],
+      "gaps": [
+        "缺少 Developer ID、公证和 Authenticode 正式证据",
+        "未在 Windows 真机跑安装升级矩阵"
+      ],
+      "platform_verification": {
+        "macos-arm64": "local-automated",
+        "macos-x86_64": "cross-compiled",
+        "windows-x64": "cross-compiled"
+      }
+    }
+  ]
+}

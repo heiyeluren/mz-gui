@@ -1,0 +1,28 @@
+{
+  "$schema": "./v1.schema.json",
+  "schema_version": 1,
+  "release": "1.0.0",
+  "codes": [
+    {"code": "INVALID_ARGUMENT", "grpc_code": "InvalidArgument"},
+    {"code": "NOT_FOUND", "grpc_code": "NotFound"},
+    {"code": "ALREADY_EXISTS", "grpc_code": "AlreadyExists"},
+    {"code": "CONFLICT", "grpc_code": "Aborted"},
+    {"code": "UNAUTHENTICATED", "grpc_code": "Unauthenticated"},
+    {"code": "PERMISSION_DENIED", "grpc_code": "PermissionDenied"},
+    {"code": "CAPABILITY_DENIED", "grpc_code": "PermissionDenied"},
+    {"code": "TIMEOUT", "grpc_code": "DeadlineExceeded"},
+    {"code": "CANCELLED", "grpc_code": "Canceled"},
+    {"code": "UNAVAILABLE", "grpc_code": "Unavailable"},
+    {"code": "RESOURCE_EXHAUSTED", "grpc_code": "ResourceExhausted"},
+    {"code": "DATA_LOSS", "grpc_code": "DataLoss"},
+    {"code": "INCOMPATIBLE", "grpc_code": "FailedPrecondition"},
+    {"code": "INTERNAL", "grpc_code": "Internal"}
+  ],
+  "reasons": [
+    {"reason_code": "core.invalid_argument", "code": "INVALID_ARGUMENT", "message_key": "errors.invalid_argument", "user_message": "操作参数无效", "retryable": false},
+    {"reason_code": "core.operation_cancelled", "code": "CANCELLED", "message_key": "errors.operation_cancelled", "user_message": "操作已取消", "retryable": false},
+    {"reason_code": "core.operation_timeout", "code": "TIMEOUT", "message_key": "errors.operation_timeout", "user_message": "操作已超时", "retryable": true},
+    {"reason_code": "core.internal_panic", "code": "INTERNAL", "message_key": "errors.internal_panic", "user_message": "操作发生内部错误", "retryable": false},
+    {"reason_code": "core.unknown_internal", "code": "INTERNAL", "message_key": "errors.internal", "user_message": "操作发生内部错误", "retryable": false}
+  ]
+}

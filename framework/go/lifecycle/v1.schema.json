@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mz-gui.dev/schema/framework-lifecycle-v1.json",
+  "title": "MZ-GUI-Framework Lifecycle Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release", "states", "reasons"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "release": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["created", "starting", "ready", "degraded", "failed", "crash_loop", "quiescing", "stopping", "stopped"]}
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason_code", "target_states"],
+        "properties": {
+          "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_]*)+$"},
+          "target_states": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["created", "starting", "ready", "degraded", "failed", "crash_loop", "quiescing", "stopping", "stopped"]}
+          }
+        }
+      }
+    }
+  }
+}

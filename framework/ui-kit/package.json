@@ -1,0 +1,61 @@
+{
+  "name": "@mz-gui/ui-kit",
+  "version": "0.0.1",
+  "description": "Product-neutral React components and design tokens for MZ-GUI desktop applications",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./audio-recorder": {
+      "types": "./dist/AudioRecorder.d.ts",
+      "import": "./dist/AudioRecorder.js"
+    },
+    "./terminal-surface": {
+      "types": "./dist/TerminalSurface.d.ts",
+      "import": "./dist/TerminalSurface.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./PopupSelect.css": "./dist/PopupSelect.css",
+    "./ResizeHandle.css": "./dist/ResizeHandle.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "mermaid": ">=12.3.0 <13",
+    "@xterm/addon-fit": ">=0.11.0 <1",
+    "@xterm/addon-webgl": ">=0.19.0 <1",
+    "@xterm/xterm": ">=6.0.0 <7",
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.0",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "@vitest/coverage-v8": "3.2.7",
+    "jsdom": "26.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

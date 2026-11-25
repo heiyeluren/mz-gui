@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mz-gui.local/schema/framework-plugin-manifest-v1.json",
+  "title": "MZ-GUI Framework Plugin Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "plugin_id", "display_name", "publisher", "update_channel", "process", "requested_capabilities", "resource_scopes", "platforms", "signature", "isolation", "limits"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "plugin_id": {"type": "string"},
+    "display_name": {"type": "string"},
+    "publisher": {"type": "string"},
+    "update_channel": {"type": "string"},
+    "process": {"type": "object"},
+    "requested_capabilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "resource_scopes": {"type": "array", "items": {"type": "object"}},
+    "platforms": {"type": "array", "items": {"type": "object"}},
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key_id", "sha256", "signature"],
+      "properties": {
+        "key_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "signature": {"type": "string", "pattern": "^[a-f0-9]{128}$"}
+      }
+    },
+    "isolation": {"type": "object"},
+    "limits": {"type": "object"}
+  }
+}

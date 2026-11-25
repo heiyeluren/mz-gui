@@ -1,0 +1,29 @@
+{
+  "$schema": "./v1.schema.json",
+  "schema_version": 1,
+  "release": "1.0.0",
+  "states": [
+    "created",
+    "starting",
+    "ready",
+    "degraded",
+    "failed",
+    "crash_loop",
+    "quiescing",
+    "stopping",
+    "stopped"
+  ],
+  "reasons": [
+    {"reason_code": "lifecycle.created", "target_states": ["created"]},
+    {"reason_code": "lifecycle.starting", "target_states": ["starting"]},
+    {"reason_code": "lifecycle.ready", "target_states": ["ready"]},
+    {"reason_code": "lifecycle.start_failed", "target_states": ["degraded", "failed"]},
+    {"reason_code": "lifecycle.ready_failed", "target_states": ["degraded", "failed"]},
+    {"reason_code": "lifecycle.dependency_unavailable", "target_states": ["degraded", "failed"]},
+    {"reason_code": "lifecycle.quiescing", "target_states": ["quiescing"]},
+    {"reason_code": "lifecycle.quiesce_failed", "target_states": ["degraded"]},
+    {"reason_code": "lifecycle.stopping", "target_states": ["stopping"]},
+    {"reason_code": "lifecycle.stopped", "target_states": ["stopped"]},
+    {"reason_code": "lifecycle.stop_failed", "target_states": ["failed"]}
+  ]
+}

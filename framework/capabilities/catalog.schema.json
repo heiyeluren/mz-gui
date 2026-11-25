@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mz-gui.local/schema/framework-capability-catalog-v1.json",
+  "title": "MZ-GUI-Framework Capability Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "catalog_revision", "framework_api_version", "capabilities"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "catalog_revision": {"type": "integer", "minimum": 1},
+    "framework_api_version": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/capability"}
+    }
+  },
+  "$defs": {
+    "stringList": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability_id", "name", "module", "maturity", "api_stability", "platforms", "depends_on", "default_enabled", "degradation", "public_contracts", "config_schema_refs", "required_permissions", "audit_events", "metrics", "test_suites", "owner", "verified_artifact", "verified_at", "known_limitations"],
+      "properties": {
+        "capability_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)*$"},
+        "name": {"type": "string", "minLength": 1},
+        "module": {"type": "string", "pattern": "^[a-z][a-z0-9]*$"},
+        "maturity": {"enum": ["planned", "contract", "implemented", "cross-platform-verified", "production-ready"]},
+        "api_stability": {"enum": ["internal", "experimental", "candidate", "stable", "deprecated"]},
+        "platforms": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["macos-arm64", "macos-x86_64", "windows-x64"]}},
+        "depends_on": {"$ref": "#/$defs/stringList"},
+        "default_enabled": {"type": "boolean"},
+        "degradation": {"type": "string", "minLength": 1},
+        "public_contracts": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "config_schema_refs": {"$ref": "#/$defs/stringList"},
+        "required_permissions": {"$ref": "#/$defs/stringList"},
+        "audit_events": {"$ref": "#/$defs/stringList"},
+        "metrics": {"$ref": "#/$defs/stringList"},
+        "test_suites": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "owner": {"type": "string", "minLength": 1},
+        "verified_artifact": {"type": ["string", "null"]},
+        "verified_at": {"type": ["string", "null"], "format": "date-time"},
+        "known_limitations": {"$ref": "#/$defs/stringList"}
+      }
+    }
+  }
+}

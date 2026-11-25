@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mz-gui.local/schema/framework-public-api-catalog-v1.json",
+  "title": "MZ-GUI-Framework Public API Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "catalog_revision", "framework_api_version", "governance", "apis"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "catalog_revision": {"type": "integer", "minimum": 1},
+    "framework_api_version": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+    "governance": {"$ref": "#/$defs/governance"},
+    "apis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/api"}
+    }
+  },
+  "$defs": {
+    "stringList": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coverage", "deprecation", "dual_caller_gate"],
+      "properties": {
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required_packages", "minimum_package_coverage_percent"],
+          "properties": {
+            "required_packages": {"$ref": "#/$defs/stringList"},
+            "minimum_package_coverage_percent": {"type": "number", "minimum": 0, "maximum": 100},
+            "strict_callsite": {"type": "boolean"}
+          }
+        },
+        "deprecation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["minimum_window_minor", "require_migration_guide"],
+          "properties": {
+            "minimum_window_minor": {"type": "integer", "minimum": 1},
+            "require_migration_guide": {"type": "boolean"}
+          }
+        },
+        "dual_caller_gate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required_callers"],
+          "properties": {
+            "required_callers": {"$ref": "#/$defs/stringList"}
+          }
+        }
+      }
+    },
+    "api": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["api_id", "module", "package", "symbol", "kind", "stability", "since", "signature_sha256", "capabilities", "notes"],
+      "properties": {
+        "api_id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)*$"},
+        "module": {"type": "string", "pattern": "^[a-z][a-z0-9]*$"},
+        "package": {"type": "string", "minLength": 1},
+        "symbol": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["package", "type", "function", "method", "cli", "protocol"]},
+        "stability": {"enum": ["experimental", "candidate", "stable", "deprecated"]},
+        "since": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+        "deprecated_since": {"type": ["string", "null"], "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+        "replacement": {"type": ["string", "null"]},
+        "remove_after": {"type": ["string", "null"], "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+        "migration_guide": {"type": ["string", "null"]},
+        "signature_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "capabilities": {"$ref": "#/$defs/stringList"},
+        "notes": {"$ref": "#/$defs/stringList"}
+      }
+    }
+  }
+}

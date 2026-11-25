@@ -1,0 +1,32 @@
+.mzgui-resize-handle {
+  position: relative;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+
+.mzgui-resize-handle::after {
+  content: '';
+  position: absolute;
+  inset: 0 3px;
+  background: transparent;
+}
+
+.mzgui-resize-handle[aria-orientation='horizontal'] {
+  width: 100%;
+  height: 8px;
+  cursor: row-resize;
+}
+
+.mzgui-resize-handle[aria-orientation='horizontal']::after {
+  inset: 3px 0;
+}
+
+.mzgui-resize-handle:hover::after,
+.mzgui-resize-handle:focus-visible::after,
+.mzgui-resize-handle[data-resizing]::after {
+  background: var(--mzgui-color-accent, #5b5bd6);
+}

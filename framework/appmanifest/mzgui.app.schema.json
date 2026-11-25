@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mz-gui.local/schema/mzgui-app-manifest-v1.json",
+  "title": "MZ-GUI Application Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "app", "processes", "storage", "framework", "security", "build"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "display_name", "description", "protocol_scheme", "data_namespace", "single_instance_id"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)+$"},
+        "display_name": {"type": "string", "minLength": 1, "maxLength": 80},
+        "description": {"type": "string", "minLength": 1, "maxLength": 240},
+        "protocol_scheme": {"type": "string", "pattern": "^[a-z][a-z0-9+.-]{1,31}$"},
+        "data_namespace": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}$"},
+        "single_instance_id": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)+$"}
+      }
+    },
+    "processes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["desktop", "agentd"],
+      "properties": {
+        "desktop": {"$ref": "#/$defs/process"},
+        "agentd": {"$ref": "#/$defs/process"},
+        "browser_host": {"$ref": "#/$defs/process"},
+        "helper": {"$ref": "#/$defs/process"}
+      }
+    },
+    "storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["config_basename", "database_basename", "artifact_namespace"],
+      "properties": {
+        "config_basename": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}\\.toml$"},
+        "database_basename": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}\\.db$"},
+        "artifact_namespace": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,31}$"}
+      }
+    },
+    "framework": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability_catalog_version", "capabilities", "adapters"],
+      "properties": {
+        "capability_catalog_version": {"const": 1},
+        "capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "adapters": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$"}}
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["credential_service"],
+      "properties": {"credential_service": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)+$"}}
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["macos_bundle_id", "windows_app_id", "channels"],
+      "properties": {
+        "macos_bundle_id": {"type": "string", "pattern": "^[a-z0-9]+([.-][a-z0-9]+)+$"},
+        "windows_app_id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9.-]{2,127}$"},
+        "channels": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["dev", "beta", "stable"]}}
+      }
+    }
+  },
+  "$defs": {
+    "process": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,63}$"}
+  }
+}

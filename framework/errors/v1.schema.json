@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mz-gui.dev/schema/framework-errors-v1.json",
+  "title": "MZ-GUI-Framework Error Registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release", "codes", "reasons"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "release": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+    "codes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "grpc_code"],
+        "properties": {
+          "code": {"type": "string"},
+          "grpc_code": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason_code", "code", "message_key", "user_message", "retryable"],
+        "properties": {
+          "reason_code": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9_]*)+$"},
+          "code": {"type": "string"},
+          "message_key": {"type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$"},
+          "user_message": {"type": "string", "minLength": 1, "maxLength": 256},
+          "retryable": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

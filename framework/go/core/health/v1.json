@@ -1,0 +1,31 @@
+{
+  "$schema": "./v1.schema.json",
+  "schema_version": 1,
+  "release": "1.0.0",
+  "checks": [
+    {
+      "check_id": "core.runtime.liveness",
+      "kind": "liveness",
+      "required": true,
+      "description_key": "health.core_runtime_liveness",
+      "owner": "framework-core",
+      "reason_codes": ["core.not_observed", "core.ok", "core.internal_panic"]
+    },
+    {
+      "check_id": "core.service.readiness",
+      "kind": "readiness",
+      "required": true,
+      "description_key": "health.core_service_readiness",
+      "owner": "framework-core",
+      "reason_codes": ["core.not_observed", "core.ok", "core.not_ready", "core.probe_pending", "core.internal_panic"]
+    },
+    {
+      "check_id": "core.storage.dependency",
+      "kind": "dependency",
+      "required": true,
+      "description_key": "health.core_storage_dependency",
+      "owner": "framework-core",
+      "reason_codes": ["core.not_observed", "core.ok", "storage.unavailable", "core.probe_pending"]
+    }
+  ]
+}

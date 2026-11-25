@@ -1,0 +1,1170 @@
+{
+  "$schema": "./catalog.schema.json",
+  "schema_version": 1,
+  "catalog_revision": 80,
+  "framework_api_version": "1.0.0",
+  "capabilities": [
+    {
+      "capability_id": "lifecycle",
+      "name": "应用生命周期监管",
+      "module": "lifecycle",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-startup",
+      "public_contracts": [
+        "framework/go/lifecycle",
+        "framework/go/core/health"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-lifecycle",
+        "framework-health"
+      ],
+      "owner": "framework-core",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Windows 真机生命周期矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "core.api-catalog",
+      "name": "公共 API Catalog",
+      "module": "core",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-release-gate",
+      "public_contracts": [
+        "framework/api/public-v1.json",
+        "framework/go/core/apicatalog",
+        "tools/mzguiapidiff"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-api-catalog"
+      ],
+      "owner": "framework-core",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "产品业务 Wails 绑定登记到调用方 inventory，不写入 Framework 公共 catalog",
+        "Windows 绑定矩阵未跑"
+      ]
+    },
+    {
+      "capability_id": "capability.proposal-gate",
+      "name": "Capability Proposal Gate",
+      "module": "capability",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "core.api-catalog"
+      ],
+      "default_enabled": false,
+      "degradation": "fail-release-gate",
+      "public_contracts": [
+        "framework/go/core/capability/proposal.go",
+        "tools/mzguicapabilityproposal"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-capability-proposal"
+      ],
+      "owner": "framework-core",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Catalog 变更仍由人工应用，尚未自动生成 patch"
+      ]
+    },
+    {
+      "capability_id": "capability.evidence-report",
+      "name": "Capability Evidence Report",
+      "module": "capability",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "capability.proposal-gate"
+      ],
+      "default_enabled": false,
+      "degradation": "fail-release-gate",
+      "public_contracts": [
+        "framework/go/core/capability/evidence.go",
+        "tools/mzguicapabilityevidence"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-capability-evidence"
+      ],
+      "owner": "framework-core",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "发布证据归档和 CI 阈值策略尚未完成"
+      ]
+    },
+    {
+      "capability_id": "window.main",
+      "name": "主窗口集成",
+      "module": "window",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "lifecycle"
+      ],
+      "default_enabled": false,
+      "degradation": "fail-startup",
+      "public_contracts": [
+        "framework/go/lifecycle/wailsapp"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-window"
+      ],
+      "owner": "framework-platform",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "双平台窗口装饰真机基线尚未完成"
+      ]
+    },
+    {
+      "capability_id": "storage.config",
+      "name": "配置存储与迁移",
+      "module": "storage",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-startup",
+      "public_contracts": [
+        "framework/go/storage/configfile",
+        "framework/go/storage/configmigration",
+        "framework/go/storage/configfile.Registry",
+        "framework/go/storage/configfile.Hub",
+        "framework/go/storage/configfile.Watcher"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-config"
+      ],
+      "owner": "framework-storage",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Windows 真机热更新矩阵尚未完成（macOS Intel 暂缓）"
+      ]
+    },
+    {
+      "capability_id": "storage.sqlite",
+      "name": "SQLite 数据存储",
+      "module": "storage",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-startup",
+      "public_contracts": [
+        "framework/go/storage/sqlite"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-sqlite"
+      ],
+      "owner": "framework-storage",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Windows 真机损坏恢复矩阵尚未完成（macOS Intel 暂缓）"
+      ]
+    },
+    {
+      "capability_id": "runtime.resource-pool",
+      "name": "资源组有界执行池",
+      "module": "runtime",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-startup",
+      "public_contracts": [
+        "framework/go/runtime/resourcepool"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [
+        "mzgui_runtime_resource_queue_length",
+        "mzgui_runtime_resource_running"
+      ],
+      "test_suites": [
+        "framework-resource-pool"
+      ],
+      "owner": "framework-runtime",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "目标平台真机长期并发矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "runtime.resilience",
+      "name": "熔断与限流策略",
+      "module": "runtime",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-request",
+      "public_contracts": [
+        "framework/go/runtime/resilience"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [
+        "mzgui_runtime_circuit_state",
+        "mzgui_runtime_rate_tokens"
+      ],
+      "test_suites": [
+        "framework-resilience"
+      ],
+      "owner": "framework-runtime",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "目标平台真机长期压力矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "runtime.task",
+      "name": "持久任务运行时",
+      "module": "runtime",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "runtime.resource-pool",
+        "storage.sqlite"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/runtime/taskengine"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [
+        "framework.task.changed.v1"
+      ],
+      "metrics": [
+        "framework_task_queue_length"
+      ],
+      "test_suites": [
+        "framework-task"
+      ],
+      "owner": "framework-runtime",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Windows 真机崩溃恢复矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "runtime.scheduler",
+      "name": "持久调度运行时",
+      "module": "runtime",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "runtime.task",
+        "storage.sqlite"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/runtime/scheduler"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [
+        "framework.schedule.changed.v1"
+      ],
+      "metrics": [
+        "framework_schedule_due_total"
+      ],
+      "test_suites": [
+        "framework-scheduler"
+      ],
+      "owner": "framework-runtime",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "休眠、时区变化和 Windows 真机矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "runtime.terminal",
+      "name": "终端会话运行时",
+      "module": "runtime",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "runtime.resource-pool"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/runtime/terminal"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-terminal"
+      ],
+      "owner": "framework-runtime",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "detached 重连状态与 Windows ConPTY 高频输出真机矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "runtime.update",
+      "name": "制品升级与安装回执",
+      "module": "runtime",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-release-gate",
+      "public_contracts": [
+        "framework/go/runtime/updater",
+        "tools/mzguisbom"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-update-matrix"
+      ],
+      "owner": "framework-runtime",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "缺少 Developer ID、公证和 Authenticode 正式证据",
+        "未在 Windows 真机跑安装升级矩阵"
+      ]
+    },
+    {
+      "capability_id": "platform.credential",
+      "name": "系统凭据存储",
+      "module": "platform",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/platform/credentials"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-credential"
+      ],
+      "owner": "framework-platform",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Windows Credential Manager 真机矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "platform.permissions",
+      "name": "系统权限查询与引导",
+      "module": "platform",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/platform/permissions"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-permissions"
+      ],
+      "owner": "framework-platform",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "macOS TCC 与 Windows 权限真机矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "transport.local",
+      "name": "本机进程传输",
+      "module": "transport",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-startup",
+      "public_contracts": [
+        "framework/go/transport/local",
+        "framework/go/transport/grpcfault"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-local-transport"
+      ],
+      "owner": "framework-transport",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "完整 peer UID/SID 真机校验尚未完成"
+      ]
+    },
+    {
+      "capability_id": "transport.remote-service",
+      "name": "RemoteService 远程服务客户端",
+      "module": "transport",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "runtime.resilience"
+      ],
+      "default_enabled": false,
+      "degradation": "fail-request",
+      "public_contracts": [
+        "framework/go/transport/remoteservice",
+        "framework/go/transport/remoteservice/download.go",
+        "framework/go/transport/remoteservice/oauth.go",
+        "framework/go/transport/remoteservice/oauth_pkce.go",
+        "framework/go/transport/remoteservice/oauth_revocation.go",
+        "framework/go/transport/remoteservice/oauth_rotation.go",
+        "framework/go/transport/remoteservice/oauth_vault.go",
+        "framework/go/transport/remoteservice/pac.go",
+        "framework/go/transport/remoteservice/proxy.go",
+        "framework/go/transport/remoteservice/proxy_vault.go",
+        "framework/go/transport/remoteservice/reachability.go",
+        "framework/go/transport/remoteservice/sqlite_outbox.go",
+        "framework/go/transport/remoteservice/sqlite_upload_session.go",
+        "framework/go/transport/remoteservice/tls.go",
+        "framework/go/transport/remoteservice/tls_pin_policy.go",
+        "framework/go/transport/remoteservice/trace.go",
+        "framework/go/transport/remoteservice/upload.go",
+        "framework/go/transport/remoteservice/upload_lifecycle.go",
+        "framework/go/transport/remoteservice/upload_session.go"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [
+        "network.remote"
+      ],
+      "audit_events": [],
+      "metrics": [
+        "framework_remote_outbox_replay_total",
+        "framework_remote_request_attempts",
+        "framework_remote_retry_total"
+      ],
+      "test_suites": [
+        "framework-remote-service",
+        "framework-remote-service-download",
+        "framework-remote-service-oauth",
+        "framework-remote-service-oauth-pkce",
+        "framework-remote-service-oauth-revocation",
+        "framework-remote-service-oauth-rotation",
+        "framework-remote-service-oauth-token-vault",
+        "framework-remote-service-outbox",
+        "framework-remote-service-pac-wpad",
+        "framework-remote-service-proxy-credential-vault",
+        "framework-remote-service-proxy-diagnostics",
+        "framework-remote-service-reachability",
+        "framework-remote-service-sqlite-outbox",
+        "framework-remote-service-sqlite-upload-session",
+        "framework-remote-service-tls-pin-rotation",
+        "framework-remote-service-tls-pinning",
+        "framework-remote-service-upload",
+        "framework-remote-service-upload-lifecycle",
+        "framework-remote-service-upload-session"
+      ],
+      "owner": "framework-transport",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "生产 pin 远程签名分发通道和真机网络故障矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "testing.sdk",
+      "name": "Framework Testing SDK",
+      "module": "testing",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "test-only",
+      "public_contracts": [
+        "framework/go/testing/testkit"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-testkit"
+      ],
+      "owner": "framework-testing",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "本机夜间矩阵与命名故障（含 WebView 崩溃/插件挂起/资源上限）已覆盖；Windows 真机故障注入尚未完成"
+      ]
+    },
+    {
+      "capability_id": "security.capability",
+      "name": "进程能力授权",
+      "module": "security",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "transport.local"
+      ],
+      "default_enabled": false,
+      "degradation": "deny-operation",
+      "public_contracts": [
+        "framework/go/security/authorization",
+        "framework/go/security/session",
+        "framework/go/security/capabilitygrant/migrations",
+        "framework/go/security/audit",
+        "framework/go/security/audit/migrations",
+        "framework/go/security/allowlist"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [
+        "framework.authorization.allowed.v1",
+        "framework.authorization.denied.v1"
+      ],
+      "metrics": [],
+      "test_suites": [
+        "framework-capability-security"
+      ],
+      "owner": "framework-security",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "独立渗透测试尚未执行"
+      ]
+    },
+    {
+      "capability_id": "observability.logging",
+      "name": "结构化本机日志",
+      "module": "observability",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "stderr-only",
+      "public_contracts": [
+        "framework/go/observability/logging"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-logging"
+      ],
+      "owner": "framework-observability",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "真实远端日志汇聚尚未完成"
+      ]
+    },
+    {
+      "capability_id": "observability.trace",
+      "name": "跨进程 Trace Context",
+      "module": "observability",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "new-root-trace",
+      "public_contracts": [
+        "framework/go/observability/tracecontext"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-tracecontext"
+      ],
+      "owner": "framework-observability",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Windows 崩溃矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "observability.metrics",
+      "name": "Metrics Registry",
+      "module": "observability",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "disable-exporter",
+      "public_contracts": [
+        "framework/go/observability/metrics"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [
+        "mzgui_runtime_queue_length",
+        "mzgui_remote_request_total"
+      ],
+      "test_suites": [
+        "framework-metrics"
+      ],
+      "owner": "framework-observability",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "真实远端指标汇聚尚未完成"
+      ]
+    },
+    {
+      "capability_id": "observability.diagnostics",
+      "name": "本机诊断包",
+      "module": "observability",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "observability.logging"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/observability/diagnostics"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [
+        "framework.diagnostics.created.v1"
+      ],
+      "metrics": [],
+      "test_suites": [
+        "framework-diagnostics"
+      ],
+      "owner": "framework-observability",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "真实远端诊断汇聚尚未完成"
+      ]
+    },
+    {
+      "capability_id": "interaction.eventbus",
+      "name": "进程内事件总线",
+      "module": "interaction",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/interaction/eventbus"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-eventbus"
+      ],
+      "owner": "framework-interaction",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "跨窗口事件恢复协议尚未完成"
+      ]
+    },
+    {
+      "capability_id": "interaction.inputmodel",
+      "name": "统一输入来源模型",
+      "module": "interaction",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/interaction/inputmodel",
+        "framework/go/interaction/windowstate"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-inputmodel"
+      ],
+      "owner": "framework-interaction",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "跨窗口 UI 自动接线仍待扩；调用方业务页面可注册 PageBinder"
+      ]
+    },
+    {
+      "capability_id": "interaction.commandbus",
+      "name": "Command Bus",
+      "module": "interaction",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "interaction.inputmodel"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/interaction/commandbus",
+        "framework/go/interaction/commandundo"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-command-undo-adapter",
+        "framework-commandbus"
+      ],
+      "owner": "framework-interaction",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "前端按钮状态和快捷键监听尚未接入 Command Undo adapter"
+      ]
+    },
+    {
+      "capability_id": "interaction.querybus",
+      "name": "Query Bus",
+      "module": "interaction",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "interaction.inputmodel"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/interaction/querybus"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-querybus"
+      ],
+      "owner": "framework-interaction",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "查询缓存、跨窗口状态恢复和持久状态 adapter 尚未完成"
+      ]
+    },
+    {
+      "capability_id": "interaction.undoredo",
+      "name": "Undo/Redo 可逆动作栈",
+      "module": "interaction",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "interaction.inputmodel"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/interaction/undoredo"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-undoredo"
+      ],
+      "owner": "framework-interaction",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "前端按钮状态和 Command Bus adapter 尚未完成"
+      ]
+    },
+    {
+      "capability_id": "interaction.shortcut",
+      "name": "快捷键 Registry",
+      "module": "interaction",
+      "maturity": "implemented",
+      "api_stability": "candidate",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "interaction.inputmodel",
+        "interaction.commandbus"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/interaction/shortcut"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-shortcut"
+      ],
+      "owner": "framework-interaction",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "系统级快捷键和 Wails native menu 接入尚未完成"
+      ]
+    },
+    {
+      "capability_id": "ui.tokens",
+      "name": "UI Design Token",
+      "module": "ui",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "use-system-theme",
+      "public_contracts": [
+        "framework/ui-kit",
+        "framework/web"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-ui-token"
+      ],
+      "owner": "framework-ui",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "空树/空代码/空路径与共 N 项已落地；VoiceOver 真机矩阵和 Windows 视觉回归尚未完成"
+      ]
+    },
+    {
+      "capability_id": "adapter.browser",
+      "name": "浏览器协同适配器",
+      "module": "adapter",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "adapter.contract",
+        "transport.local",
+        "security.capability"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-entry",
+      "public_contracts": [
+        "framework/go/adapters/browser/nativemessaging"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [
+        "framework.browser.action.v1"
+      ],
+      "metrics": [],
+      "test_suites": [
+        "framework-browser-adapter"
+      ],
+      "owner": "framework-adapters",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "Chrome 和 Edge 双平台真机矩阵尚未完成"
+      ]
+    },
+    {
+      "capability_id": "adapter.contract",
+      "name": "扩展层稳定接口与插件 Manifest",
+      "module": "adapter",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [
+        "lifecycle",
+        "security.capability"
+      ],
+      "default_enabled": false,
+      "degradation": "disable-extension",
+      "public_contracts": [
+        "framework/go/adapters/contract",
+        "framework/go/adapters/plugin",
+        "framework/go/adapters/plugin/sdk",
+        "framework/go/adapters/plugin/sdk/contracttest",
+        "framework/go/adapters/messagebus",
+        "framework/go/adapters/media",
+        "framework/go/adapters/driver"
+      ],
+      "config_schema_refs": [
+        "framework/go/adapters/plugin/manifest-v1.schema.json"
+      ],
+      "required_permissions": [],
+      "audit_events": [
+        "framework.adapter.plugin.launch.v1",
+        "framework.adapter.capability.denied.v1"
+      ],
+      "metrics": [],
+      "test_suites": [
+        "framework-adapter-contract",
+        "framework-plugin-manifest",
+        "framework-plugin-sdk-contract"
+      ],
+      "owner": "framework-adapters",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "本机插件资源上限、乱序与崩溃隔离已覆盖；仍缺 Windows 真机故障矩阵"
+      ]
+    },
+    {
+      "capability_id": "platform.filetrash",
+      "name": "System recycle bin",
+      "module": "platform",
+      "maturity": "implemented",
+      "api_stability": "experimental",
+      "platforms": [
+        "macos-arm64",
+        "macos-x86_64",
+        "windows-x64"
+      ],
+      "depends_on": [],
+      "default_enabled": false,
+      "degradation": "fail-operation",
+      "public_contracts": [
+        "framework/go/platform/filetrash",
+        "framework/go/platform/filetrash.Directory"
+      ],
+      "config_schema_refs": [],
+      "required_permissions": [],
+      "audit_events": [],
+      "metrics": [],
+      "test_suites": [
+        "framework-filetrash"
+      ],
+      "owner": "framework-platform",
+      "verified_artifact": null,
+      "verified_at": null,
+      "known_limitations": [
+        "macOS 需要 CGO；Linux 需要 gio 及可用回收站；Windows/Linux 真机回收未验收。"
+      ]
+    }
+  ]
+}

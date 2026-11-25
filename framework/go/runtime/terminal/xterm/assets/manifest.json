@@ -1,0 +1,10 @@
+{
+  "xterm": "6.0.0",
+  "serialize": "0.14.0",
+  "license": "MIT",
+  "source": "https://github.com/xtermjs/xterm.js",
+  "files": {
+    "headless.js": "17a90b650cf6b77cce2b98c4063884d43545e4ce177a54b76ccfc906f1aacaed",
+    "serialize.js": "65d8dd7c2b3b37a77f583ea5e0d14a23bbcc846e4ae0d6bb534ae12a380aea0d"
+  }
+}
