@@ -110,9 +110,9 @@ func TestManagerRejectsUngradedPathsAndInvalidRequests(t *testing.T) {
 		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Cols: 10, Rows: 24},
 		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Cols: 80, Rows: 300},
 		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: "relative-program"}, Cols: 80, Rows: 24},
-		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: "/usr/bin/env", Arguments: []string{"ok\ninvalid"}}, Cols: 80, Rows: 24},
-		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: "/usr/bin/env", Arguments: []string{"ok\tinvalid"}}, Cols: 80, Rows: 24},
-		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: "/usr/bin/env", Environment: map[string]string{"bad-key": "value"}}, Cols: 80, Rows: 24},
+		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: testProgramPath(t), Arguments: []string{"ok\ninvalid"}}, Cols: 80, Rows: 24},
+		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: testProgramPath(t), Arguments: []string{"ok\tinvalid"}}, Cols: 80, Rows: 24},
+		{CWD: root, ShellProfile: "system", Scope: "workspace-terminal", Program: &ProgramSpec{Executable: testProgramPath(t), Environment: map[string]string{"bad-key": "value"}}, Cols: 80, Rows: 24},
 	}
 	for index, spec := range cases {
 		if _, err := manager.Create(context.Background(), spec); !errors.Is(err, ErrInvalidArgument) && !errors.Is(err, ErrPathNotGranted) {
@@ -135,13 +135,16 @@ func TestManagerAllowsPrevalidatedWorkspaceCWDOutsideStaticRoots(t *testing.T) {
 
 	created, err := manager.Create(context.Background(), SessionSpec{
 		CWD: outside, ShellProfile: "system", Scope: "kongming-loop", Title: "已授权工作区",
-		Program: &ProgramSpec{Executable: "/usr/bin/env"}, PrevalidatedCWD: true, Cols: 80, Rows: 24,
+		Program: &ProgramSpec{Executable: testProgramPath(t)}, PrevalidatedCWD: true, Cols: 80, Rows: 24,
 	})
+	if err != nil {
+		t.Fatalf("预授权工作区创建失败: %v", err)
+	}
 	canonicalOutside, canonicalErr := filepath.EvalSymlinks(outside)
 	if canonicalErr != nil {
 		t.Fatal(canonicalErr)
 	}
-	if err != nil || created.CWD != canonicalOutside || launcher.last().request.CWD != canonicalOutside {
+	if created.CWD != canonicalOutside || launcher.last().request.CWD != canonicalOutside {
 		t.Fatalf("已预授权工作目录应允许启动: session=%#v request=%#v err=%v", created, launcher.last().request, err)
 	}
 }
@@ -152,13 +155,13 @@ func TestManagerPassesControlledProgramWithoutShell(t *testing.T) {
 	manager := newTestManager(t, root, launcher, 1)
 	_, err := manager.Create(context.Background(), SessionSpec{
 		CWD: root, ShellProfile: "system", Scope: "agent-runtime", Title: "Codex",
-		Program: &ProgramSpec{Executable: "/usr/bin/codex", Arguments: []string{"-m", "gpt-test"}, Environment: map[string]string{"PYTHONUNBUFFERED": "1"}}, Cols: 100, Rows: 30,
+		Program: &ProgramSpec{Executable: testProgramPath(t), Arguments: []string{"-m", "gpt-test"}, Environment: map[string]string{"PYTHONUNBUFFERED": "1"}}, Cols: 100, Rows: 30,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 	request := launcher.last().request
-	if request.Executable != "/usr/bin/codex" || len(request.Arguments) != 2 || request.Arguments[1] != "gpt-test" {
+	if request.Executable != testProgramPath(t) || len(request.Arguments) != 2 || request.Arguments[1] != "gpt-test" {
 		t.Fatalf("受控程序未原样传给平台适配器: %#v", request)
 	}
 	if request.Environment["PYTHONUNBUFFERED"] != "1" {
@@ -654,6 +657,15 @@ func waitForTerminal(t *testing.T, condition func() bool) {
 		time.Sleep(time.Millisecond)
 	}
 	t.Fatal("等待终端状态超时")
+}
+
+func testProgramPath(t *testing.T) string {
+	t.Helper()
+	path, err := os.Executable()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return path
 }
 
 type fakeLauncher struct {
