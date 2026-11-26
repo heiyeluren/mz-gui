@@ -17,6 +17,8 @@
 - [VirtualList](VirtualList.md)
 - [MarkdownViewer](MarkdownViewer.md)
 - [TerminalSurface](TerminalSurface.md)
+- [MediaSurface](MediaSurface.md)
+- [MermaidDiagram](MermaidDiagram.md)
 
 ## 状态矩阵
 
@@ -34,3 +36,5 @@
 | VirtualList | 通过 | 选择、全局位置、大列表窗口 | 空态、disabled、busy | 已完成 |
 | MarkdownViewer | 通过 | 链接、代码块、任务列表 | 注入降级、空态、disabled、busy | 已完成 |
 | TerminalSurface | 通过 | 输入、resize、IME、恢复 | 截断、错误、disabled、busy、降级 | 已完成 |
+| MediaSurface | 通过 | 原生媒体控制 | 非法地址、disabled、busy、取消与释放 | 已完成 |
+| MermaidDiagram | 通过 | SVG 图片与错误提示 | 渲染失败、卸载、staging 清理 | 已完成 |

@@ -9,6 +9,8 @@ import { VirtualList } from '../src/VirtualList'
 import { MarkdownViewer } from '../src/MarkdownViewer'
 import { TerminalSurface } from '../src/TerminalSurface'
 import { Tree } from '../src/Tree'
+import { MediaSurface } from '../src/MediaSurface'
+import { MermaidDiagram } from '../src/MermaidDiagram'
 import '../../web/tokens.css'
 import '../src/styles.css'
 
@@ -113,6 +115,11 @@ function App() {
       <MarkdownViewer ariaLabel="说明" source={'[安全](https://example.com/a) [危险](javascript:alert(1))'} />
       <TerminalFixture />
       <AdvancedDataFixture />
+      <section aria-label="媒体与图表">
+        <MediaSurface ariaLabel="演示视频" src="https://example.com/demo.mp4" />
+        <MediaSurface ariaLabel="非法媒体" src="javascript:alert(1)" />
+        <MermaidDiagram source="graph TD; A-->B" ariaLabel="简单流程图" fallback={<span>图表渲染失败</span>} />
+      </section>
     </main>
   </ThemeProvider>
 }
