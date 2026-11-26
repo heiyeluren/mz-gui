@@ -1,7 +1,7 @@
 {
   "$schema": "./public-v1.schema.json",
   "schema_version": 1,
-  "catalog_revision": 85,
+  "catalog_revision": 86,
   "framework_api_version": "1.0.0",
   "governance": {
     "coverage": {
@@ -706,6 +706,24 @@
       ]
     },
     {
+      "api_id": "interaction.commandbus.dispatch",
+      "module": "interaction",
+      "package": "framework/go/interaction/commandbus",
+      "symbol": "Bus.Dispatch",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "366654971384d7657a5cc90a9cfbff82ae3c55fdbc7535cb1961deea7e37217a",
+      "capabilities": [
+        "interaction.commandbus"
+      ],
+      "notes": [
+        "执行已注册命令，校验 RequestMeta 并处理 pending 去重"
+      ]
+    },
+    {
       "api_id": "interaction.commandundo.adapter",
       "module": "interaction",
       "package": "framework/go/interaction/commandundo",
@@ -799,6 +817,24 @@
       ]
     },
     {
+      "api_id": "interaction.eventbus.publish",
+      "module": "interaction",
+      "package": "framework/go/interaction/eventbus",
+      "symbol": "Bus.Publish",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "402b5a7f76a045bf6fe0ab57db13cfde34a2848e481734ab8cbe601ebb703c6f",
+      "capabilities": [
+        "interaction.eventbus"
+      ],
+      "notes": [
+        "向有界订阅者发布事件，支持取消和 backpressure"
+      ]
+    },
+    {
       "api_id": "interaction.inputmodel.clipboard",
       "module": "interaction",
       "package": "framework/go/interaction/inputmodel",
@@ -850,6 +886,24 @@
       ],
       "notes": [
         "按 key 的输入节流门，用于防抖/节流重复动作"
+      ]
+    },
+    {
+      "api_id": "interaction.querybus.ask",
+      "module": "interaction",
+      "package": "framework/go/interaction/querybus",
+      "symbol": "Bus.Ask",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7fb2c72c5591f8528053a2e98ddbbce83c79bb71ca6f5fe021068d7c1ff6acd3",
+      "capabilities": [
+        "interaction.querybus"
+      ],
+      "notes": [
+        "执行只读查询，校验 RequestMeta 并返回统一结果"
       ]
     },
     {
@@ -1246,6 +1300,24 @@
       ],
       "notes": [
         "读取 macOS PNG/TIFF 或 Windows DIB/DIBV5 剪贴板位图，并缩放为受限 PNG"
+      ]
+    },
+    {
+      "api_id": "platform.credentials.new-store",
+      "module": "platform",
+      "package": "framework/go/platform/credentials",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "bcc1787af56774a8dd783305abdec59258ddae7370053b4b8e68d34129227705",
+      "capabilities": [
+        "platform.credential"
+      ],
+      "notes": [
+        "按 Backend 与 Service 创建凭据 Store，支持内存替身"
       ]
     },
     {

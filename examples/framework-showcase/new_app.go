@@ -49,6 +49,9 @@ func bootstrapMinimalNewApp(ctx context.Context, dir string) error {
 	if err := probeShowcaseStreamBoundary(bound); err != nil {
 		return fmt.Errorf("新 APP gRPC stream 边界失败: %w", err)
 	}
+	if err := probeShowcaseBusPatterns(bound); err != nil {
+		return fmt.Errorf("新 APP Command/Query Bus 失败: %w", err)
+	}
 	if err := writeShowcaseRuntimeLog(dir); err != nil {
 		return fmt.Errorf("新 APP 本机日志失败: %w", err)
 	}
