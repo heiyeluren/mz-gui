@@ -29,11 +29,7 @@ func AssertFileMode(t *testing.T, path string, want os.FileMode) {
 		t.Fatal(err)
 	}
 	if runtime.GOOS == "windows" {
-		if want&0o111 != 0 {
-			want = 0o777
-		} else {
-			want = 0o666
-		}
+		want = 0o666
 	}
 	if info.Mode().Perm() != want {
 		t.Fatalf("文件权限错误: path=%s mode=%o want=%o", path, info.Mode().Perm(), want)

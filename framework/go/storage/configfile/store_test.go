@@ -162,6 +162,7 @@ func TestStoreRejectsUnsafeOrConflictingExistingBackup(t *testing.T) {
 			name: "符号链接",
 			prepare: func(t *testing.T, path string) {
 				t.Helper()
+				testkit.RequireSymlink(t)
 				target := filepath.Join(filepath.Dir(path), "target.data")
 				if err := os.WriteFile(target, []byte("version=1\n"), 0o600); err != nil {
 					t.Fatal(err)
