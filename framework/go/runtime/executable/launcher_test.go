@@ -6,6 +6,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/heiyeluren/mz-gui/framework/go/runtime/processrun"
@@ -244,6 +245,9 @@ func TestNodeWrapperUsesResolvedNodeInsteadOfProcessPath(t *testing.T) {
 	}
 	if binary != activeNode {
 		t.Fatalf("node-wrapper 必须绑定 resolver 验证过的 node: binary=%q want=%q", binary, activeNode)
+	}
+	if runtime.GOOS == "windows" {
+		t.Skip("POSIX node-wrapper 脚本不能在 Windows 直接执行；ResolveLaunch 与 Apply 已验证")
 	}
 	result := processrun.Run(context.Background(), processrun.Spec{
 		Executable: binary, Arguments: args,

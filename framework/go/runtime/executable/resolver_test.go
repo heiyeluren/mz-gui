@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
@@ -40,8 +41,10 @@ func TestResolverRejectsPathsAndNonExecutableFiles(t *testing.T) {
 	if _, err := resolver.Resolve("../codex"); !errors.Is(err, ErrInvalidName) {
 		t.Fatalf("路径逃逸错误=%v", err)
 	}
-	if _, err := resolver.Resolve("codex"); !errors.Is(err, ErrNotFound) {
-		t.Fatalf("非可执行文件错误=%v", err)
+	if runtime.GOOS != "windows" {
+		if _, err := resolver.Resolve("codex"); !errors.Is(err, ErrNotFound) {
+			t.Fatalf("非可执行文件错误=%v", err)
+		}
 	}
 }
 
