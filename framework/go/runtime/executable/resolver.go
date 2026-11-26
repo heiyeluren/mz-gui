@@ -47,7 +47,7 @@ func NewResolver(options Options) (*Resolver, error) {
 	seen := make(map[string]struct{}, cap(directories))
 	appendDirectory := func(value string, strict bool) error {
 		value = filepath.Clean(strings.TrimSpace(value))
-		if value == "." || !filepath.IsAbs(value) {
+		if value == "." || !isAbsPathForGOOS(goos, value) {
 			if strict {
 				return ErrInvalidOptions
 			}
@@ -88,7 +88,7 @@ func NewResolver(options Options) (*Resolver, error) {
 	targetDirectories := append([]string(nil), directories...)
 	for _, directory := range options.TrustedTargetDirectories {
 		directory = filepath.Clean(strings.TrimSpace(directory))
-		if directory == "." || !filepath.IsAbs(directory) {
+		if directory == "." || !isAbsPathForGOOS(goos, directory) {
 			return nil, ErrInvalidOptions
 		}
 		targetDirectories = append(targetDirectories, directory)
@@ -97,7 +97,7 @@ func NewResolver(options Options) (*Resolver, error) {
 	if options.AllowSearchPathSymlinks {
 		for _, directory := range splitSearchPath(options.SearchPath, goos) {
 			directory = filepath.Clean(strings.TrimSpace(directory))
-			if filepath.IsAbs(directory) {
+			if isAbsPathForGOOS(goos, directory) {
 				userDirectories = append(userDirectories, directory)
 			}
 		}
@@ -231,6 +231,13 @@ func normalizedPathKey(path, goos string) string {
 		return strings.ToLower(path)
 	}
 	return path
+}
+
+func isAbsPathForGOOS(goos, value string) bool {
+	if goos == "windows" {
+		return filepath.IsAbs(value)
+	}
+	return strings.HasPrefix(value, "/")
 }
 
 func splitPATHEXT(value string) []string {
