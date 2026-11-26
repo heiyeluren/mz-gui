@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -119,7 +120,7 @@ func (resolver *Resolver) Resolve(name string) (string, error) {
 			if err != nil || !info.Mode().IsRegular() {
 				continue
 			}
-			if resolver.goos != "windows" && info.Mode().Perm()&0o111 == 0 {
+			if resolver.goos != "windows" && runtime.GOOS != "windows" && info.Mode().Perm()&0o111 == 0 {
 				continue
 			}
 			if !resolver.resolvedTargetTrusted(candidate) {
