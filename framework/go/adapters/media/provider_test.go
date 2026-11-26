@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"errors"
+	"net/url"
 	"os"
 	"path/filepath"
 	"testing"
@@ -24,7 +25,7 @@ func TestLocalProviderInspectsSafeFileAndRejectsEscape(t *testing.T) {
 	}
 	t.Cleanup(func() { _ = provider.Close(context.Background()) })
 
-	info, err := provider.Inspect(context.Background(), contract.MediaSource{Meta: readMeta(t, "insp-1"), URI: "file://" + inside})
+	info, err := provider.Inspect(context.Background(), contract.MediaSource{Meta: readMeta(t, "insp-1"), URI: (&url.URL{Scheme: "file", Path: filepath.ToSlash(inside)}).String()})
 	if err != nil || info.MIMEType != "image/png" || info.Bytes != 9 {
 		t.Fatalf("Inspect 错误: %#v err=%v", info, err)
 	}

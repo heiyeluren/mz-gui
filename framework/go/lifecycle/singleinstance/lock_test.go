@@ -20,12 +20,12 @@ func TestAcquireRejectsConcurrentInstanceAndAllowsRestart(t *testing.T) {
 		t.Fatalf("重复实例未被拒绝: lock=%v err=%v", second, err)
 	}
 
+	if err := first.Close(); err != nil {
+		t.Fatalf("释放首个锁: %v", err)
+	}
 	data, err := os.ReadFile(filepath.Join(runDir, "application.lock"))
 	if err != nil || strings.TrimSpace(string(data)) == "" {
 		t.Fatalf("锁文件未记录进程号: data=%q err=%v", data, err)
-	}
-	if err := first.Close(); err != nil {
-		t.Fatalf("释放首个锁: %v", err)
 	}
 
 	third, err := Acquire(options)

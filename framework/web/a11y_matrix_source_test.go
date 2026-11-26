@@ -73,6 +73,8 @@ func hasScreenReaderRole(body, role string) bool {
 		return strings.Contains(body, `type="checkbox"`)
 	case "native-table":
 		return strings.Contains(body, "<table")
+	case "link":
+		return strings.Contains(body, "<a") || strings.Contains(body, `role="link"`)
 	case "button":
 		return strings.Contains(body, "<button") || strings.Contains(body, `role="button"`)
 	case "textbox":
@@ -83,8 +85,6 @@ func hasScreenReaderRole(body, role string) bool {
 		return strings.Contains(body, `'alert'`) || strings.Contains(body, `role="alert"`)
 	case "status":
 		return strings.Contains(body, `role="status"`) || strings.Contains(body, `'status'`) || strings.Contains(body, `role={role}`)
-	case "link":
-		return strings.Contains(body, "<a ") || strings.Contains(body, "<a\n") || strings.Contains(body, "<a>")
 	case "main":
 		return strings.Contains(body, "<main")
 	default:

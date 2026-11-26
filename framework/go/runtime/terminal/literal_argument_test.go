@@ -1,9 +1,12 @@
 package terminal
 
-import "testing"
+import (
+	"path/filepath"
+	"testing"
+)
 
 func TestLiteralLastArgumentPreservesMultilineWithoutRelaxingOtherArguments(t *testing.T) {
-	p := ProgramSpec{Executable: "/runtime/cli", Arguments: []string{"--", "/task 用户输入\n第二行\t原样保留"}, LiteralLastArgument: true}
+	p := ProgramSpec{Executable: filepath.Join(t.TempDir(), "cli"), Arguments: []string{"--", "/task 用户输入\n第二行\t原样保留"}, LiteralLastArgument: true}
 	if !validProgram(p) {
 		t.Fatal("直接传入程序的文本参数不应丢失换行")
 	}

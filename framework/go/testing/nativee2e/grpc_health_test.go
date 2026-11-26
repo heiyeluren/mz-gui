@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 	"time"
 
@@ -16,6 +17,9 @@ func TestGRPCHealthProbeUsesRealLocalTransport(t *testing.T) {
 	defer cancel()
 	// UDS 在 macOS 上有严格长度限制，测试根固定落在允许清理的短临时目录。
 	temporaryRoot := filepath.Join(string(filepath.Separator), "tmp", "mozi-test")
+	if runtime.GOOS == "windows" {
+		temporaryRoot = filepath.Join(os.TempDir(), "mozi-test")
+	}
 	if err := os.MkdirAll(temporaryRoot, 0o700); err != nil {
 		t.Fatal(err)
 	}

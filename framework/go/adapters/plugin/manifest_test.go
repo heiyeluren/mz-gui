@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"errors"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -51,18 +52,20 @@ func TestManifestBuildsManagedProcessSpecWithoutLeakingSecrets(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	executable := filepath.Join(t.TempDir(), "mz-browser-bridge")
+	workDir := filepath.Join(t.TempDir(), "browser.bridge")
 	spec, err := manifest.ManagedProcessSpec(LaunchOptions{
-		ExecutablePath: "/private/plugins/mz-browser-bridge",
-		WorkDir:        "/private/plugins/work/browser.bridge",
+		ExecutablePath: executable,
+		WorkDir:        workDir,
 		Environment: map[string]string{
-			"MZ_PLUGIN_HOME": "/private/plugins/work/browser.bridge",
+			"MZ_PLUGIN_HOME": workDir,
 			"SECRET_TOKEN":   "must-not-pass",
 		},
 	})
 	if err != nil {
 		t.Fatalf("生成受管进程 spec 失败: %v", err)
 	}
-	if spec.ID != "plugin.browser.bridge" || spec.Executable != "/private/plugins/mz-browser-bridge" {
+	if spec.ID != "plugin.browser.bridge" || spec.Executable != executable {
 		t.Fatalf("受管进程 spec 异常: %#v", spec)
 	}
 	if _, ok := spec.Environment["SECRET_TOKEN"]; ok {

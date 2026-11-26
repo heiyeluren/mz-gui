@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -268,6 +269,9 @@ func parseMediaURI(raw string) (string, error) {
 			return "", ErrDenied
 		}
 		raw = parsed.Path
+		if runtime.GOOS == "windows" && len(raw) >= 3 && raw[0] == '/' && raw[2] == ':' {
+			raw = raw[1:]
+		}
 		if decoded, err := url.PathUnescape(raw); err == nil {
 			raw = decoded
 		}
