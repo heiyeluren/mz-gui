@@ -28,7 +28,7 @@ test('terminal supports input, IME, clipboard and resize', async ({ page, contex
   await page.mouse.down()
   await page.mouse.move(bounds!.x + 90, bounds!.y + 9, { steps: 8 })
   await page.mouse.up()
-  await page.keyboard.press('ControlOrMeta+c')
+  await page.keyboard.press(process.platform === 'win32' ? 'ControlOrMeta+Shift+c' : 'ControlOrMeta+c')
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('ready')
 
   await page.setViewportSize({ width: 900, height: 640 })
