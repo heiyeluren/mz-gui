@@ -6,6 +6,7 @@
   "catalog": "public-v1.json",
   "baseline": "baselines/v0.0.1.json",
   "core_api_ids": [
+    "core.clock.system-now",
     "core.fault.bind-reason",
     "core.fault.default-mapper",
     "core.fault.mapper",
@@ -15,6 +16,7 @@
     "core.model.context-caller",
     "core.model.context-request-id",
     "core.model.context-request-meta",
+    "core.model.version-parse",
     "interaction.commandundo.adapter",
     "interaction.commandundo.dispatch",
     "interaction.commandundo.redo",
@@ -30,10 +32,12 @@
     "interaction.windowstate.sqlite-load",
     "interaction.windowstate.sqlite-save",
     "interaction.windowstate.store",
+    "lifecycle.supervisor.new-graph",
     "lifecycle.wails.method-boundary",
     "lifecycle.wails.produce",
     "platform.runtimepaths.diagnose",
     "storage.sqlite.backup",
-    "transport.grpc.stream-boundary"
+    "transport.grpc.stream-boundary",
+    "transport.local.endpoint-validate"
   ]
 }

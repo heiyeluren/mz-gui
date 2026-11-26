@@ -1,7 +1,7 @@
 {
   "$schema": "./public-v1.schema.json",
   "schema_version": 1,
-  "catalog_revision": 84,
+  "catalog_revision": 85,
   "framework_api_version": "1.0.0",
   "governance": {
     "coverage": {
@@ -328,6 +328,24 @@
       ]
     },
     {
+      "api_id": "core.clock.system-now",
+      "module": "core",
+      "package": "framework/go/core/clock",
+      "symbol": "System.Now",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "2873eef63bb36bdb08f7c376d2f8de3f5611cc1e73dfb014ae3d503f6fa447a4",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "系统时钟的 UTC Now 实现，供生命周期与任务调度注入使用"
+      ]
+    },
+    {
       "api_id": "core.fault.bind-reason",
       "module": "core",
       "package": "framework/go/core/fault",
@@ -487,6 +505,24 @@
       ],
       "notes": [
         "把完整 RequestMeta 写入 Context，并回填 RequestID/TraceID"
+      ]
+    },
+    {
+      "api_id": "core.model.version-parse",
+      "module": "core",
+      "package": "framework/go/core/model",
+      "symbol": "ParseVersion",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "ba50b6cbe4c32978b867de9e5205f5aebaf6a365daf63919acd7d8c200f777e8",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "解析语义化版本，支持 prerelease 和 build 元数据"
       ]
     },
     {
@@ -994,6 +1030,24 @@
       ],
       "notes": [
         "跨窗口状态内存 store 构造入口，供窗口重建后恢复，不保存 Secret"
+      ]
+    },
+    {
+      "api_id": "lifecycle.supervisor.new-graph",
+      "module": "lifecycle",
+      "package": "framework/go/lifecycle",
+      "symbol": "NewGraph",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "82702cfd8afaaa11e63ad742084495ee3fbf3eb5b7b379be168cd08dc2464814",
+      "capabilities": [
+        "lifecycle"
+      ],
+      "notes": [
+        "按依赖 DAG、超时和并发策略构造组件 Supervisor"
       ]
     },
     {
@@ -1660,6 +1714,24 @@
       ],
       "notes": [
         "gRPC stream 错误生产边界，统一映射 Framework fault 并隔离 panic"
+      ]
+    },
+    {
+      "api_id": "transport.local.endpoint-validate",
+      "module": "transport",
+      "package": "framework/go/transport/local",
+      "symbol": "Endpoint.Validate",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "9b79f3eb494557dfb3929c2d8140c7e4273c4c73c18e3d215a3f6a2cab4540eb",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "校验产品无关本机 IPC 端点名称与绝对运行目录"
       ]
     },
     {

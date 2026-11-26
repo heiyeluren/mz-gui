@@ -27,16 +27,17 @@ Go module 发布必须使用 `vX.Y.Z` 形式的 tag，例如 `v0.0.2`。`mz-gui-
 
 `core-v1.json` 当前冻结以下已登记接口：
 
+- `core.clock`：系统 UTC 时钟。
 - `core.fault`：错误 Mapper、默认 Mapper 和 reason 绑定。
 - `core.health`：内建健康 Registry 和 Service panic marker。
-- `core.model`：请求上下文、Caller、Request ID 和 RequestMeta。
-- `lifecycle.wails`：Wails 方法边界和受保护调用。
+- `core.model`：请求上下文、Caller、Request ID、RequestMeta 和语义化版本解析。
+- `lifecycle`：依赖 DAG Supervisor、Wails 方法边界和受保护调用。
 - `interaction`：CommandUndo、Undo/Redo 和窗口状态的 Memory/SQLite Store。
 - `platform.runtimepaths`：运行目录诊断。
 - `storage.sqlite`：SQLite 备份。
-- `transport.grpc`：gRPC stream 边界。
+- `transport`：gRPC stream 边界和产品无关本机 Endpoint 校验。
 
-以下能力仍需补齐公共类型、契约和调用证据后才能纳入核心清单：`Version`、`Clock`、`Supervisor`、本机 `Endpoint`、凭据 Store、FileGrant、Command/Query/Event Bus、Bootstrap Handshake 和 UI Kit 基础组件。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
+以下能力仍需补齐公共类型、契约和调用证据后才能纳入核心清单：凭据 Store、FileGrant、Command/Query/Event Bus、Bootstrap Handshake 和 UI Kit 基础组件。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
 
 ## 变更规则
 
@@ -54,7 +55,9 @@ go run ./tools/mzguiapidiff \
   --old framework/api/baselines/v0.0.1.json \
   --new framework/api/public-v1.json \
   --caller-usage framework/api/caller-usage/framework-showcase.json \
-  --caller-usage framework/api/caller-usage/framework-plugin-echo.json
+  --caller-usage framework/api/caller-usage/framework-plugin-echo.json \
+  --callsite-caller framework-showcase \
+  --callsite-root examples/framework-showcase
 ```
 
 `make check` 和 GitHub Actions 均执行同一检查。发布破坏性变更时，先提供替代接口、迁移文档和兼容窗口，不得直接改旧基线掩盖破坏。

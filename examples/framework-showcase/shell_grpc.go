@@ -3,9 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/heiyeluren/mz-gui/framework/go/core/panicguard"
 	"github.com/heiyeluren/mz-gui/framework/go/transport/grpcfault"
+	"github.com/heiyeluren/mz-gui/framework/go/transport/local"
 	"google.golang.org/grpc"
 )
 
@@ -19,6 +22,10 @@ func probeShowcaseStreamBoundary(ctx context.Context) error {
 	})
 	if err != nil {
 		return fmt.Errorf("showcase gRPC stream 边界失败: %w", err)
+	}
+	endpoint := local.Endpoint{Name: "showcase-agentd", RunDir: filepath.Join(os.TempDir(), "mzgui-showcase")}
+	if err := endpoint.Validate(); err != nil {
+		return fmt.Errorf("showcase 本机 IPC 端点无效: %w", err)
 	}
 	return nil
 }
