@@ -9,6 +9,7 @@ cleanup() {
 trap cleanup EXIT
 
 cd "$ROOT_DIR/framework/ui-kit"
+npm ci
 npm pack --pack-destination "$WORK_DIR"
 cp -R "$ROOT_DIR/tests/consumers/react" "$WORK_DIR/consumer"
 cd "$WORK_DIR/consumer"
