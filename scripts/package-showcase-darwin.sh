@@ -29,4 +29,9 @@ cat > "$APP_DIR/Contents/Info.plist" <<'PLIST'
 </plist>
 PLIST
 
+go run ./tools/mzguisbom > "$APP_DIR/Contents/Resources/sbom.json"
+ZIP_PATH="$ROOT_DIR/build/$(basename "$APP_DIR" .app)-macos-arm64.zip"
+ditto -c -k --keepParent "$APP_DIR" "$ZIP_PATH"
+shasum -a 256 "$ZIP_PATH" > "$ZIP_PATH.sha256"
+
 printf '%s\n' "$APP_DIR"
