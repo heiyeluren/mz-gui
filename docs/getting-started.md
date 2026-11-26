@@ -75,7 +75,7 @@ Framework 不提供产品数据库、业务 RPC 或账号配置。应用负责�
 ## 作为 Go 依赖
 
 ```bash
-go get github.com/heiyeluren/mz-gui@v0.0.4
+go get github.com/heiyeluren/mz-gui@v0.0.5
 ```
 
 ```go

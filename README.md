@@ -2,7 +2,7 @@
 
 MZ-GUI 是一个可独立运行、可复用的跨平台桌面 GUI 框架，基于 Go、Wails v3、React 和 TypeScript。仓库同时提供公共 Framework、React UI Kit、协议与生成代码、通用工具，以及可直接运行的桌面 APP「黑夜路人的 APP」。
 
-当前发布版本：`v0.0.4`。公共 API 仍包含 `candidate` 和 `experimental` 能力，不将其视为稳定生产承诺。
+当前发布版本：`v0.0.5`。公共 API 仍包含 `candidate` 和 `experimental` 能力，不将其视为稳定生产承诺。
 
 ## 包含能力
 

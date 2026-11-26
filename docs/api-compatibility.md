@@ -4,7 +4,7 @@
 
 MZ-GUI 区分三种版本，不能混用：
 
-- `release_version`：产品发布版本，当前为 `0.0.4`。
+- `release_version`：产品发布版本，当前为 `0.0.5`。
 - `api_schema_version`：公共 API 与治理文档的 schema 版本，当前为 `1.0.0`。
 - `core-v1.json`：最小核心 API 清单及其基线文件，不是第三个版本号。
 

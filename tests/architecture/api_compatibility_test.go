@@ -28,7 +28,7 @@ func TestCoreAPICompatibilityBaseline(t *testing.T) {
 	if err := json.Unmarshal(data, &manifest); err != nil {
 		t.Fatal(err)
 	}
-	if manifest.SchemaVersion != 1 || manifest.ReleaseVersion != "0.0.4" || manifest.APISchemaVersion != "1.0.0" {
+	if manifest.SchemaVersion != 1 || manifest.ReleaseVersion != "0.0.5" || manifest.APISchemaVersion != "1.0.0" {
 		t.Fatalf("核心 API 版本映射错误: %#v", manifest)
 	}
 	packageData, err := os.ReadFile(filepath.Join(root, "framework", "ui-kit", "package.json"))

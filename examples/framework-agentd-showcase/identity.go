@@ -9,7 +9,7 @@ import (
 
 func showcaseIdentity() bootstrap.ProcessIdentity {
 	return bootstrap.ProcessIdentity{
-		ProcessRole: "agentd", ProcessName: "showcase-agentd", ProcessVersion: "0.0.4", BuildID: "build-v0.0.4",
+		ProcessRole: "agentd", ProcessName: "showcase-agentd", ProcessVersion: "0.0.5", BuildID: "build-v0.0.5",
 		InstanceID: "showcase-agentd-1", OS: runtime.GOOS, Arch: runtime.GOARCH, ReleaseChannel: "dev", EndpointID: "showcase-agentd",
 		Application: bootstrap.ApplicationIdentity{
 			AppID: "com.mzgui.framework.agentdshowcase", FrameworkAPIVersion: "1.0.0", FrameworkCatalogRevision: 1,

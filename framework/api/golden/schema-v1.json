@@ -3,7 +3,7 @@
   "files": {
     "framework/api/core-v1.schema.json": "7fd0e9bfab274f3787abffd71c4a65e65fc2cedbd625e8452637bcb65eb5db1f",
     "framework/api/public-v1.schema.json": "3178e55a90f0b9535d90d0f648f33194c49d257a07ad6ed0fd09ef39552c829b",
-    "framework/api/core-v1.json": "1d9ffcb611fd29d7e85c7ed9c5519c25bb054ed8eee87c53ddd1a30a2e54d138",
+    "framework/api/core-v1.json": "4d9cc94f0eef7be3c46583f770892059760c4148baaf16a0162f077cacba1126",
     "framework/api/public-v1.json": "eff75a393acbe50e2b9a1666900963b4db771bdeafdd94e017b7c8dd84154b90",
     "framework/api/caller-usage/framework-showcase.json": "38054ecc63e0170c81c57d10a5f47ae15fa10bf30a408dcec7676eb68cc3c3a9",
     "framework/api/caller-usage/framework-plugin-echo.json": "434fe97293e16a4515f97d427a4b8db685b57aab8b9e61ec93b7c9df367e6bbe",
