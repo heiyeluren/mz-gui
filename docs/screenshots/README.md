@@ -27,4 +27,16 @@ open build/MZ-GUI-Showcase.app
 bash scripts/run-agentd-showcase.sh
 ```
 
+## Windows 单进程
+
+![Windows 黑夜路人的 APP 单进程](windows-framework-showcase.png)
+
+文件：`windows-framework-showcase.png`。来自 Windows 真机，显示框架概览、导航与 Ready/Healthy 状态；随后通过 UI Automation 调用真实 EventBus。
+
+## Windows 多进程
+
+![Windows 黑夜路人的 APP 多进程](windows-agentd-showcase.png)
+
+文件：`windows-agentd-showcase.png`。来自 Windows 真机，显示后台任务与进程架构；随后启动真实 agentd 并确认任务 `Succeeded`。
+
 截图用于帮助新用户理解默认可用界面。具体平台、窗口尺寸和系统主题可能影响实际显示；不应把截图当作其他平台的真机验收证据。

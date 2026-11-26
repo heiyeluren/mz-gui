@@ -65,6 +65,14 @@ open build/MZ-GUI-Showcase.app
     <td align="center">默认单进程：框架概览、健康状态和真实事件</td>
     <td align="center">可选多进程：agentd 后台任务与恢复</td>
   </tr>
+  <tr>
+    <td><img src="docs/screenshots/windows-framework-showcase.png" alt="Windows 单进程框架概览" width="720"></td>
+    <td><img src="docs/screenshots/windows-agentd-showcase.png" alt="Windows 多进程后台任务" width="720"></td>
+  </tr>
+  <tr>
+    <td align="center">Windows 真机：单进程与真实 EventBus</td>
+    <td align="center">Windows 真机：Named Pipe 与后台任务</td>
+  </tr>
 </table>
 
 更多截图说明与复现命令见 [界面参考](docs/screenshots/README.md)。
