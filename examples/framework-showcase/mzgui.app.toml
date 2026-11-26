@@ -10,7 +10,6 @@ single_instance_id = "com.mzgui.framework.showcase.desktop"
 
 [processes]
 desktop = "mzgui-showcase-desktop"
-agentd = "mzgui-showcase-agentd"
 
 [storage]
 config_basename = "showcase.toml"

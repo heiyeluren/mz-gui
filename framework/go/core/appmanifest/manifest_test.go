@@ -47,6 +47,17 @@ func TestParseReturnsValidatedExplicitSelection(t *testing.T) {
 	}
 }
 
+func TestParseAllowsSingleProcessWithoutAgentd(t *testing.T) {
+	data := strings.Replace(validManifest(), "agentd = \"example-agentd\"\n", "", 1)
+	validated, err := Parse([]byte(data), testCatalog(t))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if validated.Manifest.Processes.Desktop != "example-desktop" || validated.Manifest.Processes.Agentd != "" {
+		t.Fatalf("单进程 Manifest 解析错误: %#v", validated.Manifest.Processes)
+	}
+}
+
 func TestProductionValidationDelegatesToCapabilityMaturity(t *testing.T) {
 	catalog := testCatalog(t)
 	validated, err := Parse([]byte(validManifest()), catalog)

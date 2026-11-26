@@ -23,7 +23,7 @@
     "processes": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["desktop", "agentd"],
+      "required": ["desktop"],
       "properties": {
         "desktop": {"$ref": "#/$defs/process"},
         "agentd": {"$ref": "#/$defs/process"},

@@ -145,8 +145,8 @@ func validateManifest(manifest Manifest, catalog capability.Catalog) error {
 
 func validateProcesses(processes Processes) error {
 	values := []string{processes.Desktop, processes.Agentd, processes.BrowserHost, processes.Helper}
-	if processes.Desktop == "" || processes.Agentd == "" {
-		return fmt.Errorf("%w: desktop 和 agentd 进程名不能为空", ErrInvalidManifest)
+	if processes.Desktop == "" {
+		return fmt.Errorf("%w: desktop 进程名不能为空", ErrInvalidManifest)
 	}
 	seen := make(map[string]struct{}, len(values))
 	reserved := map[string]bool{"con": true, "prn": true, "aux": true, "nul": true, "clock$": true,

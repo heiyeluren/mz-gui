@@ -47,6 +47,8 @@ npm pack --dry-run
 
 ## 新建自己的 APP
 
+默认从单进程开始，只有后台任务、SQLite 单 owner 或高风险隔离需求出现时才启用多进程。选择规则见[单进程与多进程模式](process-models.md)。
+
 1. 复制 `examples/framework-showcase`，保留 Framework 为独立依赖。
 2. 修改新 APP 的 `mzgui.app.toml`：`display_name`、应用 ID、协议 scheme、bundle ID、进程名和存储命名空间。
 3. 执行 `make generate-app`，确认生成的 `appmeta` 与能力目录一致。

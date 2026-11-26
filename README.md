@@ -87,6 +87,8 @@ import '@mz-gui/ui-kit/styles.css'
 
 - [快速开始](docs/getting-started.md)
 - [架构与依赖边界](docs/architecture.md)
+- [单进程与多进程模式](docs/process-models.md)
+- [API 版本与兼容策略](docs/api-compatibility.md)
 - [独立抽取范围与兼容策略](docs/framework-extraction.md)
 
 ## 验证范围

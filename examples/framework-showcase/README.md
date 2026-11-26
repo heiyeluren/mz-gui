@@ -1,6 +1,6 @@
 # 黑夜路人的 APP
 
-这是 MZ-GUI 的独立桌面示例，不依赖任何产品业务包。它使用 Framework 的生命周期 DAG、健康 Registry、窗口关闭与托盘绑定、EventBus、系统凭据抽象、错误契约和 Web Design Tokens。
+这是 MZ-GUI 的独立单进程桌面示例，不依赖任何产品业务包，也不默认启动 agentd。它使用 Framework 的生命周期 DAG、健康 Registry、窗口关闭与托盘绑定、EventBus、系统凭据抽象、错误契约和 Web Design Tokens。
 
 ## 运行
 

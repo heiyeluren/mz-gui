@@ -38,4 +38,18 @@ func TestIndependentFrameworkLayoutAndShowcaseIdentity(t *testing.T) {
 			t.Errorf("Showcase 必须使用独立产品标题: %s", relativePath)
 		}
 	}
+	generated, err := os.ReadFile(filepath.Join(root, "examples", "framework-showcase", "generated", "appmeta", "manifest_gen.go"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	agentdDeclaration := ""
+	for _, line := range strings.Split(string(generated), "\n") {
+		if strings.Contains(line, "AgentdProcess") {
+			agentdDeclaration = strings.Join(strings.Fields(line), " ")
+			break
+		}
+	}
+	if agentdDeclaration != `AgentdProcess = ""` {
+		t.Fatalf("默认 Showcase 必须保持单进程，不得隐式声明 agentd: %s", agentdDeclaration)
+	}
 }

@@ -9,7 +9,7 @@ const (
 	DataNamespace               = "mzgui_showcase"
 	SingleInstanceID            = "com.mzgui.framework.showcase.desktop"
 	DesktopProcess              = "mzgui-showcase-desktop"
-	AgentdProcess               = "mzgui-showcase-agentd"
+	AgentdProcess               = ""
 	BrowserHostProcess          = ""
 	HelperProcess               = ""
 	ConfigBasename              = "showcase.toml"
@@ -22,7 +22,7 @@ const (
 	CatalogRevision      uint64 = 80
 	FrameworkAPIVersion         = "1.0.0"
 	CatalogSHA256               = "0ec54009c16bc26f59eb6f0bb2b2a2288a8185fc173b2976fb6578deaee8fbf9"
-	ManifestSHA256              = "e499fb50f65e1afb6c8bfd612429c919319f3540e8bc4a517dac8c205c51d83d"
+	ManifestSHA256              = "456b856c043523ea89af6da49f31690d0bf51f0275ff5a88a1f87621d277824a"
 	SelectionSHA256             = "56f6d0903c01872fa3ffaecad9283112117ced47d18b978623001b3408f00d26"
 	ReleaseEligible             = false
 )
