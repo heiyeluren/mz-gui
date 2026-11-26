@@ -238,7 +238,7 @@ func isAbsPathForGOOS(goos, value string) bool {
 	if goos == "windows" {
 		return filepath.IsAbs(value)
 	}
-	return strings.HasPrefix(value, "/")
+	return filepath.IsAbs(value) || strings.HasPrefix(value, "/")
 }
 
 func splitPATHEXT(value string) []string {
