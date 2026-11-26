@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"syscall"
 	"testing"
@@ -26,7 +27,11 @@ func TestAgentdTaskSurvivesDesktopAndAgentdRestart(t *testing.T) {
 		t.Fatal(err)
 	}
 	t.Cleanup(func() { _ = os.RemoveAll(runDir) })
-	binary := filepath.Join(t.TempDir(), "showcase-agentd")
+	binaryName := "showcase-agentd"
+	if runtime.GOOS == "windows" {
+		binaryName += ".exe"
+	}
+	binary := filepath.Join(t.TempDir(), binaryName)
 	build := exec.Command("go", "build", "-o", binary, "./agentd")
 	if output, err := build.CombinedOutput(); err != nil {
 		t.Fatalf("构建真实 agentd: %v\n%s", err, output)

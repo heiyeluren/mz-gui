@@ -16,7 +16,7 @@ import (
 
 func shortTempDir(t *testing.T) string {
 	t.Helper()
-	const root = "/tmp/mozi-test"
+	root := filepath.Join(os.TempDir(), "mozi-test")
 	if err := os.MkdirAll(root, 0o700); err != nil {
 		t.Fatalf("创建测试临时根目录: %v", err)
 	}

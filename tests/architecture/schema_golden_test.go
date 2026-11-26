@@ -1,6 +1,7 @@
 package architecture_test
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
@@ -42,7 +43,8 @@ func TestConfigAndSchemaGolden(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		actual := fmt.Sprintf("%x", sha256.Sum256(content))
+		canonical := bytes.ReplaceAll(content, []byte("\r\n"), []byte("\n"))
+		actual := fmt.Sprintf("%x", sha256.Sum256(canonical))
 		if golden.Files[relativePath] != actual {
 			t.Errorf("%s 与 golden 不一致；确认兼容影响后同步更新 golden", relativePath)
 		}
