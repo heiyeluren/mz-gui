@@ -5,6 +5,7 @@ package filetrash
 import (
 	"context"
 	"golang.org/x/sys/windows"
+	"reflect"
 	"runtime"
 	"syscall"
 	"unsafe"
@@ -54,7 +55,7 @@ func moveDirectory(_ context.Context, path string) error {
 }
 
 func comCall(object uintptr, method int, args ...uintptr) int32 {
-	vtable := *(**[23]uintptr)(unsafe.Pointer(object))
+	vtable := *(*[23]uintptr)(reflect.ValueOf(object).UnsafePointer())
 	result, _, _ := syscall.SyscallN(vtable[method], append([]uintptr{object}, args...)...)
 	return int32(result)
 }
