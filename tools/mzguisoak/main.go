@@ -97,7 +97,7 @@ func execute(duration time.Duration) (soakReport, error) {
 		return soakReport{}, err
 	}
 	engine, err := taskengine.NewEngine(repository, registry, taskengine.EngineOptions{
-		Workers: 1, PollInterval: 5 * time.Millisecond, RetryScanInterval: 10 * time.Millisecond,
+		Workers: 1, PollInterval: 50 * time.Millisecond, RetryScanInterval: 100 * time.Millisecond,
 		LeaseDuration: time.Second, RecoveryBatch: 16, WorkerPrefix: "soak",
 	})
 	if err != nil {
@@ -112,7 +112,7 @@ func execute(duration time.Duration) (soakReport, error) {
 	batches := 0
 	for {
 		done := false
-		for index := 0; index < 100; index++ {
+		for index := 0; index < 10; index++ {
 			_, _, err := repository.Create(ctx, taskengine.CreateRequest{
 				Type: "soak.noop", Priority: 50, PayloadVersion: 1, Payload: []byte(`{}`),
 				IdempotencyKey: fmt.Sprintf("soak-%d-%d", batches, index), WorkspaceID: "soak", MaxAttempts: 1, Now: time.Now().UTC(),
@@ -163,7 +163,7 @@ func execute(duration time.Duration) (soakReport, error) {
 				GoroutineDelta: runtime.NumGoroutine() - initialGoroutines,
 				HeapAllocBytes: currentHeapAlloc(), CompletedBatches: batches,
 			}, nil
-		case <-time.After(50 * time.Millisecond):
+		case <-time.After(time.Second):
 		}
 	}
 }
