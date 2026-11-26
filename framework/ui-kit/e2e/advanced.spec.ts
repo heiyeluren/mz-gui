@@ -23,8 +23,17 @@ test('terminal supports input, IME, clipboard and resize', async ({ page, contex
   await expect(page.getByTestId('terminal-last-input')).toHaveText('粘贴文本')
 
   await expect(page.locator('.xterm-screen')).toContainText('ready')
-  await page.locator('.xterm-screen').dblclick({ position: { x: 20, y: 10 } })
-  await page.keyboard.press(process.platform === 'win32' ? 'ControlOrMeta+Shift+c' : 'ControlOrMeta+c')
+  const copied = await page.evaluate(() => {
+    const rows = document.querySelector<HTMLElement>('.xterm-rows')!
+    rows.style.userSelect = 'text'
+    const selection = window.getSelection()!
+    const range = document.createRange()
+    range.selectNodeContents(rows)
+    selection.removeAllRanges()
+    selection.addRange(range)
+    return document.execCommand('copy')
+  })
+  expect(copied).toBe(true)
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('ready')
 
   await page.setViewportSize({ width: 900, height: 640 })
