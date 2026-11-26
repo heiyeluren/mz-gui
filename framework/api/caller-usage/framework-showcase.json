@@ -54,9 +54,11 @@
     "runtime.resilience.retry",
     "security.allowlist.command",
     "security.allowlist.deeplink",
+    "security.filegrant.validate-create",
     "security.session.unlock",
     "storage.blobquota.prune",
     "storage.config.watch",
+    "transport.bootstrap.handshake",
     "transport.grpc.stream-boundary",
     "transport.local.endpoint-validate"
   ]

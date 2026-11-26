@@ -1,7 +1,7 @@
 {
   "$schema": "./public-v1.schema.json",
   "schema_version": 1,
-  "catalog_revision": 86,
+  "catalog_revision": 87,
   "framework_api_version": "1.0.0",
   "governance": {
     "coverage": {
@@ -1645,6 +1645,24 @@
       ]
     },
     {
+      "api_id": "security.filegrant.validate-create",
+      "module": "security",
+      "package": "framework/go/security/filegrant",
+      "symbol": "Policy.ValidateCreate",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "8262b47cd72b3761e934c926629ea4aa88419e764ae376d09ec51f0fc272c9db",
+      "capabilities": [
+        "security.capability"
+      ],
+      "notes": [
+        "按主体、来源、类型和有效期策略校验文件授权并返回规范化路径"
+      ]
+    },
+    {
       "api_id": "security.session.unlock",
       "module": "security",
       "package": "framework/go/security/session",
@@ -1768,6 +1786,24 @@
       ],
       "notes": [
         "公共 API catalog 兼容性 diff 门禁"
+      ]
+    },
+    {
+      "api_id": "transport.bootstrap.handshake",
+      "module": "transport",
+      "package": "framework/go/transport/bootstrap",
+      "symbol": "Service.Handshake",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "6e68f6c209483a5118965dff2ada35fe6b06a22433ead5e74abd1debff84222f",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "协商协议、验证进程身份与 capability，并签发绑定会话"
       ]
     },
     {

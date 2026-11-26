@@ -40,7 +40,9 @@
     "lifecycle.wails.produce",
     "platform.credentials.new-store",
     "platform.runtimepaths.diagnose",
+    "security.filegrant.validate-create",
     "storage.sqlite.backup",
+    "transport.bootstrap.handshake",
     "transport.grpc.stream-boundary",
     "transport.local.endpoint-validate"
   ]

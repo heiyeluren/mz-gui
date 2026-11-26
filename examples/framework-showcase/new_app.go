@@ -52,6 +52,12 @@ func bootstrapMinimalNewApp(ctx context.Context, dir string) error {
 	if err := probeShowcaseBusPatterns(bound); err != nil {
 		return fmt.Errorf("新 APP Command/Query Bus 失败: %w", err)
 	}
+	if err := probeShowcaseFileGrant(dir); err != nil {
+		return fmt.Errorf("新 APP FileGrant 失败: %w", err)
+	}
+	if err := probeShowcaseBootstrapHandshake(bound); err != nil {
+		return fmt.Errorf("新 APP Bootstrap 握手失败: %w", err)
+	}
 	if err := writeShowcaseRuntimeLog(dir); err != nil {
 		return fmt.Errorf("新 APP 本机日志失败: %w", err)
 	}

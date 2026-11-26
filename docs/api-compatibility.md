@@ -35,9 +35,10 @@ Go module 发布必须使用 `vX.Y.Z` 形式的 tag，例如 `v0.0.2`。`mz-gui-
 - `interaction`：CommandBus、QueryBus、EventBus、CommandUndo、Undo/Redo 和窗口状态的 Memory/SQLite Store。
 - `platform`：运行目录诊断和可注入 Backend 的凭据 Store。
 - `storage.sqlite`：SQLite 备份。
-- `transport`：gRPC stream 边界和产品无关本机 Endpoint 校验。
+- `security.filegrant`：按主体、来源和有效期策略校验文件授权。
+- `transport`：gRPC stream 边界、本机 Endpoint 校验和 Bootstrap Handshake。
 
-以下能力仍需补齐公共类型、契约和调用证据后才能纳入核心清单：FileGrant、Bootstrap Handshake 和 UI Kit 基础组件。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
+UI Kit 基础组件将在组件测试、文档和两个消费者证据补齐后逐项升档。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
 
 ## 变更规则
 
