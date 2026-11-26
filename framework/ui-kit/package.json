@@ -36,6 +36,7 @@
     "test:coverage": "vitest run --coverage",
     "dev": "vite",
     "test:e2e": "playwright test",
+    "test:e2e:soak": "MZGUI_SOAK_SECONDS=1800 playwright test e2e/soak.spec.ts",
     "prepack": "npm run build"
   },
   "peerDependencies": {
