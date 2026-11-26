@@ -17,8 +17,7 @@ jobs:
           cache-dependency-path: go.sum
       - run: go test -p=2 ./...
       - run: go build ./...
-      - run: go run ./tools/mzguiframeworkcheck
-      - run: go run ./tools/mzguiappgen --check --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+      - run: make check
 
   ui-kit:
     runs-on: ubuntu-latest

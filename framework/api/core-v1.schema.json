@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release_version", "api_schema_version", "catalog", "baseline", "core_api_ids"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": 1},
+    "release_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "api_schema_version": {"type": "string", "pattern": "^[1-9][0-9]*\\.[0-9]+\\.[0-9]+$"},
+    "catalog": {"const": "public-v1.json"},
+    "baseline": {"type": "string", "minLength": 1},
+    "core_api_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)*$"}
+    }
+  }
+}
