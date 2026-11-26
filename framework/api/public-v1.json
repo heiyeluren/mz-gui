@@ -1,7 +1,7 @@
 {
   "$schema": "./public-v1.schema.json",
   "schema_version": 1,
-  "catalog_revision": 87,
+  "catalog_revision": 88,
   "framework_api_version": "1.0.0",
   "governance": {
     "coverage": {
@@ -2740,6 +2740,222 @@
       ],
       "notes": [
         "RemoteService WPAD 候选 URL 生成入口，由 DNS suffix 构造 http://wpad.<suffix>/wpad.dat，不查询 DHCP"
+      ]
+    },
+    {
+      "api_id": "ui.command-palette",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "CommandPalette",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "46e5de72469422f3226e853030f678245f27b22569ba38047943faef2dae32bc",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "命令面板与键盘选择"
+      ]
+    },
+    {
+      "api_id": "ui.data-table",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "DataTable",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "4675b8cc87f3dfa4edd062aa05dfb8d65172bd798a0152a8136ad721a51468e4",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "通用数据表格、选择与排序"
+      ]
+    },
+    {
+      "api_id": "ui.dialog",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "Dialog",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "d4146d4c3dcf2577ca575dec39fc7b69e3bd2643deccfa30afd8627ac746cf2e",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "模态对话框、焦点锁与 Escape"
+      ]
+    },
+    {
+      "api_id": "ui.markdown-viewer",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "MarkdownViewer",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "afcc4ab0e5bbe8a9e593748c3b0a08412b0deca42f161e7e49f7be6b55e305c0",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "安全 Markdown 与代码块渲染"
+      ]
+    },
+    {
+      "api_id": "ui.module-rail",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "ModuleRail",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "c81f548e86f6df3ef23f0bbbaa87afaff305d990183f38a13778e1df17889985",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "产品无关模块导航与二级选择"
+      ]
+    },
+    {
+      "api_id": "ui.popover",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "Popover",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "8846eaa002c799c1a20f0f1f9d71807cd47b22a5d2a820c2e91ba4dcc744028d",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "Popover 定位、焦点恢复和关闭"
+      ]
+    },
+    {
+      "api_id": "ui.select",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "Select",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "09fdc41a5bd09d9c8b2a5c30979368684f4af80bc3c06ac072f36ddb0ae1fb80",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "基础选择控件"
+      ]
+    },
+    {
+      "api_id": "ui.tabs",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "Tabs",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "71094dfce75eb4b82afb73852607c4f77e3b678a4ec49d165dd0f0e92e014456",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "标签页与键盘导航"
+      ]
+    },
+    {
+      "api_id": "ui.terminal-surface",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "TerminalSurface",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "f0923dc0460feded5516574e2c1dd3ac43ddb73558234c4cae816679c5d0f97f",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "终端输入输出、resize 与恢复"
+      ]
+    },
+    {
+      "api_id": "ui.text-field",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "TextField",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "541dde0022babb0ab7974b726b1a9d40a832dc6fdb619ae3daf719fe0240d84a",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "文本输入、校验和错误状态"
+      ]
+    },
+    {
+      "api_id": "ui.tree",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "Tree",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "3156f460831e7f7d11590d89f40e84039676600e471679d05e7af791c03fb20c",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "树形数据与键盘选择"
+      ]
+    },
+    {
+      "api_id": "ui.virtual-list",
+      "module": "ui",
+      "package": "framework/ui-kit/src",
+      "symbol": "VirtualList",
+      "kind": "function",
+      "stability": "experimental",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "0e0fc2650582331faad929cc02ee8ffe688c8653bf58bddaa8e34741cfa3c6e0",
+      "capabilities": [
+        "ui.tokens"
+      ],
+      "notes": [
+        "虚拟列表与大数据定位"
       ]
     }
   ]

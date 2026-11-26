@@ -44,6 +44,18 @@
     "storage.sqlite.backup",
     "transport.bootstrap.handshake",
     "transport.grpc.stream-boundary",
-    "transport.local.endpoint-validate"
+    "transport.local.endpoint-validate",
+    "ui.command-palette",
+    "ui.data-table",
+    "ui.dialog",
+    "ui.markdown-viewer",
+    "ui.module-rail",
+    "ui.popover",
+    "ui.select",
+    "ui.tabs",
+    "ui.terminal-surface",
+    "ui.text-field",
+    "ui.tree",
+    "ui.virtual-list"
   ]
 }
