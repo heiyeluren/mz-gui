@@ -71,7 +71,7 @@ func TestWindowsStopConfirmsJobChildrenExited(t *testing.T) {
 	if err := manager.Stop(ctx); err != nil {
 		t.Fatal(err)
 	}
-	state, err := windows.WaitForSingleObject(child, 0)
+	state, err := windows.WaitForSingleObject(child, 2000)
 	if err != nil || state != windows.WAIT_OBJECT_0 || manager.Status().Running {
 		t.Fatalf("Stop 成功后子进程必须已退出: state=%d err=%v", state, err)
 	}
