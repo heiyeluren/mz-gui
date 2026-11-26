@@ -34,6 +34,10 @@ jobs:
         working-directory: framework/ui-kit
       - run: npm test
         working-directory: framework/ui-kit
+      - run: npx playwright install --with-deps chromium
+        working-directory: framework/ui-kit
+      - run: npm run test:e2e
+        working-directory: framework/ui-kit
       - run: npm run build
         working-directory: framework/ui-kit
       - run: npm pack --dry-run

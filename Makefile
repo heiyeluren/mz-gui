@@ -3,13 +3,16 @@ NPM ?= npm
 
 .PHONY: test test-go test-ui build build-ui run package-darwin check generate-app
 
-test: test-go test-ui
+test: test-go test-ui test-ui-e2e
 
 test-go:
 	$(GO) test -p=2 ./...
 
 test-ui:
 	$(NPM) --prefix framework/ui-kit test
+
+test-ui-e2e:
+	$(NPM) --prefix framework/ui-kit run test:e2e
 
 build: build-ui
 	$(GO) build ./...

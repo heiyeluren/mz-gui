@@ -18,6 +18,8 @@ React、React DOM、Mermaid 和 xterm 由宿主应用作为 peer dependencies �
 npm install
 npm run typecheck
 npm test
+npx playwright install chromium
+npm run test:e2e
 npm run build
 npm pack --dry-run
 ```

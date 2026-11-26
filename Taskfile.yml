@@ -5,7 +5,7 @@ tasks:
     deps: [test]
 
   test:
-    deps: [test:go, test:ui]
+    deps: [test:go, test:ui, test:ui:e2e]
 
   test:go:
     cmds:
@@ -15,6 +15,11 @@ tasks:
     dir: framework/ui-kit
     cmds:
       - npm test
+
+  test:ui:e2e:
+    dir: framework/ui-kit
+    cmds:
+      - npm run test:e2e
 
   build:
     deps: [build:ui]

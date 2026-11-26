@@ -15,11 +15,8 @@
 - [DataTable](DataTable.md)
 - [Tree](Tree.md)
 - [VirtualList](VirtualList.md)
-
-## 后续补齐
-
-- MarkdownViewer
-- TerminalSurface
+- [MarkdownViewer](MarkdownViewer.md)
+- [TerminalSurface](TerminalSurface.md)
 
 ## 状态矩阵
 
@@ -35,5 +32,5 @@
 | DataTable | 通过 | 方向键、Home/End、typeahead | 排序、空态、disabled、busy | 已完成 |
 | Tree | 通过 | 选择、展开、层级、键盘 | 空态、disabled、busy | 已完成 |
 | VirtualList | 通过 | 选择、全局位置、大列表窗口 | 空态、disabled、busy | 已完成 |
-| MarkdownViewer | 待补 | 链接、代码块 | 注入与错误 | 待补 |
-| TerminalSurface | 待补 | 输入、resize、IME、恢复 | 错误与降级 | 待补 |
+| MarkdownViewer | 通过 | 链接、代码块、任务列表 | 注入降级、空态、disabled、busy | 已完成 |
+| TerminalSurface | 通过 | 输入、resize、IME、恢复 | 截断、错误、disabled、busy、降级 | 已完成 |
