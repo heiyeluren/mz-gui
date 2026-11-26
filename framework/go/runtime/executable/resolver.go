@@ -46,13 +46,14 @@ func NewResolver(options Options) (*Resolver, error) {
 	directories := make([]string, 0, len(options.TrustedDirectories)+8)
 	seen := make(map[string]struct{}, cap(directories))
 	appendDirectory := func(value string, strict bool) error {
-		value = filepath.Clean(strings.TrimSpace(value))
+		value = strings.TrimSpace(value)
 		if value == "." || !isAbsPathForGOOS(goos, value) {
 			if strict {
 				return ErrInvalidOptions
 			}
 			return nil
 		}
+		value = filepath.Clean(value)
 		key := value
 		if goos == "windows" {
 			key = strings.ToLower(key)
@@ -87,18 +88,18 @@ func NewResolver(options Options) (*Resolver, error) {
 	}
 	targetDirectories := append([]string(nil), directories...)
 	for _, directory := range options.TrustedTargetDirectories {
-		directory = filepath.Clean(strings.TrimSpace(directory))
+		directory = strings.TrimSpace(directory)
 		if directory == "." || !isAbsPathForGOOS(goos, directory) {
 			return nil, ErrInvalidOptions
 		}
-		targetDirectories = append(targetDirectories, directory)
+		targetDirectories = append(targetDirectories, filepath.Clean(directory))
 	}
 	var userDirectories []string
 	if options.AllowSearchPathSymlinks {
 		for _, directory := range splitSearchPath(options.SearchPath, goos) {
-			directory = filepath.Clean(strings.TrimSpace(directory))
+			directory = strings.TrimSpace(directory)
 			if isAbsPathForGOOS(goos, directory) {
-				userDirectories = append(userDirectories, directory)
+				userDirectories = append(userDirectories, filepath.Clean(directory))
 			}
 		}
 	}
