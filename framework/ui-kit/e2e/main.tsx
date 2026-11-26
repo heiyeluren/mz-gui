@@ -17,16 +17,21 @@ import '../src/styles.css'
 function TerminalFixture() {
   const model = useRef({
     frames: ['ready\r\n'],
+    batch: 0,
     failNext: false,
     lastInput: '',
   })
+  const cursorHost = useRef<HTMLOutputElement>(null)
+  const bufferedHost = useRef<HTMLOutputElement>(null)
   const [lastInput, setLastInput] = useState('')
   const [size, setSize] = useState('0x0')
   const session = { session_id: 'e2e-terminal', state: 'running' }
   return <section aria-label="终端测试" style={{ height: 300, display: 'flex', flexDirection: 'column' }}>
     <div>
       <button type="button" onClick={() => {
-        for (let index = 0; index < 500; index++) model.current.frames.push(`line-${String(index).padStart(4, '0')}\r\n`)
+        model.current.batch += 1
+        if (bufferedHost.current) bufferedHost.current.textContent = String(model.current.frames.length + 500)
+        for (let index = 0; index < 500; index++) model.current.frames.push(`batch-${model.current.batch}-line-${String(index).padStart(4, '0')}\r\n`)
       }}>模拟高频输出</button>
       <button type="button" onClick={() => {
         model.current.failNext = true
@@ -34,6 +39,8 @@ function TerminalFixture() {
       }}>模拟断线</button>
       <output data-testid="terminal-last-input">{lastInput}</output>
       <output data-testid="terminal-size">{size}</output>
+      <output ref={cursorHost} data-testid="terminal-cursor">0</output>
+      <output ref={bufferedHost} data-testid="terminal-buffered">1</output>
     </div>
     <TerminalSurface
       ready
@@ -45,6 +52,8 @@ function TerminalFixture() {
           throw new Error('simulated disconnect')
         }
         const next = Math.min(cursor + 40, model.current.frames.length)
+        if (cursorHost.current) cursorHost.current.textContent = String(next)
+        if (bufferedHost.current) bufferedHost.current.textContent = String(model.current.frames.length - next)
         return {
           session,
           frames: model.current.frames.slice(cursor, next).map((data) => ({ data })),

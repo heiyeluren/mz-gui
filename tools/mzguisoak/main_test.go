@@ -15,7 +15,7 @@ func TestRunRejectsInvalidDuration(t *testing.T) {
 
 func TestRunWritesResourceReport(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "soak.json")
-	if code := run([]string{"--duration", "20ms", "--report", path}, os.Stdout, os.Stderr); code != 0 {
+	if code := run([]string{"--duration", "2s", "--report", path}, os.Stdout, os.Stderr); code != 0 {
 		t.Fatal("短时 soak 应通过")
 	}
 	data, err := os.ReadFile(path)
