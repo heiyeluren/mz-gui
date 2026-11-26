@@ -43,13 +43,16 @@ tasks:
     cmds:
       - go run ./tools/mzguiframeworkcheck
       - go run ./tools/mzguiappgen --check --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+      - go run ./tools/mzguiappgen --check --manifest ./examples/framework-agentd-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-agentd-showcase/generated/appmeta/manifest_gen.go --package appmeta
       - go run ./tools/mzguiapidiff --old framework/api/baselines/v0.0.1.json --new framework/api/public-v1.json --caller-usage framework/api/caller-usage/framework-showcase.json --caller-usage framework/api/caller-usage/framework-plugin-echo.json --callsite-caller framework-showcase --callsite-root examples/framework-showcase
       - go test ./tests/architecture
 
   generate:app:
     cmds:
       - go run ./tools/mzguiappgen --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+      - go run ./tools/mzguiappgen --manifest ./examples/framework-agentd-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-agentd-showcase/generated/appmeta/manifest_gen.go --package appmeta
 
   generate:proto:
     cmds:
       - protoc -I framework/proto --go_out=. --go_opt=module=github.com/heiyeluren/mz-gui --go-grpc_out=. --go-grpc_opt=module=github.com/heiyeluren/mz-gui framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
+      - protoc -I examples/framework-agentd-showcase/proto --go_out=examples/framework-agentd-showcase --go_opt=module=github.com/heiyeluren/mz-gui/examples/framework-agentd-showcase --go-grpc_out=examples/framework-agentd-showcase --go-grpc_opt=module=github.com/heiyeluren/mz-gui/examples/framework-agentd-showcase examples/framework-agentd-showcase/proto/task/v1/task.proto

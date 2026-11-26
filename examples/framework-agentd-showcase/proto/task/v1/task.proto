@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package mzgui.showcase.task.v1;
+
+option go_package = "github.com/heiyeluren/mz-gui/examples/framework-agentd-showcase/gen/task/v1;taskv1";
+
+service TaskService {
+  rpc StartTask(StartTaskRequest) returns (StartTaskResponse);
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse);
+  rpc CancelTask(CancelTaskRequest) returns (CancelTaskResponse);
+}
+
+message StartTaskRequest {
+  string idempotency_key = 1;
+  string payload = 2;
+}
+
+message StartTaskResponse {
+  string task_id = 1;
+  string state = 2;
+}
+
+message GetTaskRequest {
+  string task_id = 1;
+}
+
+message GetTaskResponse {
+  string task_id = 1;
+  string state = 2;
+  string result_summary_json = 3;
+}
+
+message CancelTaskRequest {
+  string task_id = 1;
+  string reason = 2;
+  string idempotency_key = 3;
+}
+
+message CancelTaskResponse {
+  string task_id = 1;
+  string state = 2;
+}

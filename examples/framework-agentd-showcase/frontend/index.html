@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>黑夜路人的 APP · 多进程</title>
+    <link rel="stylesheet" href="/framework/tokens.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/wails/runtime.js" type="module"></script>
+    <script src="/main.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="框架导航">
+        <div class="brand"><span class="product-mark" aria-hidden="true">MZ</span><div><strong>黑夜路人的 APP</strong><span>Task Process Template</span></div></div>
+        <nav>
+          <button class="nav-item active" data-panel="tasks" type="button"><span aria-hidden="true">✓</span>后台任务</button>
+          <button class="nav-item" data-panel="architecture" type="button"><span aria-hidden="true">◇</span>进程架构</button>
+          <button class="nav-item" data-panel="migration" type="button"><span aria-hidden="true">→</span>迁移方式</button>
+        </nav>
+        <div class="sidebar-footer"><span class="status-dot"></span>同一用例 · 两种进程模式</div>
+      </aside>
+      <main class="main-content">
+        <header class="page-header">
+          <div><p class="eyebrow">SINGLE PROCESS BY DEFAULT · AGENTD ON DEMAND</p><h1 id="page-title">后台任务</h1><p class="subtitle">桌面只调用任务接口；SQLite 与任务生命周期由所选适配器接管。</p></div>
+          <button id="refresh" class="secondary-button" type="button">刷新任务</button>
+        </header>
+        <section id="panel-tasks" class="panel" aria-label="后台任务">
+          <div class="hero-card"><div><span class="hero-label">REAL TASK ENGINE</span><h2>关闭窗口，任务仍然继续。</h2><p>默认通过本机 gRPC 连接独立 agentd，握手创建 session 后才能访问任务。也可切换进程内适配器，无需修改此页面。</p></div><div class="hero-badge"><strong>3</strong><span>Start · Read · Cancel</span></div></div>
+          <section class="interaction-card"><div><h2>启动一个持久任务</h2><p>任务约 300ms 完成，结果写入 agentd 独占的 SQLite。</p></div><button id="start" class="primary-button" type="button">启动后台任务</button></section>
+          <div class="status-grid" aria-label="任务状态">
+            <article><span class="card-icon">ID</span><div><span>任务 ID</span><strong id="task-id">尚未启动</strong></div></article>
+            <article><span class="card-icon">S</span><div><span>当前状态</span><strong id="task-state">idle</strong></div></article>
+            <article><span class="card-icon">R</span><div><span>执行结果</span><strong id="task-result">—</strong></div></article>
+            <article><span class="card-icon">DB</span><div><span>持久化</span><strong>SQLite</strong></div></article>
+          </div>
+          <section class="interaction-card"><div><h2>取消与恢复</h2><p>启动后可立即取消；完成后再启动 agentd，也能按 ID 读回同一结果。</p></div><button id="cancel" class="secondary-button" type="button" disabled>取消当前任务</button></section>
+          <output id="feedback" role="status" aria-live="polite"></output>
+        </section>
+        <section id="panel-architecture" class="panel" hidden aria-label="进程架构">
+          <div class="section-heading"><h2>后台进程按需启用，不是框架税</h2><p>只有需要窗口外续跑、持久恢复或进程隔离时才增加 agentd。</p></div>
+          <div class="capability-grid">
+            <article><strong>Desktop</strong><p>渲染界面并调用 TaskBackend，不直接打开多进程模式的 SQLite。</p><code>desktop → TaskBackend</code></article>
+            <article><strong>Local transport</strong><p>使用当前用户的本机端点连接 desktop 与 agentd。</p><code>gRPC · UDS / Named Pipe</code></article>
+            <article><strong>Session security</strong><p>校验进程身份和应用摘要，按 task.read/write/cancel 授权。</p><code>Bootstrap · Session</code></article>
+            <article><strong>Task engine</strong><p>单 worker 执行，持久化状态、取消、超时与恢复。</p><code>agentd → SQLite owner</code></article>
+          </div>
+        </section>
+        <section id="panel-migration" class="panel" hidden aria-label="迁移方式">
+          <div class="section-heading"><h2>只换组合根，不换 UI 与用例</h2><p>这个示例自身即可用两种模式运行。</p></div>
+          <ol class="steps">
+            <li><span>01</span><div><h3>默认：单进程</h3><code>MZGUI_TASK_MODE=inprocess go run ./examples/framework-agentd-showcase</code><p>使用本地 TaskBackend，任务与窗口同生命周期。</p></div></li>
+            <li><span>02</span><div><h3>按需：多进程</h3><code>bash scripts/run-agentd-showcase.sh</code><p>启动独立 agentd，桌面改用 gRPC TaskBackend。</p></div></li>
+            <li><span>03</span><div><h3>保留不变部分</h3><code>TaskBackend · DesktopService · frontend</code><p>业务接口、Wails 服务和前端不随进程模式重写。</p></div></li>
+          </ol>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

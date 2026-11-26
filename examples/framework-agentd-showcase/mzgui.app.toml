@@ -1,0 +1,41 @@
+schema_version = 1
+
+[app]
+id = "com.mzgui.framework.agentdshowcase"
+display_name = "黑夜路人的 APP · 多进程"
+description = "MZ-GUI 单进程与多进程共用任务接口的可运行示例"
+protocol_scheme = "mzgui-agentd-showcase"
+data_namespace = "mzgui_agentd_showcase"
+single_instance_id = "com.mzgui.framework.agentdshowcase.desktop"
+
+[processes]
+desktop = "mzgui-agentd-showcase-desktop"
+agentd = "mzgui-agentd-showcase-agentd"
+
+[storage]
+config_basename = "agentd-showcase.toml"
+database_basename = "showcase.db"
+artifact_namespace = "mzgui_agentd_showcase"
+
+[framework]
+capability_catalog_version = 1
+capabilities = [
+  "lifecycle",
+  "window.main",
+  "runtime.task",
+  "runtime.resource-pool",
+  "storage.sqlite",
+  "transport.local",
+  "security.capability",
+  "observability.trace",
+  "ui.tokens",
+]
+adapters = []
+
+[security]
+credential_service = "com.mzgui.framework.agentdshowcase"
+
+[build]
+macos_bundle_id = "com.mzgui.framework.agentdshowcase"
+windows_app_id = "MZGUI.Framework.AgentdShowcase"
+channels = ["dev"]

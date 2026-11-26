@@ -36,7 +36,7 @@ agentd = "example-agentd"
 # helper = "example-helper"              # 可选，仅高风险操作需要
 ```
 
-多进程模板必须证明窗口关闭后任务继续、SQLite 单 owner、握手/session、取消和恢复，不能只启动两个空进程。
+`examples/framework-agentd-showcase` 提供可运行实现：桌面通过 Bootstrap 握手取得 session，经本机 gRPC 调用 agentd；只有 agentd 打开 SQLite。集成测试启动真实 agentd 子进程，证明桌面连接关闭后任务继续、无效 session 被拒绝、任务可取消，以及 agentd 重启后结果可恢复。
 
 ## 迁移原则
 
@@ -53,10 +53,10 @@ agentd = "example-agentd"
 ## 当前实现范围
 
 - 单进程 Showcase：已具备，包含窗口、状态、EventBus、Command/Query、FileGrant、Bootstrap 和真实事件交互。
-- 多进程模板与迁移：后续阶段交付，必须增加真实后台任务与恢复证据。
+- 多进程模板与迁移：已具备。同一 `DesktopService`、前端和 `TaskBackend` 可切换进程内 / gRPC 适配器；迁移只改组合根。运行与验证见 `examples/framework-agentd-showcase/README.md`。
 
 验证：
 
 ```bash
-go test ./framework/go/core/appmanifest ./tests/architecture ./examples/framework-showcase
+go test ./framework/go/core/appmanifest ./tests/architecture ./examples/framework-showcase ./examples/framework-agentd-showcase/...
 ```
