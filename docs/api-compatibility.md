@@ -42,7 +42,16 @@ SQLite open/migration 已进入最小核心面，当前为 `candidate`，由默�
 
 UI Kit 基础组件将在组件测试、文档和两个消费者证据补齐后逐项升档。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
 
-当前 catalog 没有 `stable` 条目。核心 candidate API 的调用约定如下：
+`v0.0.5` 仅将以下已有两个以上真实消费者、历史升级与 macOS/Windows 证据的接口升为 `stable`：
+
+- `core.clock.system-now`
+- `core.model.version-parse`
+- `interaction.eventbus.publish`
+- `transport.local.endpoint-validate`
+- `storage.sqlite.open`
+- `storage.sqlite.migration-bundle`
+
+其余核心接口继续保持 `candidate/experimental`：它们还需要更多真实消费者、长期升级记录、错误/取消/并发与迁移证据，不随本版本批量升档。所有公共 API 的调用约定如下：
 
 - 错误：使用各包公开错误值或 gRPC status，不依赖错误字符串匹配；Proto/Wails DTO 分开演进。
 - 取消：接收 `context.Context` 的调用必须由调用方设置 deadline 并传播取消；长任务使用 TaskBackend 的 CancelTask，而不是关闭 UI 假装取消。
