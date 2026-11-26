@@ -186,6 +186,11 @@ func (process *agentdProcess) stop(t *testing.T) {
 	if process.exited() {
 		return
 	}
+	if runtime.GOOS == "windows" {
+		_ = process.command.Process.Kill()
+		<-process.done
+		return
+	}
 	if err := process.command.Process.Signal(syscall.SIGTERM); err != nil && !errors.Is(err, os.ErrProcessDone) {
 		t.Logf("发送 agentd 退出信号: %v", err)
 	}
