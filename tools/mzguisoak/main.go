@@ -69,8 +69,15 @@ func execute(duration time.Duration) (soakReport, error) {
 	initialGoroutines := runtime.NumGoroutine()
 	ctx, cancel := context.WithTimeout(context.Background(), duration)
 	defer cancel()
+	databaseFile, err := os.CreateTemp("", "mzgui-soak-*.db")
+	if err != nil {
+		return soakReport{}, err
+	}
+	databasePath := databaseFile.Name()
+	_ = databaseFile.Close()
+	defer os.Remove(databasePath)
 	database, err := sqlite.Open(ctx, sqlite.Options{
-		Path:    filepath.Join(os.TempDir(), "mzgui-soak-tasks.db"),
+		Path:    databasePath,
 		Bundles: []sqlite.MigrationBundle{taskmigrations.Bundle()},
 	})
 	if err != nil {
