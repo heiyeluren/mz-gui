@@ -3,8 +3,8 @@
   "files": {
     "framework/api/core-v1.schema.json": "7fd0e9bfab274f3787abffd71c4a65e65fc2cedbd625e8452637bcb65eb5db1f",
     "framework/api/public-v1.schema.json": "3178e55a90f0b9535d90d0f648f33194c49d257a07ad6ed0fd09ef39552c829b",
-    "framework/api/core-v1.json": "fcbef577017c59554c67d485cca903152e6aa0c548892466a3ecdf2a7982ec2c",
-    "framework/api/public-v1.json": "2961d273a47528719d1d09c04760fba4eb662c0891043c844d483e5f1cffb804",
+    "framework/api/core-v1.json": "3de795b31b0a7793630aec7d6ff5dbf9d9751b7e0cafe791b40db2fb271cd318",
+    "framework/api/public-v1.json": "f7ffd0ff4d48264b2c9bb8a5d789c529c3c906897941c71b4c5104ef01657311",
     "framework/api/caller-usage/framework-showcase.json": "38054ecc63e0170c81c57d10a5f47ae15fa10bf30a408dcec7676eb68cc3c3a9",
     "framework/api/caller-usage/framework-plugin-echo.json": "434fe97293e16a4515f97d427a4b8db685b57aab8b9e61ec93b7c9df367e6bbe",
     "framework/appmanifest/mzgui.app.schema.json": "120e21b3d9e7ccb509ad49bf2ef165e97dd59b40040ee80e7def3dc169bf17c8",

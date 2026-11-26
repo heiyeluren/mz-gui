@@ -47,6 +47,7 @@ tasks:
       - go run ./tools/mzguiapidiff --old framework/api/baselines/v0.0.1.json --new framework/api/public-v1.json --caller-usage framework/api/caller-usage/framework-showcase.json --caller-usage framework/api/caller-usage/framework-plugin-echo.json --callsite-caller framework-showcase --callsite-root examples/framework-showcase
       - go run ./tools/mzguiprotodiff --old framework/api/baselines/proto/bootstrap-v0.0.1.proto --new framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
       - go test ./tests/architecture
+      - bash scripts/verify-consumer-upgrade.sh
 
   generate:app:
     cmds:

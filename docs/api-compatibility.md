@@ -34,9 +34,11 @@ Go module 发布必须使用 `vX.Y.Z` 形式的 tag，例如 `v0.0.2`。`mz-gui-
 - `lifecycle`：依赖 DAG Supervisor、Wails 方法边界和受保护调用。
 - `interaction`：CommandBus、QueryBus、EventBus、CommandUndo、Undo/Redo 和窗口状态的 Memory/SQLite Store。
 - `platform`：运行目录诊断和可注入 Backend 的凭据 Store。
-- `storage.sqlite`：SQLite 备份。
+- `storage.sqlite`：SQLite 打开、migration bundle 与备份。
 - `security.filegrant`：按主体、来源和有效期策略校验文件授权。
 - `transport`：gRPC stream 边界、本机 Endpoint 校验和 Bootstrap Handshake。
+
+SQLite open/migration 已进入最小核心面，当前为 `candidate`，由默认 Showcase、多进程模板及独立 storage 消费者共同验证。streamresume 的 `New`、`Frame`、`Cursor` 和 `Replay` 已登记为 `candidate` 公共契约，但暂不进入最小核心面；升级更多真实消费者后再评估。
 
 UI Kit 基础组件将在组件测试、文档和两个消费者证据补齐后逐项升档。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
 
@@ -68,5 +70,7 @@ go run ./tools/mzguiprotodiff \
   --old framework/api/baselines/proto/bootstrap-v0.0.1.proto \
   --new framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
 ```
+
+`tests/consumers` 中的 `basic` 和 `storage` 是两个独立 Go module。`scripts/verify-consumer-upgrade.sh` 先安装 `v0.0.1` 并测试，再升级到 `MZGUI_CONSUMER_REF`（默认 `main`）重跑测试与构建；不使用 `replace` 或工作仓私有路径。正式发布后可设 `MZGUI_CONSUMER_REF=vX.Y.Z` 从 tag 复验。
 
 `framework/api/golden/schema-v1.json` 固定 API schema、catalog、应用 Manifest 与 config schema 的 SHA-256。变更这些文件时必须先评估兼容影响，再显式更新 golden；`tests/architecture` 会阻止未审阅的静默变化。`make check` 和 GitHub Actions 均执行上述检查。发布破坏性变更时，先提供替代接口、迁移文档和兼容窗口，不得直接改旧基线掩盖破坏。

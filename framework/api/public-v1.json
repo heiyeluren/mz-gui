@@ -1,7 +1,7 @@
 {
   "$schema": "./public-v1.schema.json",
   "schema_version": 1,
-  "catalog_revision": 88,
+  "catalog_revision": 94,
   "framework_api_version": "1.0.0",
   "governance": {
     "coverage": {
@@ -1735,6 +1735,42 @@
       ]
     },
     {
+      "api_id": "storage.sqlite.migration-bundle",
+      "module": "storage",
+      "package": "framework/go/storage/sqlite",
+      "symbol": "MigrationBundle",
+      "kind": "type",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "03f56065bf71e1d4900d145355e9c4405caa2966f33bbde88c4182698d998ffc",
+      "capabilities": [
+        "storage.sqlite"
+      ],
+      "notes": [
+        "按 owner、依赖、迁移 FS 和对象归属声明 SQLite migration bundle"
+      ]
+    },
+    {
+      "api_id": "storage.sqlite.open",
+      "module": "storage",
+      "package": "framework/go/storage/sqlite",
+      "symbol": "Open",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "355e8f3aa65cc98bed9c539e35201bc150e6b9fabda992101b5325447ac244a3",
+      "capabilities": [
+        "storage.sqlite"
+      ],
+      "notes": [
+        "打开 SQLite 并在有界 context 下执行只向前迁移，返回调用方持有的 *sql.DB"
+      ]
+    },
+    {
       "api_id": "testing.sdk.fault-kind",
       "module": "testing",
       "package": "framework/go/testing/testkit",
@@ -2740,6 +2776,78 @@
       ],
       "notes": [
         "RemoteService WPAD 候选 URL 生成入口，由 DNS suffix 构造 http://wpad.<suffix>/wpad.dat，不查询 DHCP"
+      ]
+    },
+    {
+      "api_id": "transport.streamresume.cursor",
+      "module": "transport",
+      "package": "framework/go/transport/streamresume",
+      "symbol": "Cursor",
+      "kind": "type",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "fb7c60f7fbdeb56a477b4e977ea6fbd4f203cf3643f7c98202155fbb5b429996",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "使用 stream_id、last_ack 和 resume_token 恢复重放位置"
+      ]
+    },
+    {
+      "api_id": "transport.streamresume.frame",
+      "module": "transport",
+      "package": "framework/go/transport/streamresume",
+      "symbol": "Frame",
+      "kind": "type",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "e6bb21225b8d1c0cb07a308824c40508177d5c49b43e80b577a9d3aa8d45cc9e",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "按 stream_id 和连续 sequence 携带 payload、final 与观测时间"
+      ]
+    },
+    {
+      "api_id": "transport.streamresume.new",
+      "module": "transport",
+      "package": "framework/go/transport/streamresume",
+      "symbol": "New",
+      "kind": "function",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "af86d1facfa211e9cbcd9ee15f196fe5ba307fad80f97938e033a541819e480a",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "创建有界流恢复 Store；调用方负责 Open、Append、Replay 和 Ack 生命周期"
+      ]
+    },
+    {
+      "api_id": "transport.streamresume.replay",
+      "module": "transport",
+      "package": "framework/go/transport/streamresume",
+      "symbol": "SafeStore.Replay",
+      "kind": "method",
+      "stability": "candidate",
+      "since": "1.0.0",
+      "deprecated_since": null,
+      "replacement": null,
+      "signature_sha256": "7c016164457b8eb508ef7718e10382b0b637f50445b2a1f5628a50fff7f9c1ea",
+      "capabilities": [
+        "transport.local"
+      ],
+      "notes": [
+        "按 cursor 和有界 limit 重放 Frame；窗口不可用或 sequence 不连续时返回明确错误"
       ]
     },
     {

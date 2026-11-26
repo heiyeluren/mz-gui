@@ -42,6 +42,8 @@
     "platform.runtimepaths.diagnose",
     "security.filegrant.validate-create",
     "storage.sqlite.backup",
+    "storage.sqlite.migration-bundle",
+    "storage.sqlite.open",
     "transport.bootstrap.handshake",
     "transport.grpc.stream-boundary",
     "transport.local.endpoint-validate",
