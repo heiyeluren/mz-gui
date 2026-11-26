@@ -78,14 +78,11 @@ func execute(duration time.Duration) (soakReport, error) {
 	_ = databaseFile.Close()
 	defer os.Remove(databasePath)
 	database, err := sqlite.Open(ctx, sqlite.Options{
-		Path:    databasePath,
-		Bundles: []sqlite.MigrationBundle{taskmigrations.Bundle()},
+		Path:        databasePath,
+		Bundles:     []sqlite.MigrationBundle{taskmigrations.Bundle()},
+		BusyTimeout: 5 * time.Second,
 	})
 	if err != nil {
-		return soakReport{}, err
-	}
-	if _, err := database.ExecContext(ctx, "PRAGMA busy_timeout=5000"); err != nil {
-		_ = database.Close()
 		return soakReport{}, err
 	}
 	repository := taskengine.NewSQLiteRepository(database, nil)

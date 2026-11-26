@@ -25,6 +25,7 @@ type Options struct {
 	MaxOpenConns    int
 	MaxIdleConns    int
 	ConnMaxLifetime time.Duration
+	BusyTimeout     time.Duration
 	Now             func() time.Time
 }
 
@@ -41,7 +42,7 @@ func Open(ctx context.Context, options Options) (*sql.DB, error) {
 		return nil, err
 	}
 	// modernc SQLite 的 busy handler 不响应 Go context，单次等待必须足够短，避免 GUI/RPC 假死。
-	dsn := "file:" + filepath.ToSlash(options.Path) + "?_pragma=busy_timeout(250)&_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)&_txlock=immediate"
+	dsn := fmt.Sprintf("file:%s?_pragma=busy_timeout(%d)&_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)&_txlock=immediate", filepath.ToSlash(options.Path), options.BusyTimeout.Milliseconds())
 	database, err := sql.Open("sqlite", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("打开 SQLite: %w", err)
@@ -85,11 +86,15 @@ func normalizeOptions(options *Options) error {
 	if options.ConnMaxLifetime == 0 {
 		options.ConnMaxLifetime = 30 * time.Minute
 	}
+	if options.BusyTimeout == 0 {
+		options.BusyTimeout = 250 * time.Millisecond
+	}
 	if options.Now == nil {
 		options.Now = time.Now
 	}
 	if options.MaxOpenConns < 1 || options.MaxOpenConns > 64 || options.MaxIdleConns < 0 ||
-		options.MaxIdleConns > options.MaxOpenConns || options.ConnMaxLifetime < time.Minute {
+		options.MaxIdleConns > options.MaxOpenConns || options.ConnMaxLifetime < time.Minute ||
+		options.BusyTimeout < 0 || options.BusyTimeout > 30*time.Second {
 		return fmt.Errorf("SQLite 连接池配置无效")
 	}
 	return nil
