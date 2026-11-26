@@ -9,4 +9,6 @@ bash scripts/verify-consumer-upgrade.sh
 MZGUI_CONSUMER_REF=v0.0.4 bash scripts/verify-consumer-upgrade.sh
 ```
 
-`make check` 和 GitHub Actions 执行同一脚本。临时 module 在系统临时目录创建并在测试后清理，不会把 `go.sum` 或构建产物写回 fixture。
+`react` 是独立 React/Vite 消费者。`scripts/verify-react-consumer.sh` 从实际 npm tarball 安装 UI Kit，执行 TypeScript 检查、Playwright 真实组件渲染交互和生产构建；不依赖工作仓源码路径。
+
+`make check` 和 GitHub Actions 执行同一脚本。临时 module 在系统临时目录创建并在测试后清理，不会把 `go.sum`、package-lock 或构建产物写回 fixture。

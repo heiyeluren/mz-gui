@@ -48,6 +48,7 @@ tasks:
       - go run ./tools/mzguiprotodiff --old framework/api/baselines/proto/bootstrap-v0.0.1.proto --new framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
       - go test ./tests/architecture
       - bash scripts/verify-consumer-upgrade.sh
+      - bash scripts/verify-react-consumer.sh
 
   generate:app:
     cmds:

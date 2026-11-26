@@ -43,7 +43,7 @@ func probeShowcaseBootstrapHandshake(ctx context.Context) error {
 		return err
 	}
 	identity := bootstrap.ProcessIdentity{
-		ProcessRole: "agentd", ProcessName: "showcase-agentd", ProcessVersion: "0.0.2", BuildID: "build-v0.0.2",
+		ProcessRole: "agentd", ProcessName: "showcase-agentd", ProcessVersion: "0.0.4", BuildID: "build-v0.0.4",
 		InstanceID: "showcase-agentd-1", OS: runtime.GOOS, Arch: runtime.GOARCH, ReleaseChannel: "dev", EndpointID: "showcase-agentd",
 		Application: bootstrap.ApplicationIdentity{
 			AppID: "com.mzgui.framework.showcase", FrameworkAPIVersion: "1.0.0", FrameworkCatalogRevision: 1,

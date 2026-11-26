@@ -4,7 +4,7 @@
 
 MZ-GUI 区分三种版本，不能混用：
 
-- `release_version`：产品发布版本，当前为 `0.0.2`。
+- `release_version`：产品发布版本，当前为 `0.0.4`。
 - `api_schema_version`：公共 API 与治理文档的 schema 版本，当前为 `1.0.0`。
 - `core-v1.json`：最小核心 API 清单及其基线文件，不是第三个版本号。
 
@@ -41,6 +41,13 @@ Go module 发布必须使用 `vX.Y.Z` 形式的 tag，例如 `v0.0.2`。`mz-gui-
 SQLite open/migration 已进入最小核心面，当前为 `candidate`，由默认 Showcase、多进程模板及独立 storage 消费者共同验证。streamresume 的 `New`、`Frame`、`Cursor` 和 `Replay` 已登记为 `candidate` 公共契约，但暂不进入最小核心面；升级更多真实消费者后再评估。
 
 UI Kit 基础组件将在组件测试、文档和两个消费者证据补齐后逐项升档。它们目前存在于代码中，但“存在实现”不等于“已形成 stable API”。
+
+当前 catalog 没有 `stable` 条目。核心 candidate API 的调用约定如下：
+
+- 错误：使用各包公开错误值或 gRPC status，不依赖错误字符串匹配；Proto/Wails DTO 分开演进。
+- 取消：接收 `context.Context` 的调用必须由调用方设置 deadline 并传播取消；长任务使用 TaskBackend 的 CancelTask，而不是关闭 UI 假装取消。
+- 并发：EventBus 订阅需要及时消费并执行 Cancel；SQLite 多进程模式只允许 agentd 持有写 owner；streamresume 按连续 sequence 和有界窗口重放。
+- 迁移：先运行 `make check` 与两个独立消费者升级测试，再阅读本文件和对应组件的已知限制；破坏性 candidate 变更必须附迁移说明与兼容窗口。
 
 ## 变更规则
 

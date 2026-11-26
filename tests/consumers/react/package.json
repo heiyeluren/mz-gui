@@ -1,0 +1,19 @@
+{
+  "name": "mz-gui-react-consumer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^22.0.0",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "typescript": "5.9.3",
+    "vite": "^8.4.0"
+  }
+}

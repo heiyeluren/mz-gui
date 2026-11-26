@@ -34,6 +34,7 @@ check:
 	$(GO) run ./tools/mzguiprotodiff --old framework/api/baselines/proto/bootstrap-v0.0.1.proto --new framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
 	$(GO) test ./tests/architecture
 	bash scripts/verify-consumer-upgrade.sh
+	bash scripts/verify-react-consumer.sh
 
 generate-app:
 	$(GO) run ./tools/mzguiappgen --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta

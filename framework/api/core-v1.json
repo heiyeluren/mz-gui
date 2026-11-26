@@ -1,7 +1,7 @@
 {
   "$schema": "./core-v1.schema.json",
   "schema_version": 1,
-  "release_version": "0.0.2",
+  "release_version": "0.0.4",
   "api_schema_version": "1.0.0",
   "catalog": "public-v1.json",
   "baseline": "baselines/v0.0.1.json",

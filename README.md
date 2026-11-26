@@ -2,7 +2,7 @@
 
 MZ-GUI 是一个可独立运行、可复用的跨平台桌面 GUI 框架，基于 Go、Wails v3、React 和 TypeScript。仓库同时提供公共 Framework、React UI Kit、协议与生成代码、通用工具，以及可直接运行的桌面 APP「黑夜路人的 APP」。
 
-当前发布版本：`v0.0.2`。公共 API 仍包含 `candidate` 和 `experimental` 能力，不将其视为稳定生产承诺。
+当前发布版本：`v0.0.4`。公共 API 仍包含 `candidate` 和 `experimental` 能力，不将其视为稳定生产承诺。
 
 ## 包含能力
 
@@ -51,6 +51,23 @@ open build/MZ-GUI-Showcase.app
 ```
 
 窗口包含框架概览、公共能力和快速开始。点击「发送框架事件」会完成一次真实的 Wails → Go → EventBus 调用。
+
+## 界面预览
+
+以下是框架自带 APP 的真实 macOS 运行截图，不是设计稿。你可以先看到默认界面，再复制示例开发自己的应用。
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/framework-showcase.jpg" alt="黑夜路人的 APP 单进程框架概览" width="720"></td>
+    <td><img src="docs/screenshots/framework-agentd-showcase.jpg" alt="黑夜路人的 APP 多进程后台任务模板" width="720"></td>
+  </tr>
+  <tr>
+    <td align="center">默认单进程：框架概览、健康状态和真实事件</td>
+    <td align="center">可选多进程：agentd 后台任务与恢复</td>
+  </tr>
+</table>
+
+更多截图说明与复现命令见 [界面参考](docs/screenshots/README.md)。
 
 ## 验证与构建
 

@@ -72,7 +72,14 @@ func TestProductionSourcesDoNotContainPrivateOrInternalLocations(t *testing.T) {
 			if walkErr != nil {
 				return walkErr
 			}
-			if entry.IsDir() || strings.HasSuffix(path, "_test.go") {
+			if entry.IsDir() {
+				switch entry.Name() {
+				case "node_modules", "dist", "coverage", "test-results", "playwright-report":
+					return filepath.SkipDir
+				}
+				return nil
+			}
+			if strings.HasSuffix(path, "_test.go") {
 				return nil
 			}
 			content, err := os.ReadFile(path)
