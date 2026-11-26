@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -83,6 +84,10 @@ func execute(duration time.Duration) (soakReport, error) {
 	if err != nil {
 		return soakReport{}, err
 	}
+	if _, err := database.ExecContext(ctx, "PRAGMA busy_timeout=5000"); err != nil {
+		_ = database.Close()
+		return soakReport{}, err
+	}
 	repository := taskengine.NewSQLiteRepository(database, nil)
 	registry := taskengine.NewRegistry()
 	if err := registry.Register("soak.noop", taskengine.Registration{
@@ -109,16 +114,39 @@ func execute(duration time.Duration) (soakReport, error) {
 	created := 0
 	batches := 0
 	for {
+		done := false
 		for index := 0; index < 100; index++ {
-			if _, _, err := repository.Create(ctx, taskengine.CreateRequest{
+			_, _, err := repository.Create(ctx, taskengine.CreateRequest{
 				Type: "soak.noop", Priority: 50, PayloadVersion: 1, Payload: []byte(`{}`),
 				IdempotencyKey: fmt.Sprintf("soak-%d-%d", batches, index), WorkspaceID: "soak", MaxAttempts: 1, Now: time.Now().UTC(),
-			}); err != nil {
+			})
+			if err != nil {
+				if errors.Is(err, context.DeadlineExceeded) {
+					done = true
+					break
+				}
 				_ = engine.Close(context.Background())
 				_ = database.Close()
 				return soakReport{}, err
 			}
 			created++
+		}
+		if done {
+			closeContext, closeCancel := context.WithTimeout(context.Background(), 2*time.Second)
+			defer closeCancel()
+			if err := engine.Close(closeContext); err != nil {
+				_ = database.Close()
+				return soakReport{}, err
+			}
+			if err := database.Close(); err != nil {
+				return soakReport{}, err
+			}
+			runtime.GC()
+			return soakReport{
+				Duration: duration, TasksCreated: created, OpenConnections: 0,
+				GoroutineDelta: runtime.NumGoroutine() - initialGoroutines,
+				HeapAllocBytes: currentHeapAlloc(), CompletedBatches: batches,
+			}, nil
 		}
 		batches++
 		select {
