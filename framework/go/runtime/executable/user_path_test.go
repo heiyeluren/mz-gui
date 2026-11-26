@@ -8,6 +8,9 @@ import (
 )
 
 func TestUserPATHPolicyDoesNotRelaxCompatibilityLinks(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("需要创建符号链接的管理员或开发者模式权限")
+	}
 	root := t.TempDir()
 	user, compat, target := filepath.Join(root, "user"), filepath.Join(root, "compat"), filepath.Join(root, "versions", "v9", "cli")
 	for _, dir := range []string{user, compat, filepath.Dir(target)} {
