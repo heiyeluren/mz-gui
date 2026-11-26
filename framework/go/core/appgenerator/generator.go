@@ -122,7 +122,7 @@ func renderFiles(manifestPath, catalogPath string, options Options) ([]byte, err
 	if err != nil {
 		return nil, fmt.Errorf("读取能力 Catalog: %w", err)
 	}
-	return Render(manifestData, catalogData, options)
+	return Render(canonicalGenerated(manifestData), canonicalGenerated(catalogData), options)
 }
 
 func writeAtomic(path string, data []byte) error {
