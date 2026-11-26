@@ -111,7 +111,7 @@ import '@mz-gui/ui-kit/styles.css'
 
 ## 验证范围
 
-`v0.0.1` 已在 macOS Apple Silicon 上完成 Go 测试、独立构建、UI Kit 测试和真实窗口交互验收。Windows、macOS Intel 和 Linux 的真机兼容性未在本版本验证；构建成功不等于对应平台已验收。
+`v0.0.4` 已在 macOS Apple Silicon 上完成 Go 测试、独立构建、UI Kit 测试、独立消费者、单/多进程真实窗口交互和后台任务恢复验收。Windows、macOS Intel 和 Linux 的真机兼容性未在本版本验证；构建成功不等于对应平台已验收。
 
 ## 许可证
 
