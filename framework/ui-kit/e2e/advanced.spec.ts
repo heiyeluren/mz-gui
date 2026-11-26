@@ -19,7 +19,7 @@ test('terminal supports input, IME, clipboard and resize', async ({ page, contex
   await expect(page.getByTestId('terminal-last-input')).toHaveText('中文')
 
   await page.evaluate(() => navigator.clipboard.writeText('粘贴文本'))
-  await page.keyboard.press('ControlOrMeta+v')
+  await page.keyboard.press(process.platform === 'win32' ? 'Shift+Insert' : 'ControlOrMeta+v')
   await expect(page.getByTestId('terminal-last-input')).toHaveText('粘贴文本')
 
   await expect(page.locator('.xterm-screen')).toContainText('ready')
