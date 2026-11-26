@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	ErrClosed         = errors.New("MessageBus 已关闭")
+	ErrClosed          = errors.New("MessageBus 已关闭")
 	ErrUnknownDelivery = errors.New("MessageBus 投递不存在")
 
 	topicPattern       = regexp.MustCompile(`^[a-z][a-z0-9]*(?:[./-][a-z0-9]+)*$`)
@@ -36,14 +36,14 @@ type Bus struct {
 	info        contract.AdapterInfo
 	maxInflight int
 
-	mu          sync.Mutex
-	closed      bool
-	changed     chan struct{}
-	nextSeq     uint64
+	mu           sync.Mutex
+	closed       bool
+	changed      chan struct{}
+	nextSeq      uint64
 	nextDelivery uint64
-	topics      map[string][]storedMessage
-	idempotent  map[string]contract.PublishAck
-	inflight    map[string]inflight
+	topics       map[string][]storedMessage
+	idempotent   map[string]contract.PublishAck
+	inflight     map[string]inflight
 }
 
 type storedMessage struct {
@@ -60,11 +60,11 @@ type inflight struct {
 }
 
 type stream struct {
-	bus      *Bus
-	topic    string
-	cursor   uint64
-	closed   bool
-	pending  []uint64
+	bus     *Bus
+	topic   string
+	cursor  uint64
+	closed  bool
+	pending []uint64
 }
 
 func New(options Options) (*Bus, error) {

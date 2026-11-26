@@ -134,7 +134,7 @@ func mustNext(t *testing.T, stream contract.MessageStream) contract.DeliveredMes
 func mustMessage(t *testing.T, topic, artifactID, idempotency string) contract.Message {
 	t.Helper()
 	return contract.Message{
-		Meta: writeMeta(t, idempotency),
+		Meta:  writeMeta(t, idempotency),
 		Topic: topic,
 		PayloadRef: contract.ArtifactRef{
 			ID: model.ID(artifactID), SHA256: strings.Repeat("ab", 32), Bytes: 16,
