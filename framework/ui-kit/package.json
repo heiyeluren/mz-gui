@@ -9,6 +9,7 @@
   ],
   "files": [
     "dist",
+    "docs",
     "README.md"
   ],
   "exports": {
@@ -36,16 +37,17 @@
     "prepack": "npm run build"
   },
   "peerDependencies": {
-    "mermaid": ">=12.3.0 <13",
     "@xterm/addon-fit": ">=0.11.0 <1",
     "@xterm/addon-webgl": ">=0.19.0 <1",
     "@xterm/xterm": ">=6.0.0 <7",
+    "mermaid": ">=12.3.0 <13",
     "react": ">=18.3.0 <20",
     "react-dom": ">=18.3.0 <20"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
     "@vitest/coverage-v8": "3.2.7",

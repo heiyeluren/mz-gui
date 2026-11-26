@@ -23,3 +23,5 @@ npm pack --dry-run
 ```
 
 `npm run build` 输出 ESM JavaScript、类型声明、source map 和 CSS 到 `dist/`。发布内容仅包含 `dist/` 与本文档。
+
+组件用途、props、事件、状态矩阵、最小示例和已知限制见[组件文档](docs/components/README.md)。
