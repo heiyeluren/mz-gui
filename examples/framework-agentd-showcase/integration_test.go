@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync"
 	"syscall"
 	"testing"
 	"time"
@@ -64,9 +65,12 @@ func TestAgentdTaskSurvivesDesktopAndAgentdRestart(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	cancelled, err := reconnected.CancelTask(context.Background(), second.ID, "integration cancel", "cancel-second-task")
-	if err != nil || cancelled.State != string(taskengine.StateCancelled) {
-		t.Fatalf("取消任务失败: task=%#v err=%v", cancelled, err)
+	if _, err := reconnected.CancelTask(context.Background(), second.ID, "integration cancel", "cancel-second-task"); err != nil {
+		t.Fatalf("提交取消失败: %v", err)
+	}
+	cancelled := waitTaskState(t, reconnected, second.ID, taskengine.StateCancelled)
+	if cancelled.State != string(taskengine.StateCancelled) {
+		t.Fatalf("取消任务失败: task=%#v", cancelled)
 	}
 	if err := reconnected.Close(context.Background()); err != nil {
 		t.Fatal(err)
@@ -145,14 +149,27 @@ func assertSessionRequired(t *testing.T, client *agentClient, taskID string) {
 type agentdProcess struct {
 	command *exec.Cmd
 	log     bytes.Buffer
+	logMu   sync.Mutex
 	done    chan struct{}
+}
+
+type synchronizedBuffer struct {
+	mu     *sync.Mutex
+	buffer *bytes.Buffer
+}
+
+func (writer *synchronizedBuffer) Write(data []byte) (int, error) {
+	writer.mu.Lock()
+	defer writer.mu.Unlock()
+	return writer.buffer.Write(data)
 }
 
 func startAgentd(t *testing.T, binary, runDir string) *agentdProcess {
 	t.Helper()
 	process := &agentdProcess{command: exec.Command(binary, "-run-dir", runDir), done: make(chan struct{})}
-	process.command.Stdout = &process.log
-	process.command.Stderr = &process.log
+	logWriter := &synchronizedBuffer{mu: &process.logMu, buffer: &process.log}
+	process.command.Stdout = logWriter
+	process.command.Stderr = logWriter
 	if err := process.command.Start(); err != nil {
 		t.Fatal(err)
 	}
@@ -178,6 +195,8 @@ func (process *agentdProcess) exited() bool {
 }
 
 func (process *agentdProcess) logs() string {
+	process.logMu.Lock()
+	defer process.logMu.Unlock()
 	return process.log.String()
 }
 
