@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 	"time"
 
 	"github.com/heiyeluren/mz-gui/framework/go/observability/diagnostics"
@@ -79,6 +81,7 @@ func TestResolveRejectsIncompleteOrUntrustedRuntime(t *testing.T) {
 	})
 
 	t.Run("symlink key file", func(t *testing.T) {
+		testkit.RequireSymlink(t)
 		executable, runtimeDirectory := createRuntimeFixture(t, 0x8664, "x64")
 		target := filepath.Join(filepath.Dir(runtimeDirectory), "outside.dll")
 		if err := os.WriteFile(target, []byte("outside"), 0o600); err != nil {
@@ -97,6 +100,7 @@ func TestResolveRejectsIncompleteOrUntrustedRuntime(t *testing.T) {
 	})
 
 	t.Run("nested directory escape", func(t *testing.T) {
+		testkit.RequireSymlink(t)
 		executable, runtimeDirectory := createRuntimeFixture(t, 0x8664, "x64")
 		outside := filepath.Join(filepath.Dir(runtimeDirectory), "outside-ebwebview")
 		if err := os.MkdirAll(filepath.Join(outside, "x64"), 0o700); err != nil {

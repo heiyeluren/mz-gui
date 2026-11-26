@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestVerifyDownloadedArtifactAcceptsOnlyWhitelistedVerifiedFile(t *testing.T) {
@@ -28,6 +30,7 @@ func TestVerifyDownloadedArtifactAcceptsOnlyWhitelistedVerifiedFile(t *testing.T
 }
 
 func TestVerifyDownloadedArtifactRejectsEscapeSymlinkDigestAndSize(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := filepath.Join(t.TempDir(), "updates")
 	if err := os.Mkdir(root, 0o700); err != nil {
 		t.Fatal(err)

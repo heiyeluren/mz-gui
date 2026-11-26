@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 	"time"
 )
 
@@ -101,6 +103,7 @@ func TestDurableOutboxClearRemovesReadyAndDelayedRecords(t *testing.T) {
 }
 
 func TestDurableOutboxRejectsCapacityAndUnsafeDirectory(t *testing.T) {
+	testkit.RequireSymlink(t)
 	now := time.Date(2026, 9, 2, 12, 0, 0, 0, time.UTC)
 	directory := t.TempDir()
 	outbox := newTestOutbox(t, directory, func() time.Time { return now }, 1)

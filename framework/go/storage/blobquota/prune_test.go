@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 	"time"
 )
 
@@ -67,6 +69,7 @@ func TestPruneRemovesExpiredAndOldestUntilUnderQuota(t *testing.T) {
 }
 
 func TestPruneRejectsUnsafeRootAndSkipsSymlinks(t *testing.T) {
+	testkit.RequireSymlink(t)
 	now := time.Now().UTC()
 	if _, err := Prune("relative", 8, 0, now); !errors.Is(err, ErrInvalidQuota) {
 		t.Fatalf("相对路径必须拒绝: %v", err)

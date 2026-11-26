@@ -9,6 +9,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
+
 	"github.com/heiyeluren/mz-gui/framework/go/storage/configfile"
 )
 
@@ -51,9 +53,7 @@ func TestRunnerAppliesContinuousStepsAndCreatesBackup(t *testing.T) {
 	if err != nil || string(data) != "schema_version=1\nvalue=legacy\n" {
 		t.Fatalf("迁移备份错误: data=%q err=%v", data, err)
 	}
-	if info, err := os.Stat(backup); err != nil || info.Mode().Perm() != 0o600 {
-		t.Fatalf("迁移备份权限错误: info=%v err=%v", info, err)
-	}
+	testkit.AssertFileMode(t, backup, 0o600)
 
 	unchanged, migrated, err := runner.Upgrade(context.Background(), store)
 	if err != nil || migrated || unchanged.Revision != snapshot.Revision {

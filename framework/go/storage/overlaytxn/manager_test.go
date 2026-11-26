@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestManagerAppliesDeclaredFilesAndPreservesUnmanagedData(t *testing.T) {
@@ -27,12 +29,11 @@ func TestManagerAppliesDeclaredFilesAndPreservesUnmanagedData(t *testing.T) {
 	assertFixture(t, filepath.Join(root, "rules", "common.md"), "new")
 	assertFixture(t, filepath.Join(root, "config", "personal.toml"), "keep")
 	assertFixture(t, filepath.Join(result.BackupPath, "rules", "common.md"), "old")
-	if info, statErr := os.Stat(filepath.Join(root, "bin", "mozi-tool")); statErr != nil || info.Mode().Perm() != 0o700 {
-		t.Fatalf("可执行文件权限=%v err=%v", info, statErr)
-	}
+	testkit.AssertFileMode(t, filepath.Join(root, "bin", "mozi-tool"), 0o700)
 }
 
 func TestManagerRejectsUnsafePathsAndLinks(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root, source := t.TempDir(), t.TempDir()
 	writeFixture(t, filepath.Join(source, "safe.md"), "safe")
 	manager, err := New(Options{Root: root})

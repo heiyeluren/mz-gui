@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestCheckCommandAndArgRejectUnsafeInput(t *testing.T) {
@@ -105,6 +107,7 @@ func TestPathPolicyRejectsControlCharacters(t *testing.T) {
 }
 
 func TestPathPolicyRejectsSymlinkEvenInsideRoot(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := t.TempDir()
 	outside := filepath.Join(t.TempDir(), "secret.txt")
 	if err := os.WriteFile(outside, []byte("no"), 0o600); err != nil {

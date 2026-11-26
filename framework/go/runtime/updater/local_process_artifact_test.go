@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestNewLocalProcessArtifactFetcherCopiesVerifiedFixedComponent(t *testing.T) {
@@ -31,6 +33,7 @@ func TestNewLocalProcessArtifactFetcherCopiesVerifiedFixedComponent(t *testing.T
 }
 
 func TestNewLocalProcessArtifactFetcherRejectsSymlinkAndDigestMismatch(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := t.TempDir()
 	outside := filepath.Join(t.TempDir(), "outside.bin")
 	if err := os.WriteFile(outside, []byte("outside"), 0o600); err != nil {

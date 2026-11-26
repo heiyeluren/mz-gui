@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestBrokerReadsRegularFileInsideAuthorizedRoot(t *testing.T) {
@@ -116,10 +118,7 @@ func TestBrokerWritesWithDigestConflictProtection(t *testing.T) {
 	if err != nil || string(written) != string(next) {
 		t.Fatalf("覆盖内容错误: %q err=%v", written, err)
 	}
-	info, err := os.Stat(path)
-	if err != nil || info.Mode().Perm() != 0o640 {
-		t.Fatalf("覆盖后权限未保留: mode=%v err=%v", info.Mode(), err)
-	}
+	testkit.AssertFileMode(t, path, 0o640)
 }
 
 func TestBrokerCreatesNewFileAndRejectsBlindOverwrite(t *testing.T) {

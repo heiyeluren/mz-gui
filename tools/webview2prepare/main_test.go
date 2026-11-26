@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"sync/atomic"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestPrepareDownloadsVerifiesAndReusesPinnedArtifact(t *testing.T) {
@@ -102,6 +104,7 @@ func TestLoadReleaseRejectsUntrustedManifest(t *testing.T) {
 }
 
 func TestVerifyFileRejectsSymbolicLinkCache(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := t.TempDir()
 	target := filepath.Join(root, "target.cab")
 	data := []byte("trusted bytes")

@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 	"time"
 )
 
@@ -51,10 +53,7 @@ func TestCreateBuildsPrivateRedactedBundle(t *testing.T) {
 	if result.SHA256 != hex.EncodeToString(digest[:]) {
 		t.Fatalf("哈希=%s", result.SHA256)
 	}
-	info, err := os.Stat(result.Path)
-	if err != nil || info.Mode().Perm() != 0o600 {
-		t.Fatalf("权限=%v err=%v", info.Mode().Perm(), err)
-	}
+	testkit.AssertFileMode(t, result.Path, 0o600)
 	reader, err := zip.OpenReader(result.Path)
 	if err != nil {
 		t.Fatal(err)

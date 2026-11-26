@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 	"time"
 )
 
@@ -28,6 +30,7 @@ func TestPermanentRemoveDeletesOnlySelectedDirectory(t *testing.T) {
 }
 
 func TestPermanentRemoveRejectsUnsafePathsAndCancellation(t *testing.T) {
+	testkit.RequireSymlink(t)
 	manager := newTestManager(t)
 	writePreparedTree(t, manager.TargetPath("demo"), "keep")
 	ctx, cancel := context.WithCancel(context.Background())

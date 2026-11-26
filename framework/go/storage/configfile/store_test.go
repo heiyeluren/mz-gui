@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestStoreCreatesPrivateInitialDocument(t *testing.T) {
@@ -19,16 +21,11 @@ func TestStoreCreatesPrivateInitialDocument(t *testing.T) {
 	if string(snapshot.Data) != "version=1\n" || !strings.HasPrefix(snapshot.Revision, "sha256:") {
 		t.Fatalf("首次快照错误: %#v", snapshot)
 	}
-	info, err := os.Stat(path)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if info.Mode().Perm() != 0o600 {
-		t.Fatalf("文档权限 = %o", info.Mode().Perm())
-	}
+	testkit.AssertFileMode(t, path, 0o600)
 }
 
 func TestStoreRejectsOversizedAndSymbolicLinkDocuments(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := t.TempDir()
 	oversized := filepath.Join(root, "oversized.data")
 	if err := os.WriteFile(oversized, []byte("12345"), 0o600); err != nil {

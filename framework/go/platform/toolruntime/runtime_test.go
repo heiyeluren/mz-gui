@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestResolveAcceptsPinnedAdjacentRuntime(t *testing.T) {
@@ -49,6 +51,7 @@ func TestResolveRejectsUntrustedRuntime(t *testing.T) {
 			}
 		}},
 		{name: "symlink", mutate: func(t *testing.T, _, root string, _ *Spec) {
+			testkit.RequireSymlink(t)
 			if err := os.Symlink(filepath.Join(root, "usr", "bin", "tool.exe"), filepath.Join(root, "usr", "bin", "linked.exe")); err != nil {
 				t.Fatal(err)
 			}

@@ -15,6 +15,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
 )
 
 func TestDownloaderRestrictsOriginSizeAndDigest(t *testing.T) {
@@ -221,9 +223,10 @@ func TestCopyAndVerifyPublishesExactRegularArtifactIdempotently(t *testing.T) {
 		t.Fatalf("首次收编制品失败: %#v err=%v", result, err)
 	}
 	info, err := os.Lstat(destination)
-	if err != nil || !info.Mode().IsRegular() || info.Mode().Perm() != 0o600 {
-		t.Fatalf("目标制品权限错误: mode=%v err=%v", info.Mode(), err)
+	if err != nil || !info.Mode().IsRegular() {
+		t.Fatalf("目标制品不是普通文件: mode=%v err=%v", info.Mode(), err)
 	}
+	testkit.AssertFileMode(t, destination, 0o600)
 	replayed, err := CopyAndVerify(context.Background(), source, destination, expected, int64(len(payload)), int64(len(payload)))
 	if err != nil || replayed.Applied {
 		t.Fatalf("制品收编幂等重放错误: %#v err=%v", replayed, err)
@@ -231,6 +234,7 @@ func TestCopyAndVerifyPublishesExactRegularArtifactIdempotently(t *testing.T) {
 }
 
 func TestCopyAndVerifyRejectsSymlinkDigestSizeAndTargetConflict(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := t.TempDir()
 	source := filepath.Join(root, "source.zip")
 	payload := []byte("trusted-package")

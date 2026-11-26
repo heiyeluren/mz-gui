@@ -15,6 +15,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/heiyeluren/mz-gui/framework/go/testing/testkit"
+
 	"github.com/heiyeluren/mz-gui/framework/go/adapters/artifact"
 )
 
@@ -140,6 +142,7 @@ func TestInstallerDoesNotPublishPackageWithoutExecutable(t *testing.T) {
 }
 
 func TestInstallerRejectsUnsafeRootsAndCorruptedCache(t *testing.T) {
+	testkit.RequireSymlink(t)
 	root := t.TempDir()
 	symlink := filepath.Join(root, "packages-link")
 	if err := os.Symlink(root, symlink); err != nil {
