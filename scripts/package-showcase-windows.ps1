@@ -1,4 +1,4 @@
-param(
+﻿param(
   [string]$GoPath = "go",
   [string]$OutputDirectory = "build/windows"
 )
