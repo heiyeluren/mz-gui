@@ -103,10 +103,14 @@ func CheckFile(manifestPath, catalogPath, outputPath string, options Options) er
 	if err != nil {
 		return err
 	}
-	if !bytes.Equal(current, want) {
+	if !bytes.Equal(canonicalGenerated(current), canonicalGenerated(want)) {
 		return ErrOutputOutdated
 	}
 	return nil
+}
+
+func canonicalGenerated(data []byte) []byte {
+	return bytes.ReplaceAll(data, []byte("\r\n"), []byte("\n"))
 }
 
 func renderFiles(manifestPath, catalogPath string, options Options) ([]byte, error) {
