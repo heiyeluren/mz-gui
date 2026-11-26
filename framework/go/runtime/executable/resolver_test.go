@@ -13,6 +13,7 @@ func TestResolverFindsExecutableInTrustedDirectoryOutsideProcessPath(t *testing.
 	if err := os.WriteFile(path, []byte("#!/bin/sh\n"), 0o755); err != nil {
 		t.Fatal(err)
 	}
+	t.Logf("目标路径判断: /bin=%v trusted=%v", isAbsPathForGOOS("darwin", "/bin"), isAbsPathForGOOS("darwin", trusted))
 	resolver, err := NewResolver(Options{
 		GOOS:               "darwin",
 		SearchPath:         "/usr/bin:/bin:/usr/sbin:/sbin",
