@@ -30,9 +30,9 @@
     "./ResizeHandle.css": "./dist/ResizeHandle.css"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && node scripts/copy-assets.mjs",
+    "build": "node scripts/check-terminal-state.mjs && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run",
+    "test": "node scripts/check-terminal-state.mjs && vitest run",
     "test:coverage": "vitest run --coverage",
     "dev": "vite",
     "test:e2e": "playwright test",

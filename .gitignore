@@ -6,6 +6,7 @@ coverage/
 node_modules/
 framework/ui-kit/node_modules/
 framework/ui-kit/dist/
+framework/ui-kit/test-results/
 *.tgz
 *.test
 *.out

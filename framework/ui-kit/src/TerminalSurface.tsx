@@ -7,7 +7,7 @@ import { voiceOverName, voiceOverRoleDescription, voiceOverStateLabel } from './
 import { bindTerminalIme } from './terminalIme'
 import { bindTerminalWheel } from './terminalWheel'
 import { terminalGeometry } from './terminalGeometry'
-import { terminalState } from '../../go/runtime/terminal/xterm/assets/state.js'
+import { terminalState } from './terminalState.js'
 
 /** W116-G673：对照旧版 TerminalSurface 再对照。旧版无独立 ui-kit TerminalSurface 入口。诚实不画。不含产品语义。不 VoiceOver。不改业务 RPC。 */
 export interface TerminalSurfaceSession {

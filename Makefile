@@ -35,3 +35,4 @@ check:
 
 generate-app:
 	$(GO) run ./tools/mzguiappgen --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
+	$(GO) run ./tools/mzguiappgen --manifest ./examples/framework-agentd-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-agentd-showcase/generated/appmeta/manifest_gen.go --package appmeta

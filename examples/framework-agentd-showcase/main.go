@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/heiyeluren/mz-gui/examples/framework-agentd-showcase/generated/appmeta"
 	"github.com/heiyeluren/mz-gui/framework/go/transport/local"
@@ -34,7 +35,9 @@ func main() {
 	if os.Getenv("MZGUI_TASK_MODE") == "inprocess" {
 		backend, err = newLocalTaskBackend(context.Background(), runDir)
 	} else {
-		backend, err = newAgentClient(context.Background(), local.Endpoint{Name: "showcase-agentd", RunDir: runDir})
+		connectContext, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		backend, err = connectAgent(connectContext, local.Endpoint{Name: "showcase-agentd", RunDir: runDir})
+		cancel()
 	}
 	if err != nil {
 		log.Fatal(err)

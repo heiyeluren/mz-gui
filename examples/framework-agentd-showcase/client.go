@@ -23,6 +23,22 @@ type agentClient struct {
 	token      []byte
 }
 
+func connectAgent(ctx context.Context, endpoint local.Endpoint) (*agentClient, error) {
+	var lastError error
+	for {
+		client, err := newAgentClient(ctx, endpoint)
+		if err == nil {
+			return client, nil
+		}
+		lastError = err
+		select {
+		case <-ctx.Done():
+			return nil, fmt.Errorf("连接 agentd: %w", lastError)
+		case <-time.After(50 * time.Millisecond):
+		}
+	}
+}
+
 func newAgentClient(ctx context.Context, endpoint local.Endpoint) (*agentClient, error) {
 	connection, err := local.Dial(ctx, endpoint)
 	if err != nil {

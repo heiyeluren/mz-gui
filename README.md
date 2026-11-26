@@ -2,7 +2,7 @@
 
 MZ-GUI 是一个可独立运行、可复用的跨平台桌面 GUI 框架，基于 Go、Wails v3、React 和 TypeScript。仓库同时提供公共 Framework、React UI Kit、协议与生成代码、通用工具，以及可直接运行的桌面 APP「黑夜路人的 APP」。
 
-当前发布版本：`v0.0.1`。公共 API 仍包含 `candidate` 和 `experimental` 能力，不将其视为稳定生产承诺。
+当前发布版本：`v0.0.2`。公共 API 仍包含 `candidate` 和 `experimental` 能力，不将其视为稳定生产承诺。
 
 ## 包含能力
 
@@ -26,7 +26,8 @@ MZ-GUI 是一个可独立运行、可复用的跨平台桌面 GUI 框架，基�
 | `framework/api/` | 公共 API 与调用方契约 |
 | `framework/capabilities/` | 能力目录与成熟度 |
 | `gen/go/mzgui/` | Framework 协议生成代码 |
-| `examples/framework-showcase/` | 可运行的「黑夜路人的 APP」 |
+| `examples/framework-showcase/` | 默认单进程的「黑夜路人的 APP」 |
+| `examples/framework-agentd-showcase/` | 同一 UI 与用例的单/多进程任务模板 |
 | `examples/framework-plugin-echo/` | Plugin SDK 进程示例 |
 | `tools/` | 公共生成、检查、签名与诊断工具 |
 | `tests/architecture/` | 独立边界与产品解耦测试 |
@@ -55,7 +56,7 @@ open build/MZ-GUI-Showcase.app
 
 ```bash
 # 可选：仅在开发 UI Kit 时需要 Node.js 22.12+
-npm --prefix framework/ui-kit install
+npm --prefix framework/ui-kit ci
 
 make test          # Go 全量测试 + UI Kit 测试
 make build         # Go 全量构建 + UI Kit ESM/声明文件

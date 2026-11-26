@@ -26,10 +26,24 @@ open build/MZ-GUI-Showcase.app
 bash scripts/package-showcase-darwin.sh /path/to/MZ-GUI-Showcase.app
 ```
 
+需要后台任务或窗口外恢复时，运行可选多进程模板：
+
+```bash
+go run ./examples/framework-agentd-showcase/agentd -run-dir /tmp/mzgui-agentd-showcase
+```
+
+另开终端：
+
+```bash
+MZGUI_AGENTD_RUN_DIR=/tmp/mzgui-agentd-showcase go run ./examples/framework-agentd-showcase
+```
+
+macOS 也可用 `bash scripts/run-agentd-showcase.sh` 一次构建并启动两个进程。若要在同一示例中切回单进程，设置 `MZGUI_TASK_MODE=inprocess`；前端和 `DesktopService` 不变。详见[示例说明](../examples/framework-agentd-showcase/README.md)。
+
 ## 全量验证
 
 ```bash
-npm --prefix framework/ui-kit install
+npm --prefix framework/ui-kit ci
 make test
 make build
 make check
@@ -41,6 +55,7 @@ UI Kit 单独验证：
 cd framework/ui-kit
 npm run typecheck
 npm test
+npm run test:e2e
 npm run build
 npm pack --dry-run
 ```
@@ -51,7 +66,7 @@ npm pack --dry-run
 
 1. 复制 `examples/framework-showcase`，保留 Framework 为独立依赖。
 2. 修改新 APP 的 `mzgui.app.toml`：`display_name`、应用 ID、协议 scheme、bundle ID、进程名和存储命名空间。
-3. 执行 `make generate-app`，确认生成的 `appmeta` 与能力目录一致。
+3. 执行 `go run ./tools/mzguiappgen --manifest <你的APP>/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output <你的APP>/generated/appmeta/manifest_gen.go --package appmeta`，确认生成的 `appmeta` 与能力目录一致。仓库两个示例可统一用 `make generate-app` 重新生成。
 4. 在 `main.go` 中替换窗口配置，在 `app.go` 中组合自己的服务，在 `frontend/` 中实现产品页面。
 5. 为新 APP 编写生命周期、错误、真实请求和 GUI 交互测试。
 
