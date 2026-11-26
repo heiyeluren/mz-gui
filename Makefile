@@ -31,6 +31,7 @@ check:
 	$(GO) run ./tools/mzguiappgen --check --manifest ./examples/framework-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-showcase/generated/appmeta/manifest_gen.go --package appmeta
 	$(GO) run ./tools/mzguiappgen --check --manifest ./examples/framework-agentd-showcase/mzgui.app.toml --catalog ./framework/capabilities/catalog.json --output ./examples/framework-agentd-showcase/generated/appmeta/manifest_gen.go --package appmeta
 	$(GO) run ./tools/mzguiapidiff --old framework/api/baselines/v0.0.1.json --new framework/api/public-v1.json --caller-usage framework/api/caller-usage/framework-showcase.json --caller-usage framework/api/caller-usage/framework-plugin-echo.json --callsite-caller framework-showcase --callsite-root examples/framework-showcase
+	$(GO) run ./tools/mzguiprotodiff --old framework/api/baselines/proto/bootstrap-v0.0.1.proto --new framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
 	$(GO) test ./tests/architecture
 
 generate-app:

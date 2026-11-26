@@ -61,4 +61,12 @@ go run ./tools/mzguiapidiff \
   --callsite-root examples/framework-showcase
 ```
 
-`make check` 和 GitHub Actions 均执行同一检查。发布破坏性变更时，先提供替代接口、迁移文档和兼容窗口，不得直接改旧基线掩盖破坏。
+Protobuf 同时执行字段级兼容检查，覆盖字段删除、字段号复用、类型/label 变化、reserved 退役和 reserved 冲突：
+
+```bash
+go run ./tools/mzguiprotodiff \
+  --old framework/api/baselines/proto/bootstrap-v0.0.1.proto \
+  --new framework/proto/mzgui/framework/bootstrap/v1/bootstrap.proto
+```
+
+`framework/api/golden/schema-v1.json` 固定 API schema、catalog、应用 Manifest 与 config schema 的 SHA-256。变更这些文件时必须先评估兼容影响，再显式更新 golden；`tests/architecture` 会阻止未审阅的静默变化。`make check` 和 GitHub Actions 均执行上述检查。发布破坏性变更时，先提供替代接口、迁移文档和兼容窗口，不得直接改旧基线掩盖破坏。
